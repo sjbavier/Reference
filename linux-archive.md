@@ -39,7 +39,26 @@ cat archive.tar.gz.part* > archive.tar.gz
 To pipe an archive over ssh
 
 ```sh
-tar czvf - --one-file-system / /usr /var \ # the - in czvf - outputs data to standard output pushing the details to the end of the command, --one-file-system argument excludes all data from any filesystem besides current
+tar czvf - --one-file-system / /usr /var \ # the - in czvf - outputs data to standard output pushing the details to the end of the command, --one-file-system argument excludes all data from any filesystem besides current and won't include pseudo partitions like /sys/ and /dev/
 --exclude=/home/temp/ | ssh <user>@<host> \ # --exclude lets you exclude data from current file system
 "cat > /home/backups/backup-file.tar.gz" # cat is executed against the archive data stream
+```
+
+Use find to search through file system objects
+
+```sh
+find /var/www/html -iname <1> "*.html" -exec tar \ # -iname returns both upper and lowercase ( -name for case-sensitive ) -exec is execute if true `0` status is returned until the ; is encountered the {} is replaced by the current file being processed
+-rvf html.tar {} \; # -r flag is used to append rather than overwrite, the \; is used to escape to protect from expansion by the shell
+```
+
+Also can use locate
+
+```sh
+locate *.js
+```
+
+Locate searches a preexisting index (updated upon boot) to update
+
+```sh
+updatedb
 ```

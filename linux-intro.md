@@ -11,6 +11,24 @@
     /usr    # Third-party binaries
 ```
 
+The /etc/group file contains basic information about existing system and user groups
+
+```sh
+sudo cat /etc/group
+```
+
+To see encrypted passwords of users
+
+```sh
+sudo cat /etc/shadow
+```
+
+To see encrypted group passwords
+
+```sh
+sudo cat /etc/gshadow
+```
+
     Display detailed information about a file
 
     ```sh
@@ -92,4 +110,40 @@ Get status on a package
 
 ```sh
 dpkg -s <package>
+```
+
+Changing file permissions [owner-group-everybody] r=4, w=2, x=1
+
+```sh
+chmod 644 <directory>
+```
+
+Changing file ownership
+
+```sh
+chown -R <user>:<group> <fileORdirectory>
+```
+
+Adding users
+
+```sh
+useradd -m <user> # -m makes user a home directory
+```
+
+Create or password for user [sudo]
+
+```sh
+passwd <user>
+```
+
+Listing block devices
+
+```sh
+lsblk
+```
+
+Rsync is a great utility for copying and syncing directories
+
+```sh
+rsync -av /home/downloads <user>@<host>:<directory>
 ```
