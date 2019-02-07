@@ -147,3 +147,15 @@ Rsync is a great utility for copying and syncing directories
 ```sh
 rsync -av /home/downloads <user>@<host>:<directory>
 ```
+
+Test if a file exists
+
+```sh
+test -f <file>
+```
+
+Compare two files
+
+```sh
+cmp -s <file1> <file2>
+```

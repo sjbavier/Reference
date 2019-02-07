@@ -36,6 +36,12 @@ To recreate the 1G parts into a whole, use cat
 cat archive.tar.gz.part* > archive.tar.gz
 ```
 
+To extract a tar archive
+
+```sh
+tar xzvf archive.tar.gz
+```
+
 To pipe an archive over ssh
 
 ```sh
