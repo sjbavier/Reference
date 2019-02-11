@@ -57,6 +57,12 @@ Start the container in detached mode [-d] specifying the name of the container [
 lxc-start -d -n <container-name>
 ```
 
+Stop an lxc container
+
+```sh
+lxc-stop -n <container-name>
+```
+
 You may log into a running container as root using [ssh] or [lxc-attach]
 
 ```sh
@@ -79,4 +85,10 @@ To restart the container use the [-r] reboot
 
 ```sh
 shutdown -r now
+```
+
+Lost control of your lxc container ?
+
+```sh
+chroot /var/lib/lxc/<container-name>/rootfs/
 ```
