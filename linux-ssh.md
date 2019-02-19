@@ -23,7 +23,7 @@ ssh with particular key
 ssh -i <location-of-key> <user>@<host>
 ```
 
-# To ssh with graphic support you need to enable X11forwarding
+## To ssh with graphic support you need to enable X11forwarding
 
 With the package ubuntu-desktop installed:
 
@@ -51,4 +51,20 @@ Then you can launch gnome-mines in Ubuntu
 
 ```sh
 gnome-mines
+```
+
+## Hardening ssh authentication process
+
+Disable root login VIA ssh in [/etc/ssh/sshd_conf]
+
+```sh
+vim /etc/ssh/sshd_conf
+PermitRootLogin no
+```
+
+Disable password authentication and force key pairs [/etc/ssh/sshd_conf]
+
+```sh
+vim /etc/ssh/sshd_conf # make sure to add your public key to authorized_keys file before restarting ssh daemon
+PasswordAuthentication no
 ```
