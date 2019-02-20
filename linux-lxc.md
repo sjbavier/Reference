@@ -6,7 +6,7 @@ Creating a template using the [Ubuntu] template
 lxc-create -n <container-name> -t ubuntu
 ```
 
-The template reside in the [/usr/share/lxc/templates] directory
+The template reside in the [/usr/share/lxc/templates] directory ( may have to install apt install lxc-templates )
 
 ```sh
 ls /usr/share/lxc/templates/
@@ -16,11 +16,11 @@ lxc-fedora
 lxc-altlinux
 lxc-cirros
 lxc-gentoo
-lxc-archlinux 
+lxc-archlinux
 lxc-debian
 lxc-openmandriva
 lxc-busybox
-lxc-download 
+lxc-download
 lxc-opensuse
 lxc-oracle
 lxc-plamo

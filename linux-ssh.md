@@ -41,7 +41,7 @@ vim /etc/ssh/ssh_config
    ForwardX11 yes
 ```
 
-ssh with -X flag ( remember to restart ssh service )
+ssh with -X flag **remember to restart ssh service**
 
 ```sh
 ssh -X <user>@<host>

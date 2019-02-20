@@ -100,6 +100,12 @@ Remove a service from system startup
 systemctl disable <service>
 ```
 
+Restart a service
+
+```sh
+systemctl restart <service>
+```
+
 Display ip information
 
 ```sh
@@ -130,10 +136,43 @@ Adding users
 useradd -m <user> # -m makes user a home directory
 ```
 
+Deleting users
+
+```sh
+userdel <user>
+userdel -f <user> # force
+userdel -r <user> # delete the <user> directory and all of the contents
+```
+
 Create or password for user [sudo]
 
 ```sh
 passwd <user>
+```
+
+Append a user group
+
+```sh
+usermod -aG <group> <user>
+
+```
+
+Kill a process
+
+```sh
+kill -9 <pid>
+```
+
+Change shell
+
+```sh
+chsh
+```
+
+Change hostnames and modify [/etc/hosts]
+
+```sh
+hostname <new-hostname>
 ```
 
 Listing block devices

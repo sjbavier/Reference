@@ -24,6 +24,14 @@ firewall-cmd --permanent --add-service=http
 firewall-cmd --permanent --add-service=https
 ```
 
+Open port 25 (smtp), port 587 (submission) and port 465 (smtps)
+
+```sh
+firewall-cmd --permanent --add-service=smtp
+firewall-cmd --permanent --add-service=submission
+firewall-cmd --permanent --add-service=smtps
+```
+
 To remove allowances
 
 ```sh
