@@ -54,7 +54,27 @@ tmpfs       724M 92K  724M 1%   /run/user/1000
 /dev/sdb1   15G  16K   15G 1%   /media/myname/KINGSTON  # This is the removable USB media drive
 
 lsblk # use list block devices to find a CD/DVD
+
+NAME    MAJ:MIN RM  SIZE    RO  TYPE MOUNTPOINT
+sda     8:0     0   931.5G  0   disk
+sda1    8:1     0   512M    0   part /boot/efi
+sda2    8:2     0   923.8G  0   part /
+sda3    8:3     0   7.2G    0   part [SWAP]
+sdb     8:16    1   14.4G   0   disk
+sdb1    8:17    1   14.4G   0   part /media/myname/KINGSTON
+sr0     11:0    1   1024M   0   rom # DVD
+
+umount /dev/sdb # unmount the device
+# CAREFUL! writing to USB in this case
+dd bs=4M if=<.iso-file> of=/dev/sdb && sync # added sync command ensures all cached data is immediately written to target disk
 ```
 
+## Recovering files from a damaged file system
 
+If a partition is not accessible because it is unmounted
+
+```sh
+mkdir /run/temp-directory
+mount /dev/sdc1 /run/temp-directory  # you can try to grab the files /run/temp-directory
+```
 
