@@ -68,3 +68,9 @@ Locate searches a preexisting index (updated upon boot) to update
 ```sh
 updatedb
 ```
+
+To unzip .zip files use package unzip
+
+```sh
+unzip <file> -d <destination-directory>
+```

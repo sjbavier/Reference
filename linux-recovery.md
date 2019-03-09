@@ -78,3 +78,41 @@ mkdir /run/temp-directory
 mount /dev/sdc1 /run/temp-directory  # you can try to grab the files /run/temp-directory
 ```
 
+For fixing an ext2, ext3, ext4 file system
+
+```sh
+e2fsck -f -b 32768 -y <device>
+
+: <<'END'
+-f     Force checking even if the file system seems clean.
+-b superblock
+       Instead  of  using  the  normal superblock, use an alternative superblock specified by superblock.
+       This option is normally used when the primary superblock has been corrupted.  The location of  the
+       backup superblock is dependent on the filesystem's blocksize.  For filesystems with 1k blocksizes,
+       a backup superblock can be found at block 8193; for  filesystems  with  2k  blocksizes,  at  block
+       16384; and for 4k blocksizes, at block 32768.
+
+       Additional backup superblocks can be determined by using the mke2fs program using the -n option to
+       print out where the superblocks were created.   The -b option to mke2fs, which specifies blocksize
+       of  the filesystem must be specified in order for the superblock locations that are printed out to
+       be accurate.
+
+       If an alternative superblock is specified and the filesystem is not opened read-only, e2fsck  will
+       make  sure  that the primary superblock is updated appropriately upon completion of the filesystem
+       check.
+-y     Assume an answer of `yes' to all questions; allows e2fsck  to  be  used  non-interactively.   This
+       option may not be specified at the same time as the -n or -p options.
+END
+```
+
+Also can try fsck
+
+```sh
+fsck /dev/sdc1
+```
+
+To list the partition table use fdisk -l
+
+```sh
+fdisk -l
+```

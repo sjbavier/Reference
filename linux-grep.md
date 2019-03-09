@@ -38,3 +38,21 @@ The -F switch switches grep into a different mode where it accepts a pattern to 
 # to search the group file with a plane text file list for any users listed in any group
 grep -F -f user_list.txt /etc/group
 ```
+
+Search all files recursively for specific text
+
+```sh
+grep -rnw '<path>' -e '<pattern>' # -r recursive, -n number, -w whole word
+```
+
+Find files containing give text
+
+```sh
+egrep -ir --include=*.{php,html,js} "(document.cookie|setcookie)" .
+```
+
+If you just want file names add the l (lowercase L) flag:
+
+```sh
+egrep -lir --include=*.{php,html,js} "(document.cookie|setcookie)" .
+```
