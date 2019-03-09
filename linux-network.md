@@ -18,3 +18,10 @@ Print listening numeric addresses in a verbose extended way
 netstat -ptnle
 ```
 
+Common network interface tools
+
+```sh
+ifconfig # networking interfaces
+iwconfig # wireless networking interfaces
+```
+
