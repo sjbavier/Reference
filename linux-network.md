@@ -1,4 +1,12 @@
-# Netstat 
+# Working with networks
+
+Change hostnames and modify [/etc/hosts]
+
+```sh
+hostname <new-hostname>
+```
+
+## Netstat
 
 To display open ports and established TCP connections
 
@@ -18,10 +26,13 @@ Print listening numeric addresses in a verbose extended way
 netstat -ptnle
 ```
 
+## Network interfaces
+
 Common network interface tools
 
 ```sh
 ifconfig # networking interfaces
+ip addr # networking interfaces
 iwconfig # wireless networking interfaces
 ```
 

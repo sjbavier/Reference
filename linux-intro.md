@@ -11,70 +11,12 @@
     /usr    # Third-party binaries
 ```
 
-The /etc/group file contains basic information about existing system and user groups
+System Logs
 
 ```sh
-sudo cat /etc/group
+journalctl
+journalctl | grep filename.php | grep -v error
 ```
-
-To see encrypted passwords of users
-
-```sh
-sudo cat /etc/shadow
-```
-
-To see encrypted group passwords
-
-```sh
-sudo cat /etc/gshadow
-```
-
-    Display detailed information about a file
-
-    ```sh
-    stat <file>
-    ```
-
-    Matching a partial filename [matches file1, file2, ... file9 but not file10]
-
-    ```sh
-    mv file? /some/other/directory
-    ```
-
-    Matching a partial with wildcard * [all files that start with `file`]
-
-    ```sh
-    cp file* /some/other/directory
-    ```
-
-    Getting some info on a package
-
-    ```sh
-    info <package>
-    man <package>
-    ```
-
-    System Logs
-
-    ```sh
-    journalctl
-    journalctl | grep filename.php | grep -v error
-    ```
-
-    Debian package manager ( -i flag for install )
-
-    ```sh
-    dpkg -i <file.deb>
-    ```
-
-    To get the
-
-    Use shasum to calculate the checksum of a file to make sure it hasn't been tampered with
-
-    ```sh
-    shasum <name-of-file>
-    ```
-
 
 Get the status of a service
 
@@ -106,56 +48,14 @@ Restart a service
 systemctl restart <service>
 ```
 
-Display ip information
-
-```sh
-ip addr
-```
-
-Get status on a package
-
-```sh
-dpkg -s <package>
-```
-
-Kill a process
-
-```sh
-kill -9 <pid>
-```
-
 Change shell
 
 ```sh
 chsh
 ```
 
-Change hostnames and modify [/etc/hosts]
-
-```sh
-hostname <new-hostname>
-```
-
-Listing block devices
-
-```sh
-lsblk
-```
-
 Rsync is a great utility for copying and syncing directories
 
 ```sh
 rsync -aPv /home/downloads <user>@<host>:<directory>
-```
-
-Test if a file exists
-
-```sh
-test -f <file>
-```
-
-Compare two files
-
-```sh
-cmp -s <file1> <file2>
 ```

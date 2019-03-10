@@ -44,3 +44,21 @@ Append a user group
 usermod -aG <group> <user>
 
 ```
+
+The /etc/group file contains basic information about existing system and user groups
+
+```sh
+sudo cat /etc/group
+```
+
+To see encrypted passwords of users
+
+```sh
+sudo cat /etc/shadow
+```
+
+To see encrypted group passwords
+
+```sh
+sudo cat /etc/gshadow
+```

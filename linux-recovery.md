@@ -40,8 +40,13 @@ Use syslinux-utils isohybrid to add MBR to [.iso]
 apt install syslinux-utils
 
 isohybrid <.iso-file> # creates MBR for .iso
+```
 
-df -h # use this to view USB
+View file system
+
+```sh
+df -h # use this to view USB -h for human readable
+
 Filesystem Size Used Avail Use% Mounted on
 udev        3.5G    0 3.5G 0%   /dev
 tmpfs       724M 1.5M 722M 1%   /run
@@ -52,7 +57,11 @@ tmpfs       3.6G    0 3.6G 0%   /sys/fs/cgroup
 /dev/sda1   511M 3.4M 508M 1%   /boot/efi
 tmpfs       724M 92K  724M 1%   /run/user/1000
 /dev/sdb1   15G  16K   15G 1%   /media/myname/KINGSTON  # This is the removable USB media drive
+```
 
+Listing block devices
+
+```sh
 lsblk # use list block devices to find a CD/DVD
 
 NAME    MAJ:MIN RM  SIZE    RO  TYPE MOUNTPOINT
@@ -63,7 +72,11 @@ sda3    8:3     0   7.2G    0   part [SWAP]
 sdb     8:16    1   14.4G   0   disk
 sdb1    8:17    1   14.4G   0   part /media/myname/KINGSTON
 sr0     11:0    1   1024M   0   rom # DVD
+```
 
+Unmount a device
+
+```sh
 umount /dev/sdb # unmount the device
 # CAREFUL! writing to USB in this case
 dd bs=4M if=<.iso-file> of=/dev/sdb && sync # added sync command ensures all cached data is immediately written to target disk

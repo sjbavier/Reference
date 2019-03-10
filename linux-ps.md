@@ -1,4 +1,12 @@
-# Managing processes from `man ps`
+# Working with processes
+
+Kill a process
+
+```sh
+kill -9 <pid>
+```
+
+## Managing processes from `man ps`
 
 Display the processes running with the same euid=EUID as the current user
 
