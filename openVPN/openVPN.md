@@ -43,5 +43,41 @@ build-dh # sets Diffie-Hellman authentication parameters
 
 ## Configure
 
+Configure Server Keys
+Update environment variables for easy-rsa [/etc/openvpn/easy-rsa/vars]
+
+```sh
+cd /etc/openvpn/easy-rsa/
+. ./vars # has to run as root
+. ./clean-all # script will encourage running clean-all to wipe all content is /etc/openvpn/easy-rsa/keys/
+```
+
+After running clean-all script run the build-ca script which uses pkitool to create the root certificate
+
+```sh
+./clean-all
+./build-ca # generates 2048 bit RSA private key
+```
+
+Run build-key script which uses the same pkitool along with the root certificate, use [server] unless running multiple VPNs on this machine
+
+```sh
+./build-key-server server
+```
+
+OpenVPN uses the Diffie-Hellman algorithm to negotiate authentication for new connections.  The file created running the build-dh script uses the RSA keys that are currently active, if you create new RSA keys you'll need to update.
+
+```sh
+./build-dh # this creates keys in /etc/openvpn/easy-rsa/keys/
+```
+
+By default openvpn will look for keys in the /etc/openvpn/ directory, but easy-rsa puts them in /etc/openvpn/easy-rsa/keys/
+
+```sh
+cp /etc/openvpn/easy-rsa/keys/server* /etc/openvpn
+cp /etc/openvpn/easy-rsa/keys/dh2048.pem /etc/openvpn
+cp /etc/openvpn/easy-rsa/keys/ca.crt /etc/openvpn
+```
+
 # Test
 
