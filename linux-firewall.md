@@ -49,7 +49,7 @@ Reload and apply and settings that were updated
 firewall-cmd --reload
 ```
 
-Using firewall Rich Language
+Using firewall Rich Language to allow terminal access in the specific [ip-address]
 
 ```sh
 firewall-cmd --add-rich-rule='rule family="ipv4" \

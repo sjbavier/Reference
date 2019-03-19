@@ -48,6 +48,12 @@ Restart a service
 systemctl restart <service>
 ```
 
+Scan for active services
+
+```sh
+systemctl list-unit-files --type=service --state=enabled
+```
+
 Change shell
 
 ```sh

@@ -30,6 +30,12 @@ Fix a broken installation
 apt --fix-broken install
 ```
 
+Get information on package ( not necessarily installed )
+
+```sh
+apt show <package>
+```
+
 Get status on a package
 
 ```sh

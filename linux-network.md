@@ -36,3 +36,13 @@ ip addr # networking interfaces
 iwconfig # wireless networking interfaces
 ```
 
+List all established ssh connections with ss
+
+```sh
+ss -o state established
+
+    '( dport = :ssh or sport = :ssh )'
+    Netid Recv-Q    Send-Q  Local Address:Port
+    tcp   0         0       10.0.3.1:39874
+    timer:(keepalive,18min,0)
+```
