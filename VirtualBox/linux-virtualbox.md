@@ -23,3 +23,18 @@ Import from a file
 ```sh
 vboxmanage import <file.ova>
 ```
+
+## setting up with virtual NAT networks
+
+Create the networks for a DMZ configuration
+
+```sh
+vboxmanage natnetwork add -netname dmz \
+--network "10.0.1.0/24" --enable --dhcp on
+
+vboxmanage natnetwork add -- netname loc \
+--network "10.0.1.0/24" --enable --dhcp on
+
+vboxmanage natnetwork start --netname dmz
+vboxmanage natnetwork start --netname loc
+```

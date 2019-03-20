@@ -1,5 +1,7 @@
 # Managing firewall rules on various Linux distros
 
+firewalld, ufw, iptables, nftables and netfilter
+
 On Centos [firewalld] is the daemon and controlled through [firewall-cmd]
 
 Add firewall allowance for http traffic and ensure permanence on reboot or restart
