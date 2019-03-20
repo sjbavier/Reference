@@ -27,8 +27,6 @@ http_access allow ldapauth whitelist
 http_access deny all
 ```
 
-## The following has not been tested
-
 AD Group Membership
 
 ```squidconf
@@ -47,6 +45,8 @@ Attach http access rule to acl
 http_access journal_acl rule1
 ```
 
+## SSL Bump
+
 Per [https://wiki.squid-cache.org/squidconfigExamples/Intercept/SslBumpExplicit]
 
 ```squidconf
@@ -60,4 +60,10 @@ acl step1 at_step SslBump1
 
 ssl_bump peek step1
 ssl_bump bump all
+```
+
+## Force https
+
+```sh
+https_port <port> cert=<cert-pem> key=<private-key-pem> cafile=<cert-chain>
 ```
