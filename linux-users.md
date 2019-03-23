@@ -1,5 +1,11 @@
 # Reference for managing users and related groups
 
+What groups is a user in
+
+```sh
+groups <user>
+```
+
 Add a group
 
 ```sh
