@@ -31,3 +31,6 @@ Split pane vertically [ctrl + b %]
 Split pane  horizontally [ctrl + b "]
 
 Resizing pane [ctrl + b :resize-pane (U, D, L, R) #]
+
+Scrolling [ ctrl + b + [ ]
+   exit scrolling [ ctrl + c ]
