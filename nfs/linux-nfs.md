@@ -63,4 +63,21 @@ mount 192.168.1.23:/home /nfs/home # the ip address and directory depends on the
 ```
 
 Mounting NFS share at boot time using [/etc/fstab]
+Each active line will include 6 fields of information about each listed device
+options include **exec** or **noexec**, **ro** read-only **rw** read and write and **defaults** invoke **rw, suid, dev, exec, auto, nouser, async**
 
+| file system | identifies device by its boot-time designation (which can sometimes change) or by its more reliable UID |
+|-------------|---------------------------------------------------------------------------------------------------------|
+| mount point | identifies the location of the filesystem where the device is mounted                                   |
+| type        | the file system type                                                                                    |
+| options     | mount options assigned to the device                                                                    |
+| dump        | (outdated) tells the Dump program whether [1] or not [0] to back up the device                          |
+| pass        | tells the fsck program which file system to check at boot time.  Root partition should be first         |
+
+Add a new line to the fstab file and restart the machine
+
+```conf
+192.168.1.23:/home /nfs/home nfs # per example above
+# restart
+mount # after running mount you should see the changes from the output of the mount file systems on the client
+```

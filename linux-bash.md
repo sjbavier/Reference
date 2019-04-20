@@ -12,3 +12,9 @@ mv "$file" `echo $file | tr ' ' '_'`
 fi;
 done
 ```
+
+Change shell to zsh
+
+```sh
+chsh -s $(which zsh)
+```

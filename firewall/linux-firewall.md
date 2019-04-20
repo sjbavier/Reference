@@ -45,6 +45,13 @@ firewall-cmd --permanent --remove-service=https
 firewall-cmd --permanent --remove-service=ssh
 ```
 
+Reject certain ips
+
+```sh
+firewall-cmd --add-rich-rule="rule family='ipv4' source address='<rejected-ip>' reject"
+ufw deny from <rejected-ip>
+```
+
 Reload and apply and settings that were updated
 
 ```sh

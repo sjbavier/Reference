@@ -46,3 +46,10 @@ ss -o state established
     tcp   0         0       10.0.3.1:39874
     timer:(keepalive,18min,0)
 ```
+
+Find the route packets take to a network host
+
+```sh
+traceroute <ip-address>
+traceroute <domain>
+```
