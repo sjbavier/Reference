@@ -1,4 +1,6 @@
-# The docker-compose.yml file used to define run and scale services with the Docker platform. Place this file wherever you want, however you must have pushed the docker image
+# Working with Docker Services
+
+The **docker-compose.yml** file used to define run and scale services with the Docker platform. Place this file wherever you want, however you must have pushed the docker image
 
 ```Dockerfile
 
@@ -29,49 +31,49 @@ networks:
 
 ```
 
-# To run your new load-balanced app first run (to initiate swarm manager)
+To run your new load-balanced app first run (to initiate swarm manager)
 
 ```sh
 docker swarm init
 ```
 
-# Second to name and deploy the app (also can be used to re-deploy if you have added replicas)
+Second to name and deploy the app (also can be used to re-deploy if you have added replicas)
 
 ```sh
 docker stack deploy -c docker-compose.yml nameOfApp
 ```
 
-# List service
+List service
 
 ```sh
 docker service ls
 ```
 
-# A single container running a service is called a task (given unique IDs that numerically increment based on 'replicas' defined in your docker-compose.yml). Lists the tasks for the service
+A single container running a service is called a task (given unique IDs that numerically increment based on 'replicas' defined in your docker-compose.yml). Lists the tasks for the service
 
 ```sh
 docker service ps <service_name>
 ```
 
-# Listing all containers
+Listing all containers
 
 ```sh
 docker container ls -q
 ```
 
-# Take down the app
+Take down the app
 
 ```sh
 docker stack rm nameOfApp
 ```
 
-# Take down the swarm
+Take down the swarm
 
 ```sh
 docker swarm leave --force
 ```
 
-# cheatsheet recap
+cheatsheet recap
 
 ```sh
 docker stack ls                                            # List stacks or apps

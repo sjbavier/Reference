@@ -13,4 +13,3 @@ To copy data to the bucket from gcloud
 ```sh
 gsutil cp data.dat gs://<unique-name>
 ```
-

@@ -36,7 +36,7 @@ To recreate the 1G parts into a whole, use cat
 cat archive.tar.gz.part* > archive.tar.gz
 ```
 
-To extract a tar archive
+To extract a tar gzip archive
 
 ```sh
 tar xzvf archive.tar.gz
@@ -73,4 +73,11 @@ To unzip .zip files use package unzip
 
 ```sh
 unzip <file> -d <destination-directory>
+```
+
+To unzip .gz extensions use gzip/gunzip
+
+```sh
+gunzip <file>
+gzip <file>
 ```

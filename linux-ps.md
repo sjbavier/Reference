@@ -14,6 +14,12 @@ Display the processes running with the same euid=EUID as the current user
 ps
 ```
 
+Lists processes containing specific <name>
+
+```sh
+ps auwx | grep <name>
+```
+
     To see every process on the system using standard syntax:
 
     ```sh

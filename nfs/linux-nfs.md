@@ -80,4 +80,21 @@ Add a new line to the fstab file and restart the machine
 192.168.1.23:/home /nfs/home nfs # per example above
 # restart
 mount # after running mount you should see the changes from the output of the mount file systems on the client
+
+# sample output   
+sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)
+/dev/sda2 on / type
+ext4 (rw,relatime,errors=remount-ro,data=ordered)
+/dev/sda1 on /boot type ext4 (rw,relatime,data=ordered)
+192.168.1.23:/home on /nfs/home type nfs4 # this is affirmation that your settings were applied correctly
+(rw,relatime,vers=4.0,rsize=262144,wsize=262144,namlen=255,hard,
+proto=tcp,port=0,timeo=600,retrans=2,sec=sys,clientaddr=192.168.1.11,
+local_lock=none,addr=192.168.1.23)
+tmpfs on /run/user/1000 type tmpfs (rw,nosuid,nodev,relatime,
+size=204828k,mode=700,uid=1000,gid=1000)
+
 ```
+
+## Sharing files with Windows using Samba
+
+Steps to 
