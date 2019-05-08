@@ -28,10 +28,14 @@ List scsi/sata devices like hard drives and optical drives
 lsscsi
 ```
 
-
 List usb buses
 
 ```sh
 lsusb
 ```
 
+Use dmesg to view the record of kernel-related events involving devices
+
+```sh
+dmesg
+```

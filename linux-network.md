@@ -53,3 +53,40 @@ Find the route packets take to a network host
 traceroute <ip-address>
 traceroute <domain>
 ```
+
+For insight into network usage
+
+```sh
+iftop -i eth0 # use iftop (need to install) for information on the eth0 interface
+nethogs eth0 # another utility
+```
+
+## Using tc to shape network traffic
+
+To list all current rules associated with a network interface
+
+```sh
+tc -s qdisc ls dev eth0 # qdisc stands for queueing discipline through which packets must pass
+```
+
+Adding a rule to delay all traffic by 100ms
+
+```sh
+tc -s qdisc add dev eth0 root netem delay 100ms
+```
+
+To delete rules added to device eth0
+
+```sh
+tc qdisc del dev eth0 root
+```
+
+## Network monitoring tools (nmon, nagios, collectd, munin)
+
+nmon is a multi-target system monitoring and benchmarking tools
+
+```sh
+nmon -f -s 30 -c 120 # saves data collected every 30 seconds over a full hour (120 * 30)
+```
+
+You can use nmonchart to convert the files collected into a html chart

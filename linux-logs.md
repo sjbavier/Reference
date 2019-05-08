@@ -106,3 +106,12 @@ cat /var/log/auth.log | grep -B 1 -A 1 failure # -B 1 before 1 ln -A 1 after 1 l
 grep -nr <term> # -n returns line # and r searches recursively within directory
 ```
 
+```sh
+# print first column $1 from file with matching pattern, sort, report or omit repeated lines and count the occurrences
+grep <pattern> <file> |awk '{print $1}'|sort|uniq -c
+grep <pattern> <file> |awk -F\" '{print $6}'|sort|uniq -c|sort -nr # awk -F to define the field separator
+grep <pattern> <file> |awk '{print $1}'|sort|uniq -c|sort -nr|head # sort -nr -n numeric sort, -r reverse, head is first part of file
+
+# loop through each result and curl ipinfo for IP information
+for i in `grep <pattern> <file> |awk '{print $1}'|sort|uniq -c|sort -nr|head|awk '{print $2}'`;do curl -s ipinfo.io/$i;done
+```
