@@ -35,3 +35,16 @@ Set root password? [Y/n]
 ```sh
 mysql_secure-installation
 ```
+
+Export the database
+
+```sh
+mysqldump --user=<user> --password=<password> <name-of-database> > <database-file.sql>
+```
+
+Import from mysqldump
+
+```sh
+mysql --user=<user> --password=<password> -e "CREATE DATABASE <database-name>" # create the database first
+mysql --user=<user> --password=<password> --database=<database-name> < <database-file.sql> # redirect sql file to db
+```
