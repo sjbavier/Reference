@@ -10,4 +10,4 @@ first copy basic jail.conf to jail.local
 cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 ```
 
-
+```sh

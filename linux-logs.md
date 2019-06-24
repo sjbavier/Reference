@@ -115,3 +115,9 @@ grep <pattern> <file> |awk '{print $1}'|sort|uniq -c|sort -nr|head # sort -nr -n
 # loop through each result and curl ipinfo for IP information
 for i in `grep <pattern> <file> |awk '{print $1}'|sort|uniq -c|sort -nr|head|awk '{print $2}'`;do curl -s ipinfo.io/$i;done
 ```
+
+Searching an access log for an error code 500
+
+```sh
+cat access.log | awk '$9 == 500 '|sort -nr|uniq -c
+```

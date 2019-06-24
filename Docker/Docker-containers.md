@@ -1,22 +1,56 @@
-## List Docker CLI commands
+# Working with Docker containers and images
+
+List Docker CLI commands
+
+```sh
 docker
 docker container --help
+```
 
-## Display Docker version and info
+Display Docker version and info
+
+```sh
 docker --version
 docker version
 docker info
+```
 
-## Execute Docker image
+Execute Docker image
+
+```sh
 docker run hello-world
+docker run --name <container-name> hello-world
+```
 
-## List Docker images
+List Docker images
+
+```sh
 docker image ls
+docker images
+```
 
-## List Docker containers (running, all, all in quiet mode)
+Remove Docker images
+
+```sh
+docker rmi <image-id>
+docker rmi $(docker images -aq) # remove all images
+```
+
+List Docker containers (running, all, all in quiet mode)
+
+```sh
 docker container ls
 docker container ls --all
 docker container ls -aq
+```
+
+Example of Dockerfile running python and flask
+**Inside requirements.txt for example:**
+
+```Txt
+Flask
+Redis
+```
 
 ```Dockerfile
 # Use an official Python runtime as a parent image
@@ -41,34 +75,40 @@ ENV NAME World
 CMD ["python", "app.py"]
 ```
 
+Make port 80 available to the world outside this container
 
-# Inside requirements.txt for example:
-
-```Txt
-Flask
-Redis
+```Dockerfile
+EXPOSE 80
 ```
 
+Define environment variable
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
-
-# Define environment variable
+```Dockerfile
 ENV NAME World
+```
 
-# Run app.py when the container launches
+Run app.py when the container launches
+
+```Dockerfile
 CMD ["python", "app.py"]
+```
 
-# Build the Docker image
+Build the Docker image
+
+```sh
 docker build --tag=friendlyhello .
+```
 
-# Set proxy server, replace host:port with values for your servers
+Set proxy server, replace host:port with values for your servers
+
+```Dockerfile
 ENV http_proxy host:port
 ENV https_proxy host:port
+```
 
-# To change the DNS specification settings in your Docker daemon (necessary for pip) /etc/docker/daemon.json
+**To change the DNS specification settings in your Docker daemon (necessary for pip) /etc/docker/daemon.json**
 
-# The the second item is Google's DNS which can be use if the first is unavailable
+The the second item is Google's DNS which can be use if the first is unavailable
 
 ```json
 {
@@ -76,25 +116,25 @@ ENV https_proxy host:port
 }
 ```
 
-# Running the app mapping machine's port 4000 to container's port 80 using flag 
+Running the app mapping machine's port 4000 to container's port 80 using flag 
 
 ```sh
 docker run -p 4000:80 friendlyhello
 ```
 
-# Can find ip address of "localhost" Docker Machine IP
+Can find ip address of "localhost" Docker Machine IP
 
 ```sh
 docker-machine ip
 ```
 
-# Run application in detached mode
+Run application in detached mode
 
 ```sh
 docker run -d -p 4000:80 friendlyhello
 ```
 
-# Listing containers
+Listing containers
 
 ```sh
 docker container ls
@@ -103,25 +143,39 @@ CONTAINER ID        IMAGE               COMMAND             CREATED
 1fa4ab2cf395        friendlyhello       "python app.py"     28 seconds ago
 ```
 
-# Stop containers using the container id
+Stop containers using the container id
 
 ```sh
 docker container stop 1fa4ab2cf395
 ```
 
-# Log in to Docker registry (default is a public registry hub.docker.com)
+Stop all containers
+
+```sh
+docker stop $(docker ps -q) # -q outputs container ids
+```
+
+Remove all containers
+
+```sh
+docker rm $(docker ps -aq) # -a being all including stopped containers
+```
+
+
+
+Log in to Docker registry (default is a public registry hub.docker.com)
 
 ```sh
 docker login
 ```
 
-# To associate local image with a repository on a registry.  The tag is optional which gives images a version
+To associate local image with a repository on a registry.  The tag is optional which gives images a version
 
 ```sh
-docker tag image username/repository:tag
+docker tag image username/repository:tag # tag being the version
 ```
 
-# Example:
+Example:
 
 ```sh
 docker tag friendlyhello sjbavier/get-started:version2
@@ -130,7 +184,8 @@ docker tag friendlyhello sjbavier/get-started:version2
 # To see your tagged image
 
 ```sh
-$ docker image ls
+docker image ls
+docker images
 ```
 
 # Upload your tagged image to repository
@@ -166,3 +221,19 @@ docker push username/repository:tag            # Upload tagged image to registry
 docker run username/repository:tag                   # Run image from a registry
 ```
 
+```Dockerfile
+# Use an official Node runtime as the parent image
+FROM node:6
+
+# Set the working directory in the container to /app
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+ADD . /app
+
+# Make the container's port 80 available to the outside world
+EXPOSE 80
+
+# Run app.js using node when the container launches
+CMD ["node", "app.js"]
+```
