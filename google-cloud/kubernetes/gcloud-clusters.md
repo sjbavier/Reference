@@ -1,5 +1,7 @@
 # Working with Google Kubernetes clusters
 
+## Creating and managing a GCloud cluster
+
 Kubernetes Engine uses Kubernetes objects to create and manage your cluster's resources, [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) objects for stateless applications (ie: webservers) and [Service](https://kubernetes.io/docs/concepts/services-networking/service/) objects for defining load balancers and access rules.
 
 Prior to making a cluster make sure you have your default zones/regions
@@ -22,30 +24,21 @@ After creating a cluster you must get the authentication credentials
 gcloud container clusters get-credentials <cluster-name>
 ```
 
-To create, using [kubectl run](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run) a new **Deployment** <server> from the <app> container image on <port>
+
+## Using kubectl to create and manage clusters
+
+Deployments are the scaffolding of the cluster that keep the pods up even when the nodes they run on fail
+
+To launch a single instance of nginx container
 
 ```sh
-kubectl run <server> --image=gcr.io/google-samples/<app> --port <port>
-
-# expect similar output
-deployment.apps "<server>" created
+kubectl create deployment <name-nginx> --image=nginx:1.10.0
 ```
 
-To create a new **Service** to expose application to external traffic using [kubectl expose](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#expose)
+To expose a public IP to a container
 
 ```sh
-kubectl expose deployment <server> --type="LoadBalancer"
+# this creates an external Load Balancer with an external IP that will route traffic to the pods behind the service
 
-# expect similar output
-service "<server>" exposed
-```
-
-Inspect the **Service** using [kubectl get](https://kubernetes.io/docs/user-guide/kubectl/v1.9/#get)
-
-```sh
-kubectl get service <server>
-
-# expect similar output
-NAME           TYPE           ...   EXTERNAL-IP      PORT(S)          AGE
-<server>       LoadBalancer   ...   35.184.112.169   8080:30840/TCP   2m
+kubectl expose deployment nginx --port 80 --type LoadBalancer
 ```

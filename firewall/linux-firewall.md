@@ -16,6 +16,12 @@ Check the state of the firewall
 firewall-cmd --state
 ```
 
+List all active
+
+```sh
+firewall-cmd --list-all
+```
+
 Add port allowance to firewall rules
 
 ```sh
