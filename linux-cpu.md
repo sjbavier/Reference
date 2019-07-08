@@ -4,6 +4,8 @@ To get info on your processor you can query the /proc/cpuinfo pseudo file
 
 ```sh
 cat /proc/cpuinfo | grep processor
+# also can check ram 
+cat /proc/meminfo
 ```
 
 To use nice to set the priority of process

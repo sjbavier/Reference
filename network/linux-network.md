@@ -6,6 +6,13 @@ Change hostnames and modify [/etc/hosts]
 hostname <new-hostname>
 ```
 
+Set up network on Centos
+
+```sh
+nmtui # set up network interfaces gui
+systemctl restart network # restart network to update
+```
+
 ## Netstat
 
 To display open ports and established TCP connections
@@ -33,6 +40,7 @@ Common network interface tools
 ```sh
 ifconfig # networking interfaces
 ip addr # networking interfaces
+ip addr show # show ip
 iwconfig # wireless networking interfaces
 ```
 
