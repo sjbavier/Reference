@@ -48,7 +48,10 @@ Append a user group
 
 ```sh
 usermod -aG <group> <user>
-
+# Add user to sudoers
+usermod -aG wheel <user> # users in group wheel can run sudo commands
+# or on Centos edit /etc/sudoers using visudo
+visudo
 ```
 
 The /etc/group file contains basic information about existing system and user groups
