@@ -67,6 +67,10 @@ For insight into network usage
 ```sh
 iftop -i eth0 # use iftop (need to install) for information on the eth0 interface
 nethogs eth0 # another utility
+tcpdump -i eth0 # -i to specify interface
+tcpdump -i eth0 -c 5 --n port 22 -vv # -c is count --n to specify port -vv very verbose
+tcpdump -nn tcp # specify protocol to intercept packets
+tcpdump -i eth0 -nn tcp -w packet-record -s 0 # -w write output to file, -s specify bytes per packet 0 is whole packet
 ```
 
 ## Using tc to shape network traffic
