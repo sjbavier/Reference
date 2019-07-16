@@ -6,6 +6,12 @@ Check proxy with curl using -I for just headers -v for verbose and -x for proxy
 curl -Iv -x <proxy:port> -U <username:password> <url>
 ```
 
+Curl and follow redirects to eventual endpoint
+
+```sh
+curl -L <url>
+```
+
 Get the main page from Netscape's web-server:
 
 ```sh

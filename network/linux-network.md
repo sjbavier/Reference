@@ -13,6 +13,13 @@ nmtui # set up network interfaces gui
 systemctl restart network # restart network to update
 ```
 
+Check connection to ip/address and port
+
+```sh
+telnet <ip/addr> <port> # ctrl+]
+# telnet>'close' or 'q' to quit
+```
+
 ## Netstat
 
 To display open ports and established TCP connections
