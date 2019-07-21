@@ -23,22 +23,3 @@ After creating a cluster you must get the authentication credentials
 ```sh
 gcloud container clusters get-credentials <cluster-name>
 ```
-
-
-## Using kubectl to create and manage clusters
-
-Deployments are the scaffolding of the cluster that keep the pods up even when the nodes they run on fail
-
-To launch a single instance of nginx container
-
-```sh
-kubectl create deployment <name-nginx> --image=nginx:1.10.0
-```
-
-To expose a public IP to a container
-
-```sh
-# this creates an external Load Balancer with an external IP that will route traffic to the pods behind the service
-
-kubectl expose deployment nginx --port 80 --type LoadBalancer
-```
