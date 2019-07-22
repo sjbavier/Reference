@@ -30,6 +30,13 @@ Displaying entries in real time
 journalctl -f # -f flag is for follow
 ```
 
+Displaying log for a specific service
+
+```sh
+journalctl -u ssh # all logs for service ssh
+journalctl -eu ssh # display from -e end
+```
+
 Time constraints
 
 ```sh

@@ -1,5 +1,7 @@
 # Working with packages
 
+## apt (Ubuntu)
+
 Add a repository
 
 ```sh
@@ -35,6 +37,17 @@ Get information on package ( not necessarily installed )
 ```sh
 apt show <package>
 ```
+
+## yum (centos)
+
+```sh
+yum install epel-release # repo
+yum install <package>
+yum provides */<command>
+yum whatprovides */<command>
+```
+
+
 
 Get status on a package
 
