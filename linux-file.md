@@ -37,3 +37,19 @@ file /sbin/int
 
     /sbin/init: symbolic link to /lib/systemd/systemd
 ```
+
+Find top file sizes only
+
+```sh
+find -type f -exec du -Sh {} + | sort -rh | head -n 5
+
+   # du command: Estimate file space usage.
+   # -h : Print sizes in human readable format (e.g., 10MB).
+   # -S : Do not include size of subdirectories.
+   # -s : Display only a total for each argument.
+   # sort command : sort lines of text files.
+   # -r : Reverse the result of comparisons.
+   # -h : Compare human readable numbers (e.g., 2K, 1G).
+   # head : Output the first part of files.
+
+```
