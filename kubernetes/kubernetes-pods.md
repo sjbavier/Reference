@@ -31,6 +31,18 @@ To get more information about the pod
 kubectl describe pods <pod-name>
 ```
 
+Get secrets
+
+```sh
+kubectl get secrets
+```
+
+Get persistent volumes
+
+```sh
+kubectl get pvc
+```
+
 By default pods are allocated a **private IP address and cannot be reached outside the cluster**
 
 To map a local port to a port inside the pod

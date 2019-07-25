@@ -1,5 +1,11 @@
 # Working with Git
 
+Initialize git within current directory
+
+```sh
+git init
+```
+
 ## Configuring git
 
 ## Working with branches
@@ -26,6 +32,12 @@ Switch to a branch
 
 ```sh
 git checkout <branch>
+```
+
+Discard all local changes to all files permanently 
+
+```sh
+git reset --hard
 ```
 
 ## Rebase master branch
