@@ -69,4 +69,3 @@ To run an interactive shell session inside a pod
 ```sh
 kubectl exec <pod-name> --stdin --tty -c <pod-name> /bin/sh
 ```
-

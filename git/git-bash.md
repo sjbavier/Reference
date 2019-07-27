@@ -34,7 +34,7 @@ Switch to a branch
 git checkout <branch>
 ```
 
-Discard all local changes to all files permanently 
+Discard all local changes to all files permanently
 
 ```sh
 git reset --hard
