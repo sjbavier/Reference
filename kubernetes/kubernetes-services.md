@@ -82,3 +82,7 @@ kubectl create configmap nginx-proxy-conf --from-file nginx/proxy.conf
           mountPath: "/etc/tls"
 ```
 
+```sh
+curl -ks https://`kubectl get svc frontend -o=jsonpath="{.status.loadBalancer.ingress[0].ip}"`
+```
+

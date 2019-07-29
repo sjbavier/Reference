@@ -33,3 +33,64 @@ To expose a public IP to a container
 
 kubectl expose deployment nginx --port 80 --type LoadBalancer
 ```
+
+To get more information on deployment object
+
+```sh
+kubectl explain deployment
+
+# to see all fields use recursive option
+kubectl explain deployment --recursive
+
+# to access specific fields of deployment object using dot notation
+kubectl explain deployment.metadata.name
+```
+
+To scale deployment by modifying replicas
+
+```sh
+kubectl scale deployment hello --replicas=5
+```
+
+## Rolling updates
+
+Once you update the deployment, Kubernetes will begin rolling update
+
+```sh
+kubectl edit deployment <deployment-name>
+# modify image: - production ? or useless reference?
+```
+
+Check the new entry in rollout history
+
+```sh
+kubectl rollout history <deployment-name>
+```
+
+Pause a rollout
+
+```sh
+kubectl rollout pause <deployment-name>
+```
+
+Resume a rollout
+
+```sh
+kubectl rollout resume <deployment-name>
+```
+
+Verify current state of a rollout
+
+```sh
+kubectl rollout status <deployment-name>
+
+# can also verify this on pods directly
+kubectl get pods -o jsonpath --template='{range .items[*]}{.metadata.name}{"\t"}{"\t"}{.spec.containers[0].image}{"\n"}{end}'
+```
+
+Undo a previous rollout
+
+```sh
+kubectl rollout undo  <deployment-name>
+```
+
