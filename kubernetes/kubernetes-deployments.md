@@ -94,3 +94,54 @@ Undo a previous rollout
 kubectl rollout undo  <deployment-name>
 ```
 
+## Canary Deployments
+
+A separate deployment with your new version and a service that targets both the normal stable deployment as well as canary  deployment
+
+Modify the yaml file to reflect the track of canary and creating the 'canary' deployment alongside the stable.
+
+```sh
+kubectl create -f deployments/hello-canary.yaml
+```
+
+Portion of yaml file shown:
+
+```yaml
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hello
+        track: canary
+        version: 2.0.0
+```
+
+To verify that a subset of requests are being routed to canary deployment run this several times per example:
+
+```sh
+curl -ks https://`kubectl get svc frontend -o=jsonpath="{.status.loadBalancer.ingress[0].ip}"`/version
+```
+
+**PRODUCTION** In order to not have adverse user/client interactions from switching from one deployment to another you can use sessionAffinity field and set to ClientIP
+
+```yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: "hello"
+spec:
+  sessionAffinity: ClientIP
+  selector:
+    app: "hello"
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 80
+```
+
+## Blue-green Deployments
+
+This type of deployment is acheived by creating two separate deployments, one for the old 'blue' and one for the new 'green' version.   Once the 'green' version is up and running you switch over by updating the service.
+**you'll need twice the resources to provision such a change in your application**
+
