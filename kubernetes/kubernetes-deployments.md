@@ -145,3 +145,34 @@ spec:
 This type of deployment is acheived by creating two separate deployments, one for the old 'blue' and one for the new 'green' version.   Once the 'green' version is up and running you switch over by updating the service.
 **you'll need twice the resources to provision such a change in your application**
 
+Essentially you'll be creating both blue and green deployments with different versions.  When new green deployment is verified as running properly, modify the service to reflect the proper selection.
+
+First expose the blue service
+
+```sh
+kubectl apply -f services/hello-blue.yaml
+```
+
+Create the new green deployment
+
+```sh
+kubectl create -f deployment/hello-green.yaml
+```
+
+Verify the correct green deployment version is correct
+
+```sh
+curl -ks https://`kubectl get svc frontend -o=jsonpath="{.status.loadBalancer.ingress[0].ip}"`/version
+```
+
+Update the service to point to the new version
+
+```sh
+kubectl apply -f services/hello-green.yaml
+```
+
+**For a blue-green rollback** Since both deployments are running, simply apply the blue service
+
+```sh
+kubectl apply -f services/hello-blue.yaml
+```
