@@ -86,3 +86,11 @@ kubectl create configmap nginx-proxy-conf --from-file nginx/proxy.conf
 curl -ks https://`kubectl get svc frontend -o=jsonpath="{.status.loadBalancer.ingress[0].ip}"`
 ```
 
+Per orchestrate example:
+
+```sh
+kubectl create secret generic tls-certs --from-file tls/
+kubectl create configmap nginx-frontend-conf --from-file=nginx/frontend.conf
+kubectl create -f deployments/frontend.yaml
+kubectl create -f services/frontend.yaml
+```
