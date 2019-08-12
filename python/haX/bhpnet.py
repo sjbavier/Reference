@@ -16,7 +16,6 @@ port = 0
 def usage():
    usage_docs = """
    BHP Net Tool 
-   
    Usage: bhpnet.py -t target_host -p port
 
    -l --listen                   -  listen on [host]:[port] for
@@ -79,6 +78,13 @@ def server_loop():
    global target      
    
    # if no target is defined, we listen on all interfaces
+   if not len(target):
+      target = "0.0.0.0"
+   
+   server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+   server.bind((target, port))
+
+   
 
 
 def main():
