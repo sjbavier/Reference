@@ -30,9 +30,14 @@ def usage():
    bhpnet.py -t 192.168.0.1 -p 8888 -l -c
    bhpnet.py -t 192.168.0.1 -p 8888 -l -u=c:\\target.exe
    bhpnet.py -t 192.168.0.1 -p 8888 -l -e=\"cat /etc/passwd\"
-   echo 'abc' | ./bhpnet.py -t 192.168.0.1 -p 135"""
+   echo 'abc' | ./bhpnet.py -t 192.168.0.1 -p 135
+   """
+
    print(usage_docs)
    sys.exit(0)
+
+def encode_string(str):
+   return str.encode(encoding='utf-8',errors='strict')
 
 def client_sender(buffer):
    
@@ -43,7 +48,7 @@ def client_sender(buffer):
       client.connect((target,port))
 
       if len(buffer):
-         client.send(buffer)
+         client.send(encode_string(buffer))
       
       while True:
             # now wait for data back
@@ -51,7 +56,7 @@ def client_sender(buffer):
             response = ""
 
             while recv_len:
-               data = client.recv(4096)
+               data = client.recv(4096).decode("utf-8")
                recv_len = len(data)
                response+= data
 
@@ -61,18 +66,18 @@ def client_sender(buffer):
             print(response)
 
             # wait for more input
-            buffer = raw_input("")
+            buffer = ""
             buffer += "\n"
 
             # send it off
-            client.send(buffer)
+            client.send(encode_string(buffer))
                
    except:
       exception_string = "[*] Exception! Exiting."
       print(exception_string)
 
       # close connection
-      client.close
+      client.close()
 
 def server_loop():
    global target      
@@ -83,9 +88,85 @@ def server_loop():
    
    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
    server.bind((target, port))
+   server.listen(5)
 
+   while True:
+      client_socket, addr = server.accept()
+
+      # spin a thread to handle new client
+      client_thread = threading.Thread(target=client_handler, args=(client_socket,))
+      client_thread.start()
    
+def run_command(command):
+   
+   # trim the newline
+   command = command.rstrip()
+   
+   # run the command get output back
+   try:
+      # the subprocess library provides a powerful process-creation interface to start and interact with client programs
+      output = subprocess.check_output(command, stderr=subprocess.STDOUT, shell=True)
+   except:
+      output = "Failed to execute command. \r\n"
 
+   # send the output back to the client
+   return output
+
+def client_handler(client_socket):
+   global upload
+   global execute
+   global command
+
+   # check for upload
+   if len(upload_destination):
+      # read in all of the bytes and write to our destination
+      file_buffer = ""
+
+      # keep reading data until none is available
+      while True:
+         data = client_socket.recv(1024)
+
+         if not data:
+            break
+         else:
+            file_buffer += data
+      
+      # now take these bytes and write them 
+      try:
+         # the wb flag ensures that we are writing the file in binary mode
+         file_descriptor = open(upload_destination,"wb")
+         file_descriptor.write(file_buffer)
+         file_descriptor.close()
+
+         # notify that we wrote the file
+         client_socket.send(encode_string("Successfully saved file to %s\r\n" % upload_destination))
+      except:
+         client_socket.send(encode_string("Failed to save to %s\r\n" % upload_destination))
+
+   # check for command execution
+   if len(execute):
+      # run the command
+      output = run_command(execute)
+
+      client_socket.send(encode_string(output))
+
+   # loop if the command shell was requested
+   if command:
+      while True:
+         # show a simple prompt
+         client_socket.send(encode_string("<BHP:#> "))
+            # now we receive until we see a linefeed (enter key)
+         
+         cmd_buffer = ""
+         while "\n" not in cmd_buffer:
+            cmd_buffer += client_socket.recv(1024).decode("utf-8")
+         
+         # send back the command output
+         response = run_command(cmd_buffer)
+
+         # send back the response
+         client_socket.send(encode_string(response))
+         
 
 def main():
    global listen
@@ -102,8 +183,7 @@ def main():
    try:
          opts, args = getopt.getopt(sys.argv[1:], "hle:t:p:cu:", ["help", "listen", "execute", "target", "port", "command", "upload"])
    except getopt.GetoptError as err:
-      error = err.encode(encoding='utf-8',errors='strict')
-      print(error)
+      print(err)
    
    for o,a in opts:
       if o in ("-h", "--help"):
