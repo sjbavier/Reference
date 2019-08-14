@@ -37,7 +37,9 @@ def usage():
    sys.exit(0)
 
 def encode_string(str):
-   return str.encode(encoding='utf-8',errors='strict')
+   
+   if len(str):
+      return str.encode(encoding='utf-8',errors='strict')
 
 def client_sender(buffer):
    
@@ -66,7 +68,7 @@ def client_sender(buffer):
             print(response)
 
             # wait for more input
-            buffer = ""
+            buffer = raw_input("")
             buffer += "\n"
 
             # send it off
@@ -89,6 +91,7 @@ def server_loop():
    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
    server.bind((target, port))
    server.listen(5)
+   print("server listening on %s:%d" % (target, port))
 
    while True:
       client_socket, addr = server.accept()
@@ -159,13 +162,17 @@ def client_handler(client_socket):
          
          cmd_buffer = ""
          while "\n" not in cmd_buffer:
-            cmd_buffer += client_socket.recv(1024).decode("utf-8")
+            cmd_bytes = client_socket.recv(1024).decode("utf-8")
+            cmd_buffer += cmd_bytes
+         
+         print("[*] Recv'd command %s" % cmd_buffer)
          
          # send back the command output
-         response = run_command(cmd_buffer)
-
+         response = encode_string(run_command(cmd_buffer))
+         
+         
          # send back the response
-         client_socket.send(encode_string(response))
+         client_socket.send(response)
          
 
 def main():
