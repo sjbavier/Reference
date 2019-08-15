@@ -68,7 +68,7 @@ def client_sender(buffer):
             print(response)
 
             # wait for more input
-            buffer = raw_input("")
+            buffer = input("")
             buffer += "\n"
 
             # send it off
@@ -168,7 +168,7 @@ def client_handler(client_socket):
          print("[*] Recv'd command %s" % cmd_buffer)
          
          # send back the command output
-         response = encode_string(run_command(cmd_buffer))
+         response = run_command(cmd_buffer)
          
          
          # send back the response
