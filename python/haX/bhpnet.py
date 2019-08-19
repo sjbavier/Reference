@@ -68,6 +68,7 @@ def client_sender(buffer):
             print(response)
 
             # wait for more input
+            # input instead of raw_input for python 3.X
             buffer = input("")
             buffer += "\n"
 
