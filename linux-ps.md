@@ -1,5 +1,7 @@
 # Working with processes
 
+/proc and procfs
+
 Kill a process
 
 ```sh
@@ -20,69 +22,69 @@ Lists processes containing specific <name>
 ps auwx | grep <name>
 ```
 
-    To see every process on the system using standard syntax:
+To see every process on the system using standard syntax:
 
-    ```sh
-            ps -e
-            ps -ef
-            ps -eF
-            ps -ely
-    ```
+```sh
+        ps -e
+        ps -ef
+        ps -eF
+        ps -ely
+```
 
-    To see every process on the system using BSD syntax:
+To see every process on the system using BSD syntax:
 
-    ```sh
-            ps ax
-            ps axu
-    ```
+```sh
+        ps ax
+        ps axu
+```
 
-    To print a process tree:
+To print a process tree:
 
-    ```sh
-            ps -ejH
-            ps axjf
-    ```
+```sh
+        ps -ejH
+        ps axjf
+```
 
-    To get info about threads:
+To get info about threads:
 
-    ```sh
-            ps -eLf
-            ps axms
-    ```
+```sh
+        ps -eLf
+        ps axms
+```
 
-    To get security info:
+To get security info:
 
-    ```sh
-            ps -eo euser,ruser,suser,fuser,f,comm,label
-            ps axZ
-            ps -eM
-    ```
+```sh
+        ps -eo euser,ruser,suser,fuser,f,comm,label
+        ps axZ
+        ps -eM
+```
 
-    To see every process running as root (real & effective ID) in user format:
+To see every process running as root (real & effective ID) in user format:
 
-    ```sh
-            ps -U root -u root u
-    ```
+```sh
+        ps -U root -u root u
+```
 
-    To see every process with a user-defined format:
+To see every process with a user-defined format:
 
-    ```sh
-            ps -eo pid,tid,class,rtprio,ni,pri,psr,pcpu,stat,wchan:14,comm
-            ps axo stat,euid,ruid,tty,tpgid,sess,pgrp,ppid,pid,pcpu,comm
-            ps -Ao pid,tt,user,fname,tmout,f,wchan
-    ```
+```sh
+        ps -eo pid,tid,class,rtprio,ni,pri,psr,pcpu,stat,wchan:14,comm
+        ps axo stat,euid,ruid,tty,tpgid,sess,pgrp,ppid,pid,pcpu,comm
+        ps -Ao pid,tt,user,fname,tmout,f,wchan
+```
 
-    Print only the process IDs of syslogd:
+Print only the process IDs of syslogd:
 
-    ```sh
-            ps -C syslogd -o pid=
-    ```
+```sh
+        ps -C syslogd -o pid=
+```
 
-    Print only the name of PID 42:
+Print only the name of PID 42:
 
-    ```sh
-            ps -q 42 -o comm=
-    ```
+```sh
+        ps -q 42 -o comm=
+```
 
 To visualize parent and child shells/processes use pstree ( CentOS might need to install psmisc )
 
