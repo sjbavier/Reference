@@ -2,13 +2,20 @@
 
 ```sh
 /
-    /etc    # Program configuration files
+    /etc    # Program configuration files, host specific
     /var    # Frequently changing content such as log files
     /home   # User account files
     /sbin   # System binary files
     /bin    # User binary files
-    /lib    # Shard libraries
+    /lib    # essential shared libraries and kernel modules
     /usr    # Third-party binaries
+    /boot   # static files of the boot loader
+    /dev    # device files
+    /media  # mount point for removable media
+    /mnt    # mount point for mounting a filesystem temporarilly
+    /opt    # add-on application software packages
+    /srv    # data for services provided by this system
+    /tmp    # temporary files
 ```
 
 System Logs
