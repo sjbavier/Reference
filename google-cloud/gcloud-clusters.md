@@ -22,4 +22,7 @@ After creating a cluster you must get the authentication credentials
 
 ```sh
 gcloud container clusters get-credentials <cluster-name>
+
+# also can get login
+gclooud auth application-default login
 ```
