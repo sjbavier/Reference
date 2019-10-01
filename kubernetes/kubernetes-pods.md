@@ -75,4 +75,3 @@ Get simple diagnostics for the cluster
 ```sh
 kubectl get componentstatuses
 ```
-
