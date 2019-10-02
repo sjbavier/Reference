@@ -90,6 +90,7 @@ Get stats on disk usage
 ```sh
 df -h # human readable
 df -i # inode data
+du -sh <file> # human readable, specific file
 ```
 
 Use find to see the directories containing the largest number of files

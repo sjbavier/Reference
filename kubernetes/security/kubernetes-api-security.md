@@ -59,7 +59,6 @@ In the output, check to ensure that the:
 --audit-log-maxbackup
 # argument is set to 10 or any number that helps you meet your compliance requirements for retaining the number of old log files.
 
-
 --audit-log-maxsize
 # argument is set to 100 or whatever number that helps you meet your compliance requirements. Note that number 100 represents 100 MB.
 
@@ -67,10 +66,8 @@ In the output, check to ensure that the:
 --authorization-mode
 # argument is there and is not set to AlwaysAllow. This setting ensures that only authorized requests are allowed by the API Server, especially in production clusters.
 
-
 --token-auth-file
 # argument is not there. This argument, when present, uses static token-based authentication, which have several security flaws; use alternate authentication methods instead, such as certificates.
-
 
 --kubelet-certificate-authority
 # argument is there. This setting helps prevent a man-in-the-middle attack when there’s a connection between the API Server and the kubelet.
