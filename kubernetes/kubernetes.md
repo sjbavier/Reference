@@ -169,3 +169,28 @@ To use a command similar to **top** on either nodes or pods
 kubectl top nodes
 kubectl top pods
 ```
+
+## Readiness Checks
+
+A service object has the built ability to track which pods are ready via the readiness check.
+
+An implementation example below:
+
+```yaml
+spec:
+   ...
+   template:
+      ...
+      spec:
+      containers:
+         ...
+         name: alpaca-prod
+         readinessProbe:
+            httpGet:
+               path: /ready
+               port: 8080
+            periodSeconds: 2 # check every 2 seconds
+            initialDelaySeconds: 0 # start checking immediately after the pod is instantiated
+            failureThreshold: 3 # if it fails 3 times, pod is not ready
+            successThreshold: 1 # 1 success deams the pod ready
+```
