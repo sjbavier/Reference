@@ -94,3 +94,36 @@ kubectl create configmap nginx-frontend-conf --from-file=nginx/frontend.conf
 kubectl create -f deployments/frontend.yaml
 kubectl create -f services/frontend.yaml
 ```
+
+
+Endpoints are a low level way of finding what a service is sending traffic to
+You can watch a service for any changes
+
+```sh
+kubectl get endpoints <service-name> --watch
+```
+
+## Readiness Checks
+
+A service object has the built ability to track which pods are ready via the readiness check.
+
+An implementation example below:
+
+```yaml
+spec:
+   ...
+   template:
+      ...
+      spec:
+      containers:
+         ...
+         name: alpaca-prod
+         readinessProbe:
+            httpGet:
+               path: /ready
+               port: 8080
+            periodSeconds: 2 # check every 2 seconds
+            initialDelaySeconds: 0 # start checking immediately after the pod is instantiated
+            failureThreshold: 3 # if it fails 3 times, pod is not ready
+            successThreshold: 1 # 1 success deams the pod ready
+```
