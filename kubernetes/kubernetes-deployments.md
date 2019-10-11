@@ -10,7 +10,7 @@ Using kustomization.yaml to deploy from current directory
 kubectl apply -k ./
 ```
 
-Delete entire deployement based on kustomization.yaml
+Delete entire deployment based on kustomization.yaml
 
 ```sh
 kubectl delete -k ./
@@ -65,6 +65,7 @@ Check the new entry in rollout history
 
 ```sh
 kubectl rollout history <deployment-name>
+kubectl rollout history <deployment-name> --revision=<revision-number> # view detailed information on specific rollout
 ```
 
 Pause a rollout

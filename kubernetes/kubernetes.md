@@ -43,6 +43,8 @@ kubectl get -o <resource-name>
 kubectl get -o json <resource-name>
 # View object as YAML
 kubectl get -o yaml <resource-name>
+# View wide view
+kubectl get -o wide <resource-name>
 ```
 
 To remove the output headers
