@@ -52,7 +52,32 @@ To scale deployment by modifying replicas
 kubectl scale deployment hello --replicas=5
 ```
 
-## Rolling updates
+To delete a deployment
+
+```sh
+kubectl delete deployments <name>
+# use the declarative form
+kubectl delete -f <deployment.yaml>
+
+## Rolling updates (RollingUpdate) strategy
+
+This Deployment strategy works by updating a few Pods at a time and incrementally updating until all Pods are running the new version.  This also means that for a period of time your application will be running both versions
+
+```yaml
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  ...
+spec:
+  ...
+  minReadySeconds: <num-seconds> # The amount of time for the pod to be running to be considered healthy
+  progressDeadlineSeconds: <num-seconds> # if any stage of the rollout failes to progress in X amount of seconds, consider the rollout failed.
+  strategy:
+    type: RollingUpdate
+    revisionHistoryLimit: 14 # to limit the size of the Deployment object itself, set a number of revisions to keep in history
+    maxUnavailable: <num-pods-allowed-unavailable>
+    maxSurge: <num-pods-allowed-surplus>
+```
 
 Once you update the deployment, Kubernetes will begin rolling update
 
@@ -93,6 +118,21 @@ Undo a previous rollout
 
 ```sh
 kubectl rollout undo  <deployment-name>
+```
+
+## Recreate strategy (Recreate)
+
+This is the simpler of the two deployment strategies.  Applying this will simply updated the ReplicaSet it manages to use the new image and terminates the existing Pods.  This has one major drawback, it will almost certainly result in some site downtime.
+
+```yaml
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  ...
+spec:
+  ...
+  strategy:
+    type: Recreate
 ```
 
 ## Canary Deployments
