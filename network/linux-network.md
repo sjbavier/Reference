@@ -109,3 +109,9 @@ nmon -f -s 30 -c 120 # saves data collected every 30 seconds over a full hour (1
 ```
 
 You can use nmonchart to convert the files collected into a html chart
+
+simple convert hex to binary
+
+```sh
+echo 'ibase=16;obase=2;<HEXIDECIMAL>' | bc
+```
