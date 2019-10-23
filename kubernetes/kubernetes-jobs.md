@@ -26,3 +26,25 @@ spec:
       - "--keygen-num-to-gen=10"
       restartPolicy: OnFailure
 ```
+
+## Cron Jobs
+
+Example of a cronjob that runs every 5 hours
+
+```yaml
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+   name: example-cron
+spec:
+   # Run every fifth hour
+   schedule: "0 */5 * * *"
+   jobTemplate:
+      spec:
+         template:
+            spec:
+               containers:
+               - name: batch-job
+               image: my-batch-image
+               restartPolicy: OnFailure
+```

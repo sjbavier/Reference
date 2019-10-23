@@ -71,6 +71,7 @@ Rsync is a great utility for copying and syncing directories
 
 ```sh
 rsync -aPv /home/downloads <user>@<host>:<directory>
+rsync -aPv -e "ssh -p 2222" <input> <output> # rsync over different port
 ```
 
 Get information on memory (RAM and Swap)
