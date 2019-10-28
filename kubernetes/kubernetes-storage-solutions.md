@@ -23,7 +23,7 @@ kind: Service
 apiVersion: v1
 metadata:
    name: external-ip-database
-__________________________
+---
 kind: Endpoints
 apiVersion: v1
 metadata:
