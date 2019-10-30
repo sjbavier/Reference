@@ -1,7 +1,7 @@
 # Working with kubernetes objects
 
 Everything contained in Kubernetes is represented by a RESTful resource.
-Example: https://your-cluster.com/api/v1/namespaces/default/pods/my-pod is a representation of a pod in default namespace named my-pod
+Example: [https://your-cluster.com/api/v1/namespaces/default/pods/my-pod] is a representation of a pod in default namespace named my-pod
 
 The kubectl command makes http requests to these URLs for access to the Kubernetes objects that reside at these paths.
 
@@ -171,4 +171,3 @@ To use a command similar to **top** on either nodes or pods
 kubectl top nodes
 kubectl top pods
 ```
-
