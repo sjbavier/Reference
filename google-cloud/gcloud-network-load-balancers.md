@@ -2,7 +2,7 @@
 
 Prerequisite: cluster of machines with a target pool, using a managed instance group
 
-## Creating an L3 netword load balancer
+## Creating an L3 network load balancer
 
 List the compute engine instances
 

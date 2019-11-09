@@ -18,7 +18,7 @@ gcloud compute instances create --help
 
 To use a startup script that is used by every VM instance
 
-For example this script sets an Nginx server upon startup [starup.sh]
+For example this script sets an Nginx server upon startup [startup.sh]
 
 ```sh
 # this is a here document 

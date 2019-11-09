@@ -21,8 +21,8 @@ gcloud container clusters delete <cluster-name>
 After creating a cluster you must get the authentication credentials
 
 ```sh
-gcloud container clusters get-credentials <cluster-name>
+gcloud container clusters get-credentials <cluster-name> --region <region-name>
 
 # also can get login
-gclooud auth application-default login
+gcloud auth application-default login
 ```
