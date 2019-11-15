@@ -82,3 +82,23 @@ Configure firewall to allow tcp traffic on port 80
 ```sh
 gcloud compute firewall-rules create www-firewall --allow tcp:80
 ```
+
+Rsync to Google Cloud VM instance
+
+```sh
+rsync -Pavz <local-directory> <ssh-user>@$(gcloud compute instances list --filter="<name-of-instance>" --format "get(networkInterfaces[0].accessConfigs[0].natIP)"):<remote-directory>
+
+scp -rv <local-directory> <ssh-user>@$(gcloud compute instances list --filter="<name-of-instance>" --format "get(networkInterfaces[0].accessConfigs[0].natIP)"):<remote-directory>
+```
+
+SCP directly with gcloud (after gcloud configuration)
+
+```sh
+gcloud compute scp --recurse <local> <instance-name>:<directory>
+```
+
+SSH into Gcloud compute instance (after gcloud configuration)
+
+```sh
+gcloud compute ssh "<instance-name>"
+```

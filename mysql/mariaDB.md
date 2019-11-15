@@ -38,13 +38,35 @@ mysql_secure-installation
 
 Export the database
 
-```sh
+```mysql
 mysqldump --user=<user> --password=<password> <name-of-database> > <database-file.sql>
 ```
 
 Import from mysqldump
 
-```sh
+```mysql
 mysql --user=<user> --password=<password> -e "CREATE DATABASE <database-name>" # create the database first
 mysql --user=<user> --password=<password> --database=<database-name> < <database-file.sql> # redirect sql file to db
+```
+
+Granting all privileges to user on particular db
+
+```mysql
+mysql> GRANT ALL PRIVILEGES ON <database-name>.* TO '<username>'@'<host>';
+mysql> FLUSH PRIVILEGES;
+```
+
+Gathering User information
+
+```mysql
+mysql> select * from mysql.user
+
+mysql> select User, Host, Password from mysql.user
+```
+
+Changing siteurl and home for wordpress
+
+```mysql
+mysql> SELECT * from wp_options WHERE option_name = 'home' OR option_name = 'siteurl';
+mysql> UPDATE wp_options SET option_value = '<domain-name>' WHERE option_name = 'home' OR option_name = 'siteurl';
 ```
