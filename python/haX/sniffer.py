@@ -40,9 +40,11 @@ def main():
             
             # TCP
             elif proto == 6:
-                (src_port, dest_port, sequence, acknowledgement, offset_reserved_flags, flag_urg, flag_ack, flag_psh, flag_rst, flag_syn, flag_fin, data[offset:]) = icmp_packet(data)
-                print(TAB_1 + 'ICMP Packet')
-                print(TAB_2 + 'Type: {}, Code: {}, Checksum: {}'.format(icmp_type, code, checksum))
+                (src_port, dest_port, sequence, acknowledgement, offset_reserved_flags, flag_urg, flag_ack, flag_psh, flag_rst, flag_syn, flag_fin, data) = tcp_segment(data)
+                print(TAB_1 + 'TCP Packet')
+                print(TAB_2 + 'Source Port: {}, Destination Port: {}'.format(src_port, dest_port))
+                print(TAB_2 + 'Sequence: {}, Acknowledgement: {}'.format(sequence, acknowledgement))
+                print(TAB_2 + 'Offset Reserved Flags: {}, Flag urg: {}, Flag ack: {}, Flag psh: {}, Flag rst: {}, Flag syn: {}, Flag fin: {}'.format(offset_reserved_flags, flag_urg, flag_ack, flag_psh, flag_rst, flag_syn, flag_fin))  
                 print(TAB_2 + 'Data:')
                 print(format_multi_line(DATA_TAB_3, data))            
             
