@@ -6,6 +6,9 @@ To get info on your processor you can query the /proc/cpuinfo pseudo file
 cat /proc/cpuinfo | grep processor
 # also can check ram 
 cat /proc/meminfo
+
+# use nproc
+nproc
 ```
 
 To use nice to set the priority of process

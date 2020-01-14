@@ -67,3 +67,10 @@ Device information for DMA, IRQ and I/O
 ```sh
 lsdev
 ```
+
+RAM info
+
+```sh
+dmidecode
+dmidecode -t 17
+```
