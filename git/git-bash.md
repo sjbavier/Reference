@@ -80,3 +80,18 @@ git reset --hard <commit>
 # example
 git reset --hard origin/master
 ```
+
+## Discarding local changes
+
+Stash the changes
+
+```sh
+# --include-untracked optional
+git stash save --keep-index --include-untracked
+```
+
+Drop the stash
+
+```sh
+git stash drop
+```
