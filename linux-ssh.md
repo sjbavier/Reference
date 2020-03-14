@@ -1,5 +1,11 @@
 # Openssh
 
+Check available SSH keys on computer
+
+```sh
+for key in ~/.ssh/id_*; do ssh-keygen -l -f "${key}"; done | uniq
+```
+
 Generate ssh key
 
 ```sh
