@@ -200,7 +200,7 @@ docker push username/repository:tag
 docker run -p 4000:80 sjbavier/get-started:part2
 ```
 
-# Recap 
+## Recap
 
 ```sh
 docker build -t friendlyhello .  # Create image using this directory's Dockerfile
