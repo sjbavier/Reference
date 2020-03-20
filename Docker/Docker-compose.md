@@ -1,11 +1,39 @@
 # Working with Docker Compose CLI
 
-## Docker compose is used to define and run multi-container applications with Docker
+## Docker compose is used to define and run multi-container applications with Docker [https://docs.docker.com/compose/reference/overview/] 
 
 Working with yaml config[s] is the recommended way to scaffold applications
 
 ```sh
 docker-compose -f <file-yml>
+```
+
+example yaml
+
+```yaml
+version: '2'
+
+services:  
+  # the `extends` command references the `web` service in our
+  # file is the relative path to the extended definition of the service
+  # the command in this file.
+  web:
+    extends:
+      file: <relative-yaml-path>
+      service: web
+    command: yarn start
+
+  story:
+    extends:
+      file: <relative-yaml-path>
+      service: story
+    command: yarn run storybook
+
+  sass:
+    extends:
+      file: <relative-yaml-path>
+      service: sass
+    command: sass --watch /usr/src/app/src:/usr/src/app/src
 ```
 
 You can also run commands within a service
