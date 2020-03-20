@@ -60,6 +60,37 @@ Watch the logs of the containers
 docker-compose logs -f # -f for follow
 ```
 
+Stream container events for every service
+
+```sh
+docker-compose events
+```
+
+Show a list of of containers for a service
+
+```sh
+docker-compose ps
+```
+
+Display compose configuration and check for validity
+
+```sh
+docker-compose config
+```
+
+Push and pull images associated with services defined in yaml file(s)
+
+```sh
+docker-compose pull
+docker-compose push
+```
+
+Build or rebuild services
+
+```sh
+docker-compose build
+```
+
 Shutdown the containers, networks, images and volumes
 
 ```sh
