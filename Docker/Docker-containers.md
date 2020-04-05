@@ -181,6 +181,22 @@ Example:
 docker tag friendlyhello sjbavier/get-started:version2
 ```
 
+## Docker Login
+
+```
+# login to dockerhub *default*
+docker login
+# if you get the error:
+# Error saving credentials: error storing credentials - err: 
+# exit status 1, out: `Error calling StartServiceByName for org.
+# freedesktop.secrets: GDBus.Error:org.freedesktop.DBus.Error.
+# TimedOut: Failed to activate service 'org.freedesktop.secrets': 
+# timed out (service_start_timeout=120000ms)`
+# try:
+apt install gnupg2 pass
+```
+
+
 # To see your tagged image
 
 ```sh
