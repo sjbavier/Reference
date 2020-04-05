@@ -10,6 +10,12 @@ Generate ssh key
 
 ```sh
 ssh-keygen # ( default sha256 ) stored in ~/.ssh
+# faster and more secure Edwards-curve Digital Signature Algorithm (EdDSA)
+ssh-keygen -t ed25519
+# add a comment
+ssh-keygen -t ed25519 -C "<comment>"
+# add output keyfile
+ssh-keygen -t ed25519 -f <output_keyfile>
 ```
 
 Push ssh public key to remote authorized key file
