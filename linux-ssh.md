@@ -131,3 +131,55 @@ The remote server is listening on port 43022 on the local server.
 # that connection request will be forwarded to the <remote-server>
 ssh localhost -p 43022
 ```
+
+#### Configuration
+
+By default openSSH only allows connected to remote forwarded ports from the server. There are options to adjust this:
+
+sshd_config:
+
+```conf
+# this is the default setting
+# prevents connecting to forwarded ports from outside the server
+GatewayPorts no
+
+# this allows anyone to connect to the forwarded ports
+GatewayPorts yes
+
+# to only allow connections from a specific IP address
+GatewayPorts clientspecified
+```
+
+```sh
+# Using:
+# GatewayPorts clientspecified
+# we can tunnel connections from <IP-address> to port 8080
+# this can allow <IP-address> to access remote server website on <Website-domain>
+ssh -R <IP-Address>:8080:localhost:80 <Website-domain>
+```
+
+By default openSSH allows TCP forwarding.
+Alternative configurations:
+
+```conf
+# TCP forwarding allowed:
+AllowTcpForwarding yes
+AllowTcpForwarding all
+
+# Local TCP forwarding only
+AllowTcpForwarding local
+
+# Remote forwarding only
+AllowTcpForwarding remote
+
+# no forwarding
+AllowTcpForwarding no
+```
+
+Another option is forwarding unix domain sockets, the default is yes:
+
+```conf
+AllowStreamLocalForwarding yes
+# same options as TCP forwarding
+# AllowStreamLocalForwarding yes|all|local|remote|no
+```
