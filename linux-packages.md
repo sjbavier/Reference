@@ -115,7 +115,12 @@ yum provides */<command>
 yum whatprovides */<command>
 ```
 
+List all the installed packages
 
+```sh
+yum list installed
+yum list installed | grep <package>
+```
 
 Get status on a package
 
