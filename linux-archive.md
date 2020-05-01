@@ -42,6 +42,19 @@ To extract a tar gzip archive
 tar xzvf archive.tar.gz
 ```
 
+To extract a tar
+
+```sh
+tar xvf archive.tar
+```
+
+To extract to another directory
+
+```sh
+tar -C <directory> -xzvf archive.tar.gz
+tar -C <directory> -xvf archive.tar
+```
+
 To pipe an archive over ssh
 
 ```sh

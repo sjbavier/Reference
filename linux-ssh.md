@@ -98,7 +98,7 @@ Local forwarding: SSH client listens for connections on a configured port, when 
 ssh -L 2222:<local-machine>:22 <jump-server>
 ```
 
-Local Forwarding with binding
+### Local Forwarding with binding
 
 ```sh
 # restricting connections to the same host
