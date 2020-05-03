@@ -34,6 +34,8 @@ ls -alt | grep "match" > fileoutput.txt
 
 ## cat, od and split
 
+### cat or tac (reverse)
+
 **cat** is short for concatenate, used to display the contents of a file on stdout
 
 ```sh
@@ -45,8 +47,88 @@ cat <file> | grep <pattern> > <file2>
 cat <file>*
 ```
 
-GNU text utilities come with **od** (octal dump)
+### od (octal dump)
+
+GNU text utilities come with **od**
 Several options are available 
-**-A** to control the radix of the file offets ( o, (octal, the default), d (decimal), x (hexadecimal), or n (no offsets displayed) )
+**-A** to control the --address-radix of the file offets ( o, (octal, the default), d (decimal), x (hexadecimal), or n (no offsets displayed) )
  **-t** to control the form of the displayed contents
 
+```sh
+od dogs.txt
+# example output
+# 0000000 067544 071547 005072 052011 062145 074544 005054 052011
+# 0000020 061157 005151
+# 0000024
+
+# (-A d) decimal other options (o: octal, x: hex, n: none)
+# (-t c ) type printable characters or backslash escapes
+od -A d -t c dogs.txt
+# example output
+# 0000000   d   o   g   s   :  \n  \t   T   e   d   d   y   ,  \n  \t   T
+# 0000016   o   b   i  \n
+# 0000020
+
+# (-A n) no offset (-t a) output type = select named characters ignore high-order bit
+od -A n -t a dogs.txt
+# example output
+#    d   o   g   s   :  nl  ht   T   e   d   d   y   ,  nl  ht   T
+#    o   b   i  nl
+```
+
+## split
+
+Used to split files and arrange file name prefixes and suffixes, as well as delineate parameters for the split.
+
+By default files resulting from split have an x, followed by a suffix of 'aa','ab', ... etc.
+
+```sh
+# split files containing at most 2 lines
+split -l 2 <file>
+
+# split files containing at most 18 bytes and supply a prefix of y
+split -b 17 <file> y
+```
+
+## wc, head and tail
+
+### wc
+
+wc is used to display the number of lines, words and bytes in a file.
+
+```sh
+wc <file>
+# examples output
+# <lines> <word-count> <bytes> <file>
+wc -l <file>
+# example output
+# <lines> <file>
+```
+
+### head
+
+head is used for displaying the first part of a file or output, default is 10 lines
+
+```sh
+# top 10 disk usage not including size of subdirectories, reverse comparison, human readable
+du -Sh | sort -rh | head
+```
+
+### tail
+
+tail is used for displaying the end of a file or output, default is 10 lines
+
+```sh
+# last 10 lines of dmesg
+dmesg | tail
+
+# follow the file
+tail -f /var/log/<log>
+```
+
+## expand, unexpand and tr
+
+```sh
+# swap tabs for spaces
+expand -t 1 <file>
+```
