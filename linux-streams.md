@@ -141,3 +141,75 @@ cat <file> | tr ' ' '\t'
 
 ## pr, nl and fmt
 
+pr command is used to format files for printing
+
+nl command numbers lines ( can also use cat -n )
+
+fmt is used to format text
+
+```sh
+# side by side file printing
+pr -m <file1> <file2> 
+
+# line numbes
+nl <file>
+
+# format file output to 60 characters wide
+fmt -w 60 <file>
+```
+
+## sort and uniq
+
+sort command sorts input using the collating sequence and can merge already sorted files and check if a file is sorted
+
+sort can sort by numerical or alphabetical, applied to the entire input or by fields
+
+```sh
+# default alphabetical
+sort <file>
+
+#sort numerical
+sort -n <file>
+
+# eliminate duplicates with -u
+sort -u <file>
+
+# replace spaces with tabs and merge/sort the files
+cat <file> | tr ' ' '\t' | sort - <file2>
+```
+
+uniq also eliminates duplicates
+
+```sh
+# remove duplicates of a particular field
+uniq -f1 <file>
+
+# count the number of duplicates
+uniq -c <file>
+```
+
+## cut, paste and join
+
+cut command extracts field from text, the default delimiter is a tab
+
+```sh
+# extract field 1
+cut -f1 <file>
+
+# change delimiter to : and select fields 1 and 7q
+cut -d : -f 1,7 /etc/password
+```
+
+paste command pastes lines from two or more files side-by-side similar to pr -m
+
+```sh
+paste <file1> <file2>
+```
+
+join can join files based on a matching field
+
+```sh
+join -j 1 <file1> <file2>
+```
+
+## sed 
