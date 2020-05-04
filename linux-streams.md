@@ -131,4 +131,13 @@ tail -f /var/log/<log>
 ```sh
 # swap tabs for spaces
 expand -t 1 <file>
+
+# swap spaces for tabs ( requires at least 2 spaces to convert )
+unexpand -t 1 <file>
+
+# translate spaces to tabs (tr is a pure filter)
+cat <file> | tr ' ' '\t'
 ```
+
+## pr, nl and fmt
+
