@@ -213,3 +213,33 @@ join -j 1 <file1> <file2>
 ```
 
 ## sed 
+
+stream editor is an extremely powerful tool.
+Put simply sed loads lines from the input into the **pattern space** applies sed editing commands to the contents and sends to standard output.
+
+Like other stream editors it can take a file as input or work as a filter.
+
+```sh
+# substitute first occurrence of a in each line
+# s stands for sub, a is the matching item and A is the replacement
+sed 's/a/A/' <file>
+
+# to replace all occurrences of a in the file use g for global
+sed 's/a/A/g' <file>
+
+# the d is for delete, the preceding 2 indicates to delete the 2nd line only,  $ is for end of file
+# a separator of ; for multiple commands
+sed '2d;$s/a/A/g' <file>
+```
+
+In addition to operating on single lines sed can operate on ranges of lines.  
+
+The beginning and end ranges are separated by a comma and can be specified by a number, regular expression or a $ for end of file.
+
+You can group several commands between curly braces { } and use the -e option to add multiple commands to the script
+
+```sh
+# starting on line 2 until the $ end
+sed -e '2,${' -e 's/a/A/g' -e '}' <file>
+```
+
