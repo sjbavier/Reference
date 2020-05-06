@@ -212,7 +212,7 @@ join can join files based on a matching field
 join -j 1 <file1> <file2>
 ```
 
-## sed 
+## sed
 
 stream editor is an extremely powerful tool.
 Put simply sed loads lines from the input into the **pattern space** applies sed editing commands to the contents and sends to standard output.
@@ -243,3 +243,70 @@ You can group several commands between curly braces { } and use the -e option to
 sed -e '2,${' -e 's/a/A/g' -e '}' <file>
 ```
 
+sed scripts can be stored in files
+
+```sh
+# store a space to tab conversion
+echo -e "s/ /\t/g" > <sed-file>
+sed -f <sed-file> <file>
+```
+
+sed using numbering lines
+
+```sh
+cat animals.txt
+# example output
+# animals:
+#         aardvark
+#         bat
+#         cat
+#         dog
+#         emu
+#         falcon
+
+sed '=' animals.txt
+# example output
+# 1
+# animals:
+# 2
+#         aardvark
+# 3
+#         bat
+# 4
+#         cat
+# 5
+#         dog
+# 6
+#         emu
+# 7
+#         falcon
+```
+
+add a second input to the **pattern space** using N and remove \n characters
+
+```sh
+sed '=' animals.txt | sed 'N;s/\n//'
+# example output
+# 1animals:
+# 2       aardvark
+# 3       bat
+# 4       cat
+# 5       dog
+# 6       emu
+# 7       falcon
+```
+
+edit the file in place
+
+```sh
+sed -i 's/\t/ /g' animals.txt
+# example output
+# $ cat animals.txt
+# animals:
+#  aardvark
+#  bat
+#  cat
+#  dog
+#  emu
+#  falcon
+```
