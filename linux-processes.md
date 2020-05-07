@@ -8,6 +8,48 @@ Kill a process
 kill -9 <pid>
 ```
 
+## Jobs
+
+run a job in the background **&**
+
+```sh
+<command>&
+# example output
+# [1] 1304
+# [<job-id>] <pid>
+```
+
+basic job operations
+
+```sh
+# list jobs
+jobs
+# example output
+# [1] 1304
+# [<job-id>] <pid>
+jobs -l # long format
+
+# place current or specified job in background
+bg %<job-id>
+
+# bring current or specified job into the foreground
+fg %<job-id>
+```
+
+In Bash shell: to suspend a running processes **Ctrl-z**
+
+Standard IO and background processes:  unless redirected elsewhere, **stdout** and **stderr** from the **bg** processes are streamed to the **controlling terminal** ( the terminal which started the background application ).  In practice you probably want to have stdin and stdout processes feed to and from files.
+
+## signals
+
+If a **controlling terminal** closes or logs off the shell generally sends a **SIGHUP** hangup signal and likely closes.
+
+**nohup** command starts a process that ignores hangup signals, it appends stdout and stderr to a file, usually $HOME/nohup.out though you can redirect stdout and err.
+
+```sh
+nohup sh <file.sh>&
+```
+
 ## Managing processes from `man ps`
 
 Display the processes running with the same euid=EUID as the current user
