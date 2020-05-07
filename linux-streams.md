@@ -310,3 +310,12 @@ sed -i 's/\t/ /g' animals.txt
 #  emu
 #  falcon
 ```
+
+## Pagers
+
+Less has replaced more
+
+```sh
+# to be able to scroll up and down stdout
+cat <file> | less
+```
