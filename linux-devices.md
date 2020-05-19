@@ -24,7 +24,15 @@ Use list hardware
 
 ```sh
 lshw
-lshw -short
+lshw -short # condensed output, including a list of device classes
+lshw -class processor # list information about processor
+lshw -html > <html-file> # output the information in html format
+```
+
+CPU information
+
+```sh
+lscpu
 ```
 
 Hardware information
@@ -72,5 +80,9 @@ RAM info
 
 ```sh
 dmidecode
+dmidecode -t memory
 dmidecode -t 17
+
+free -m # use free to get memory info
+cat /proc/meminfo # location of file with memory information
 ```
