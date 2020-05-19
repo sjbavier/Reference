@@ -42,6 +42,10 @@ Standard IO and background processes:  unless redirected elsewhere, **stdout** a
 
 ## signals
 
+**Ctrl+c** terminates a process sends a **SIGINT** interupt signal the **kill** command sends a **SIGTERM**
+
+Some signals cannot be caught, such as some hardware exceptions.  **SIGKILL** cannot be caught by a signal handler and unconditionally terminates a process
+
 If a **controlling terminal** closes or logs off the shell generally sends a **SIGHUP** hangup signal and likely closes.
 
 **nohup** command starts a process that ignores hangup signals, it appends stdout and stderr to a file, usually $HOME/nohup.out though you can redirect stdout and err.
@@ -50,13 +54,77 @@ If a **controlling terminal** closes or logs off the shell generally sends a **S
 nohup sh <file.sh>&
 ```
 
+Send a **SIGTERM** to job %1
+
+```sh
+kill -s SIGTERM %1
+```
+
+Use **killall** to send **SIGTERM** to all processes with reg-exp match
+
+```sh
+killall <reg-exp>
+```
+
+Using **pkill** to send a **SIGTERM**
+
+```sh
+pkill <reg-exp>
+# pkill <name>
+```
+
+Use **pkill** to send a **SIGHUP**
+
+```sh
+pkill --signal SIGHUP <reg-exp>
+```
+
 ## Managing processes from `man ps`
 
 Display the processes running with the same euid=EUID as the current user
 
 ```sh
 ps
+ps -af
+# -a display processes with controlling terminals
+# -f full format
+ps -xf
+# -x display processes without controlling terminals
+# -f full format
 ```
+
+Display processes of a particular user
+
+```sh
+ps -u <user>
+```
+
+Display processes of a particular command
+
+```sh
+ps -C <command>
+```
+
+Deliniate the output of ps
+
+```sh
+ps -C <command> -o pid,sid,tname,cmd
+# -o output as comma separated arguments
+```
+
+## pgrep
+
+```sh
+pgrep <reg-exp>
+# pgrep <name>
+pgrep -af
+# -a prints the command line
+# -f matches against full command line
+```
+
+### other useful tools top, htop, vtop, ntop
+
+## More ps commands
 
 Lists processes containing specific <name>
 
