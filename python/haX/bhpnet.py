@@ -72,7 +72,7 @@ def client_sender(buffer):
             buffer = input("")
             buffer += "\n"
 
-            # send it off
+            # send it off and encode string for python 3.X
             client.send(encode_string(buffer))
                
    except:
