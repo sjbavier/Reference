@@ -59,6 +59,8 @@ Scan for active services
 
 ```sh
 systemctl list-unit-files --type=service --state=enabled
+systemctl list-unit-files -at service
+# for all services
 ```
 
 Change shell
