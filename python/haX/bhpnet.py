@@ -190,6 +190,8 @@ def main():
    # read commandline options
    try:
          opts, args = getopt.getopt(sys.argv[1:], "hle:t:p:cu:", ["help", "listen", "execute", "target", "port", "command", "upload"])
+         print(f'arguments: {sys.argv[1:]}')
+         print(f'options: {opts}')
    except getopt.GetoptError as err:
       print(err)
    
