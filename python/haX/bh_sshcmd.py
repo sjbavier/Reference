@@ -12,3 +12,6 @@ def ssh_command(ip, user, passwd, command):
     if ssh_session.active:
         ssh_session.exec_command(command)
         print(ssh_session.recv(1024)).decode("utf-8")
+    return
+
+ssh_command(0.0.0.0, user, passwd, command)
