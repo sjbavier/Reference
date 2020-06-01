@@ -91,11 +91,25 @@ Local forwarding: SSH client listens for connections on a configured port, when 
 - Connecting to a service on an internal network from the outside
 - Connecting to a remote file share
 
+Syntax:
+ssh -L
+   [bind_address:]port:host:hostport [USER@]ssh_server
+   [bind_address:]port:remote_socket [USER@]ssh_server
+   local_socket:host:hostport [USER@]ssh_server
+   local_socket:remote_socket [USER@]ssh_server
+
 ```sh
-# forwards connection to port 2222 on <local-machine>
-# to port 22 connection to <jump-server>
-# by default this allows anyone to connect on <local-machine>:2222
-ssh -L 2222:<local-machine>:22 <jump-server>
+# ssh -L [LOCAL_IP:]LOCAL_PORT:DESTINATION:DESTINATION_PORT -p [PORT_NUMBER] [USER@]SSH_SERVER
+# client localhost listens on port 2222
+# forwards connection to <jump-server> 
+# then to <remote-machine> port 22
+# by default this allows anyone to connect on local-machine:2222
+ssh -L 2222:<remote-machine>:22 <jump-server>
+
+# all connections to client at port 80 
+# forwarded to ssh_server port 2222
+# connected to port 80 on private.server.com
+ssh -L 80:private.server.com:80 -p 2222 user@ssh_server
 ```
 
 ### Local Forwarding with binding
@@ -103,10 +117,31 @@ ssh -L 2222:<local-machine>:22 <jump-server>
 ```sh
 # restricting connections to the same host
 # by supplying a bind address 127.0.0.1
-ssh -L 127.0.0.1:2222:<local-machine>:22 <jump-server>
+ssh -L 127.0.0.1:2222:<remote-machine>:22 <jump-server>
 ```
 
 ### Remote Forwarding
+
+ssh -R [REMOTE:]REMOTE_PORT:DESTINATION:DESTINATION_PORT [USER@]SSH_SERVER
+
+Requires sshd_config:
+
+```conf
+GatewayPorts yes
+```
+
+For example to allow the public to view a web application on your local machine when you do not have a public IP but you have access to a remote server/host.
+
+```sh
+# run this command from local machine
+# the remote ssh server/host will listen on port 8080
+# then tunnel traffic back to port 3000 on your local machine
+# -N is for not executing remote command
+# -f is to run in background
+ssh -R 8080:127.0.0.1:3000 -N -f user@remote.ssh_server
+```
+
+### Reverse Tunneling
 
 Reverse ssh tunneling is useful when you cannot directly connect a local server to a remote server but the remote server can establish a connection to your local server. This involves the remote server establishing a connection to your local server then within that secure connection you can create a private tunnel within the original connection in reverse back to the remote.
 
