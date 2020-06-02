@@ -1,4 +1,4 @@
-# Some samples of common scripts
+## Some samples of common scripts
 
 Search a directory for any files with spaces and replace with underscores
 
@@ -13,10 +13,48 @@ fi;
 done
 ```
 
+## Working in shell
+
+Order of bootup **login** shell
+
+Systemwide environment and shell variables
+/etc/profile
+/etc/profile.d/*.sh
+
+User environment and shell variables
+~/.bash_profile
+~/.bashrc
+
+Centos Only - systemwide aliases and shell functions
+/etc/bashrc 
+
 Change shell to zsh
 
 ```sh
 chsh -s $(which zsh)
+```
+
+View environment variables
+
+```sh
+printenv
+```
+
+Set an environment variable
+
+```sh
+export VARIABLE=VALUE
+# remove the variable
+export -n VARIABLE
+```
+
+Shell variables
+
+```sh
+# set a shell variable
+VARIABLE=VALUE
+# remove a shell variable
+unset VARIABLE
 ```
 
 ## Next sections from [https://gist.github.com/LeCoupa/122b12050f5fb267e75f] bash cheatsheet

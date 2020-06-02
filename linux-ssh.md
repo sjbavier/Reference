@@ -91,6 +91,13 @@ Local forwarding: SSH client listens for connections on a configured port, when 
 - Connecting to a service on an internal network from the outside
 - Connecting to a remote file share
 
+Requires:
+sshd_config
+
+```conf
+AllowTcpForwarding yes
+```
+
 Syntax:
 ssh -L
    [bind_address:]port:host:hostport [USER@]ssh_server
