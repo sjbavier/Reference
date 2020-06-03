@@ -56,3 +56,10 @@ If you just want file names add the l (lowercase L) flag:
 ```sh
 egrep -lir --include=*.{php,html,js} "(document.cookie|setcookie)" .
 ```
+
+Grep showing lines before and after
+
+```sh
+# show 4 lines before and 4 lines after
+cat <file> | grep -B 4 -A 4 <pattern>
+```

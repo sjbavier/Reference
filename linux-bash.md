@@ -15,7 +15,7 @@ done
 
 ## Working in shell
 
-Order of bootup **login** shell
+### Order of bootup **login** shell
 
 Systemwide environment and shell variables
 /etc/profile
