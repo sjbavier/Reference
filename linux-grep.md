@@ -1,4 +1,62 @@
-# Grep uses [<https://unix.stackexchange.com/questions/17949/what-is-the-difference-between-grep-egrep-and-fgrep]>
+# Working with grep
+
+Common grep options 
+
+```sh
+grep -i # ignore case
+grep -v # invert search
+grep -c # count matches
+grep -o # show only characters that match not full line
+grep -r # recursive
+grep -E # extended regex same as egrep
+```
+
+## Regex
+
+```sh
+# Achors
+# ^   beginning
+# $   end
+
+# Matching characters
+# .   any one character
+# *   0 or more of the previous character
+
+# Character sets
+# [abc]  match characters a, b or c
+# [0-9]  integers 0 - 9
+# [a-z]  all characters a through z lowercase
+
+# Character Classes
+# [:graph:]    printable characters not including spaces
+# [:print:]    printable characters including spaces
+# [:punct:]    punctuation
+# [:cntrl:]    non-printable control characters
+# [:xdigit:]   hexadecimal characters
+
+grep 'user[0-9]' <file>
+# same as
+grep 'user[[:digit:]]' <file>
+
+# negating
+grep 'user[![:digit:]]' <file>
+```
+
+## Extended Regex
+
+```sh
+# .   one character
+# *   0 or more fo the previous character
+# ?   0 or 1 of the previous character
+# +   1 or more of the previous character
+# {2}       two of the previous character
+# {2,4}     two or four of the previous character
+# (ab)      match a group of characters
+# (ab){2}   two of the previous group
+# (cat|dog) match cat or dog
+```
+
+## Grep uses [<https://unix.stackexchange.com/questions/17949/what-is-the-difference-between-grep-egrep-and-fgrep]>
 
 grep -E and egrep are equivalent
 

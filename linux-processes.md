@@ -112,6 +112,12 @@ ps -C <command> -o pid,sid,tname,cmd
 # -o output as comma separated arguments
 ```
 
+Print the memory usage for a user
+
+```sh
+ps -U <user> --format %mem | awk '{memory +=$1};END {print memory}'
+```
+
 ## pgrep
 
 ```sh
@@ -124,7 +130,7 @@ pgrep -af
 
 ### other useful tools top, htop, vtop, ntop
 
-## More ps commands
+### More ps commands
 
 Lists processes containing specific <name>
 

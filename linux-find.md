@@ -38,3 +38,11 @@ find <directory> -type f -print0 | xargs -0 stat --format '%Y :%y %n' | sort -nr
 # cut -f2 - second field
 # cut -f2- - second field to end of line
 ```
+
+Find files modified in the last day
+
+```sh
+find <directory> -mtime -1
+# inversely we can see files not modified in the last day
+find <directory> -mtime +1
+```
