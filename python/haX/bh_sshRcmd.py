@@ -2,19 +2,19 @@ import threading
 import paramiko
 import subprocess
 
-def ssh_command(ip, user, passwd, command):
+def ssh_command(ip, port, user, passwd, command):
     
     # create the ssh client using paramiko library
     client = paramiko.SSHClient()
     
     # load hostkeys from known_hosts file
-    client.load_host_keys('/home/userA/.ssh/known_hosts')
+    client.load_host_keys('/home/sjbavier/.ssh/known_hosts')
     
     # set the policy for updating host keys
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     
     # connect to ip with username and password from arguments
-    client.connect(ip, username=user, password=passwd)
+    client.connect(ip, port=port, username=user, password=passwd)
     
     # using client get the transport object and
     # request new session from server
@@ -42,5 +42,5 @@ def ssh_command(ip, user, passwd, command):
             
             client.close()
     return
-ssh_command('0.0.0.0', 'userA', 'password', 'ClientConnected')
+ssh_command('192.168.8.174', '2222', 'userA', 'passwd', 'ClientConnected')
             
