@@ -20,7 +20,9 @@ class Server (paramiko.ServerInterface):
     # simple password check    
     def check_auth_password(self, username, password):
         if (username == 'userA') and (password == 'passwd'):
-            return paramiko.AUTH_FAILED
+            return paramiko.AUTH_SUCCESSFUL
+        # else failed
+        return paramiko.AUTH_FAILED
 
 # incorportate CLI arguments            
 server = sys.argv[1]
