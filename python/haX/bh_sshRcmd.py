@@ -1,6 +1,7 @@
 import threading
 import paramiko
 import subprocess
+import sys
 
 def ssh_command(ip, port, user, passwd, command):
     
@@ -42,5 +43,12 @@ def ssh_command(ip, port, user, passwd, command):
             
             client.close()
     return
-ssh_command('192.168.8.152', '2222', 'userA', 'passwd', 'ClientConnected')
+
+# incorportate CLI arguments            
+server = sys.argv[1]
+ssh_port = int(sys.argv[2])
+# user = sys.argv[3]
+# passwd = sys.argv[4]
+
+ssh_command(server, ssh_port, 'userA', 'passwd', 'ClientConnected')
             
