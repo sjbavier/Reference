@@ -102,6 +102,94 @@ LVM manages disks using
 
 **note** the default extent size is 4MB, be aware that all PVs in a VG must use the same extent size.
 
+The device mapper is a piece of the Linux kernel that provides a foundation for the virtual devices such as LVM or RAID
+
+Using lvm2 package you may run various commands for modifying the aforementioned partions, volumes and groups
+
+```sh
+lvm
+
+  # devtypes        Display recognised built‑in block device types
+  # dumpconfig      Dump configuration
+  # formats         List available metadata formats
+  # help            Display help for commands
+  # lvchange        Change the attributes of logical volume(s)
+  # lvconvert       Change logical volume layout
+  # lvcreate        Create a logical volume
+  # lvdisplay       Display information about a logical volume
+  # lvextend        Add space to a logical volume
+  # lvmchange       With the device mapper, this is obsolete and does nothing.
+  # lvmdiskscan     List devices that can be used as physical volumes
+  # lvmsadc         Collect activity data
+  # lvmsar          Create activity report
+  # lvreduce        Reduce the size of a logical volume
+  # lvremove        Remove logical volume(s) from the system
+  # lvrename        Rename a logical volume
+  # lvresize        Resize a logical volume
+  # lvs             Display information about logical volumes
+  # lvscan          List all logical volumes in all volume groups
+  # pvchange        Change attributes of physical volume(s)
+  # pvresize        Resize physical volume(s)
+  # pvck            Check the consistency of physical volume(s)
+  # pvcreate        Initialize physical volume(s) for use by LVM
+  # pvdata          Display the on‑disk metadata for physical volume(s)
+  # pvdisplay       Display various attributes of physical volume(s)
+  # pvmove          Move extents from one physical volume to another
+  # pvremove        Remove LVM label(s) from physical volume(s)
+  # pvs             Display information about physical volumes
+  # pvscan          List all physical volumes
+  # segtypes        List available segment types
+  # tags            List tags defined on this host
+  # vgcfgbackup     Backup volume group configuration(s)
+  # vgcfgrestore    Restore volume group configuration
+  # vgchange        Change volume group attributes
+  # vgck            Check the consistency of volume group(s)
+  # vgconvert       Change volume group metadata format
+  # vgcreate        Create a volume group
+  # vgdisplay       Display volume group information
+  # vgexport        Unregister volume group(s) from the system
+  # vgextend        Add physical volumes to a volume group
+  # vgimport        Register exported volume group with system
+  # vgmerge         Merge volume groups
+  # vgmknodes       Create the special files for volume group devices in /dev
+  # vgreduce        Remove physical volume(s) from a volume group
+  # vgremove        Remove volume group(s)
+  # vgrename        Rename a volume group
+  # vgs             Display information about volume groups
+  # vgscan          Search for all volume groups
+  # vgsplit         Move physical volumes into a new or existing volume group
+  # version         Display software and driver version information
+```
+
+Display physical volumes
+
+```sh
+pvscan
+```
+
+To create a VG from 2 PVs (vgcreate) and then use lvcreate an LV then format the new LV as ext4 and mount.
+
+```sh
+# create the Volume Group from 2 Physical Volumes
+vgcreate example-vg /dev/sde4 /dev/sde5
+
+# create Logical Volume from Volume Group
+lvcreate -L 200G -n example-lv example-vg
+
+# Check output
+lvscan
+# example output
+# '/dev/example-vg/example-lv [200.00 GiB] inherit
+
+# Format Logical Volume as ext4
+mkfs -t ext4 /dev/example-vg/example-lv
+
+# Make directory for mount
+mkdir /mnt/example-logical-volume
+
+# Mount Logical Volume
+mount /dev/example-vg/example-lv /mnt/example-logical-volume
+```
 
 to format an exFAT partition use mkexfatfs / mkfs.exfat
 
