@@ -40,6 +40,17 @@ Discard all local changes to all files permanently
 git reset --hard
 ```
 
+## Add existing local project to remote repository
+
+```sh
+# set the new remote
+git remote add origin <remote-repo-url>
+# verify the remote repository
+git remote -v
+# push the changes to remote
+git push origin master
+```
+
 ## Rebase master branch
 
 To stash current changes and rebase master
