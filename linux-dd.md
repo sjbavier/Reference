@@ -10,6 +10,8 @@ To create an image
 
 ```sh
 dd if=/dev/sda of=/home/garbo.img bs=4096 # bs bytes to copy at a single time
+dd if=/dev/sda of=/dev/sdb status=progress bs=64K conv=noerror,sync
+# byte size 64Kb no error for error safety with status
 ```
 
 Restoring from image is simply the reverse
