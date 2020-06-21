@@ -30,6 +30,7 @@ jobs
 jobs -l # long format
 
 # place current or specified job in background
+# also can resume a process running in background
 bg %<job-id>
 
 # bring current or specified job into the foreground

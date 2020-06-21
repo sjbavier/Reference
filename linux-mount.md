@@ -15,7 +15,7 @@ mkdir /tmp/
 mount -t vfat /dev/sda3 /tmp # mount automatically detects filesystem type, but you may need to specify on occassion using -t
 ```
 
-If you mount a device over an existing directory the existing files are not lost but cannot be seen until the device is unmounted
+If you moqqunt a device over an existing directory the existing files are not lost but cannot be seen until the device is unmounted
 
 Mount options can be specified using -o.  Remounting commands will not be successful if any processes or files/directories are open
 

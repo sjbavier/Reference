@@ -46,6 +46,16 @@ Fix a broken installation
 apt --fix-broken install
 ```
 
+Fix a MergeList problem
+
+```sh
+# remove the lists
+rm -r /var/lib/apt/lists/*
+# generate new
+apt-get clean && apt-get update
+```
+
+
 Get information on package ( not necessarily installed )
 
 ```sh
