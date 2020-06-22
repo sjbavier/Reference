@@ -6,7 +6,7 @@ Traditionally formatted into 512 byte sectors, the sectors on a disk platter can
 
 Limitations on the sizes of cylinders, heads and sectors used with DOS operating systems resulted in BIOS translating geometry values so that larger hard drives could be supported but this eventually these were insufficient.
 
-More recent developments in disk technology have led to logical block addressing (LBA) and a more modern format GUID partitio table GPT is being used instead of MBR.
+More recent developments in disk technology have led to logical block addressing (LBA) and a more modern format GUID partition table GPT is being used instead of MBR.
 
 Displaying MBR partitions with fdisk and parted
 
@@ -50,7 +50,6 @@ parted /dev/sdb
 #  3      252786688s  375631871s  122845184s  primary  ext3
 #  4      375647895s  488392064s  112744170s  primary  ext4
 ```
-
 
 ## GPT partitions
 
@@ -191,7 +190,75 @@ mkdir /mnt/example-logical-volume
 mount /dev/example-vg/example-lv /mnt/example-logical-volume
 ```
 
-to format an exFAT partition use mkexfatfs / mkfs.exfat
+## Partitioning a disk
+
+**note never make changes to a partition that is in use.**
+
+### using **fdisk**
+
+fdisk allows you to edit partition tables in memory and then write them when you are ready to commit 'w' you may always type 'q' if you need to exit without writing changes.  Use 'v' to verify partion changes before committing.
+
+```sh
+fdisk /dev/<name-of-disk> #such as /dev/sda
+# m for help lists:
+# Command (m for help): m
+# Command action
+#    a   toggle a bootable flag
+#    b   edit bsd disklabel
+#    c   toggle the dos compatibility flag
+#    d   delete a partition
+#    l   list known partition types
+#    m   print this menu
+#    n   add a new partition
+#    o   create a new empty DOS partition table
+#    p   print the partition table
+#    q   quit without saving changes
+#    s   create a new empty Sun disklabel
+#    t   change a partition's system id
+#    u   change display/entry units
+#    v   verify the partition table
+#    w   write table to disk and exit
+#    x   extra functionality (experts only)
+```
+
+partition numbers should go in order of their respective sectors (but not always).  The type 't' is used to define teh filesystem type.
+
+### using **gdisk**
+
+gdisk offers similar options as fdisk (MBR) for GPT.
+
+```sh
+gdisk /dev/<name-of-disk>
+# Command (? for help): ?
+# b    back up GPT data to a file
+# c    change a partition's name
+# d    delete a partition
+# i    show detailed information on a partition
+# l    list known partition types
+# n    add a new partition
+# o    create a new empty GUID partition table (GPT)
+# p    print the partition table
+# q    quit without saving changes
+# r    recovery and transformation options (experts only)
+# s    sort partitions
+# t    change a partition's type code
+# v    verify disk
+# w    write table to disk and exit
+# x    extra functionality (experts only)
+# ?    print this menu
+```
+
+### using **parted**
+
+parted can be used for either MBR or GPT disks, one difference is that it executes its subcommands immediately and updates partition tables as you go.
+
+```sh
+parted /dev/<name-of-disk>
+```
+
+type 'help' to get a list of commands and 'help command' to get help on a particular command
+
+using a subcommand of **parted** to format an exFAT partition use mkexfatfs / mkfs.exfat
 
 ```sh
 mkfs.exfat /dev/sdc1
