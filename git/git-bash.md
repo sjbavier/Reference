@@ -1,12 +1,19 @@
 # Working with Git
 
+## Configuring git
+
+Configure username and email globally
+
+```sh
+git config --global user.name "<username>"
+git config --global user.email "<email>"
+```
+
 Initialize git within current directory
 
 ```sh
 git init
 ```
-
-## Configuring git
 
 ## Working with branches
 
