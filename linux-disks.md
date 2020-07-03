@@ -1,5 +1,7 @@
 # Working with disks
 
+## Checking directory sizes
+
 To view largest directories on system
 
 ```sh
@@ -26,3 +28,18 @@ du -hs * | sort -rh | head -5
 
 du -Sh | sort -rh | head -5
 ```
+
+## Evaluating disk integrity
+
+**note:** the systemboot process uses fsck -A upon startup to check the root filesystem
+
+Using fsck
+
+```sh
+ls /sbin/fsck
+# /sbin/btrfsck  /sbin/fsck         /sbin/fsck.ext3     /sbin/fsck.msdos
+# /sbin/dosfsck  /sbin/fsck.cramfs  /sbin/fsck.ext4     /sbin/fsck.vfat
+# /sbin/e2fsck   /sbin/fsck.ext2    /sbin/fsck.ext4dev  /sbin/fsck.xfs
+```
+
+
