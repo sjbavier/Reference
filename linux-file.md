@@ -1,5 +1,24 @@
 # Working with files
 
+## File Types
+
+```sh
+# example
+ls -al
+# -l long format -a all files including hidden
+drwxr-xr-x     5 <user-owner>  <group-owner>        160 Nov  7  2019 <directory>
+# first character 'd' for directory other types are
+-   regular file
+d   directory
+b   block device
+c   character device
+l   symbolic link
+p   named pipe
+s   socket
+```
+
+## Basic file commands
+
 Display detailed information about a file
 
 ```sh
@@ -53,3 +72,48 @@ find -type f -exec du -Sh {} + | sort -rh | head -n 5
    # head : Output the first part of files.
 
 ```
+
+## Extended Attribute Types
+
+- security
+- system
+- user
+
+### Security attributes
+
+Get the SELinux security attributes
+
+```sh
+ls -Z
+# or recursive
+ls -RZ
+```
+
+#### Access control lists
+
+Set an ACL
+
+```sh
+setfacl -m <user>:<group>:rwx <file>
+```
+
+Get an ACL
+
+```sh
+getfacl -t <file>
+```
+
+### User attributes
+
+Change user attributes
+
+```sh
+chattr +i <file>
+```
+
+View extended user attributes
+
+```sh
+lsattr <file>
+```
+
