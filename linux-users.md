@@ -1,28 +1,6 @@
 # Reference for managing users and related groups
 
-What groups is a user in
-
-```sh
-groups <user>
-```
-
-Add a group
-
-```sh
-groupadd <group>
-```
-
-Changing file permissions [owner-group-everybody] r=4, w=2, x=1
-
-```sh
-chmod 644 <directory>
-```
-
-Changing file ownership
-
-```sh
-chown -R <user>:<group> <fileORdirectory>
-```
+## Users
 
 Adding users
 
@@ -44,6 +22,19 @@ Create or password for user [sudo]
 passwd <user>
 ```
 
+Get status of user
+
+```sh
+# this includes password locked info
+passwd -S <user>
+```
+
+Unlock user password
+
+```sh
+passwd -u <user>
+```
+
 Append a user group
 
 ```sh
@@ -53,6 +44,40 @@ usermod -aG wheel <user> # users in group wheel can run sudo commands
 # or on Centos edit /etc/sudoers using visudo
 visudo
 ```
+
+Show password expiration details
+
+```sh
+chage -l <user>
+```
+
+Lock a user
+
+```sh
+chage -E 0 <user>
+```
+
+Unlock a user
+
+```sh
+chage  -E -1 <user>
+```
+
+## Groups
+
+What groups is a user in
+
+```sh
+groups <user>
+```
+
+Add a group
+
+```sh
+groupadd <group>
+```
+
+## Etc User and Group locations
 
 The /etc/group file contains basic information about existing system and user groups
 
