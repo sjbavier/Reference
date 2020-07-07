@@ -160,11 +160,21 @@ lvm
   # version         Display software and driver version information
 ```
 
+### Physical Volumes
+
 Display physical volumes
 
 ```sh
 pvscan
 ```
+
+Create physical volumes
+
+```sh
+pvcreate <dev/sdb1>
+```
+
+### Logical Volumes Groups
 
 To create a VG from 2 PVs (vgcreate) and then use lvcreate an LV then format the new LV as ext4 and mount.
 
@@ -190,9 +200,81 @@ mkdir /mnt/example-logical-volume
 mount /dev/example-vg/example-lv /mnt/example-logical-volume
 ```
 
+Sometimes in order for the new logical volumes to show properly you may have to run vgchange
+
+```sh
+vgchange -ay
+```
+
+### Extend Volumes by adding Physical Volumes to Volume groups
+
+To extend a pvcreate(d) partition to an existing Logical Volume Group
+
+```sh
+# example adding /dev/sdc1 to existing VG
+vgextend <existing-VG-name> /dev/sdc1  
+```
+
+Next you must extend the existing Logical Volume
+
+```sh
+# to extend to 100% size
+lvresize -l 100%FREE /dev/<logical-group>/<logical-volume>
+# newer versions of lvresize allow you to skip the filesystem step below with -r
+lvresize -r -l 100%FREE /dev/<logical-group>/<logical-volume>
+```
+
+Verify extended size
+
+```sh
+lvs
+```
+
+Next you in the case of ext4 ( for xfs use xfs_growfs)
+
+```sh
+resize2fs /dev/<logical-group>/<logical-volume>
+```
+
+### Reduce Logical Volumes
+
+* note: requires **unmounting**
+
+First check the validity of the filesystem
+
+```sh
+e2fsck -ff /dev/<logical-group>/<logical-volume>
+```
+
+Reduce the filesystem by 500M
+
+```sh
+resize2fs /dev/<logical-group>/<logical-volume> 500M
+```
+
+Reduce the Logical Volume size
+
+```sh
+lvresize -L 500M /dev/<logical-group>/<logical-volume>
+# newer versions of lvresize allow you to skip the filesystem resize above
+lvresize -r -L 500M /dev/<logical-group>/<logical-volume>
+```
+
+Verify the reduced size
+
+```sh
+lvs
+```
+
 ## Partitioning a disk
 
 **note never make changes to a partition that is in use.**
+
+* After making partition changes you may have to use partprobe for the kernel to recognize changes in partition table
+
+```sh
+partprobe
+```
 
 ### using **fdisk**
 
