@@ -479,7 +479,7 @@ dump -0uf /path-of-backup/<file.dump> /dev/<logical-group>/<logical-volume>
 dump -0uf /path-of-backup/<file.dump> /dev/<logical-group>/<logical-volume> | ssh <user>@<host> "dd of=<file.dump>"
 ```
 
-restore the backup
+**restore** the backup
 
 ```sh
 # make sure the ext4 volume is formatted to the proper filesystem
