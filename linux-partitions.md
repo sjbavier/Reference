@@ -1,5 +1,29 @@
 # Formatting and partitioning
 
+## Common commands
+
+UUIDs can be displayed with blkid
+
+```sh
+blkid /dev/sda1
+```
+
+List block devices
+
+```sh
+lsblk
+```
+
+## Partitioning a disk
+
+**note never make changes to a partition that is in use.**
+
+* After making MBR or GPT partition changes you may have to use partprobe for the kernel to recognize changes in partition table
+
+```sh
+partprobe
+```
+
 ## MBR partitions
 
 Traditionally formatted into 512 byte sectors, the sectors on a disk platter can be read without moving the head constitute a track.  Disks usually have more than one platter and the collection of tracks on the various platters that can be read without moving the head is called a cylinder.
@@ -51,6 +75,35 @@ parted /dev/sdb
 #  4      375647895s  488392064s  112744170s  primary  ext4
 ```
 
+### using **fdisk**
+
+fdisk allows you to edit partition tables in memory and then write them when you are ready to commit 'w' you may always type 'q' if you need to exit without writing changes.  Use 'v' to verify partion changes before committing.
+
+```sh
+fdisk /dev/<name-of-disk> #such as /dev/sda
+# m for help lists:
+# Command (m for help): m
+# Command action
+#    a   toggle a bootable flag
+#    b   edit bsd disklabel
+#    c   toggle the dos compatibility flag
+#    d   delete a partition
+#    l   list known partition types
+#    m   print this menu
+#    n   add a new partition
+#    o   create a new empty DOS partition table
+#    p   print the partition table
+#    q   quit without saving changes
+#    s   create a new empty Sun disklabel
+#    t   change a partition's system id
+#    u   change display/entry units
+#    v   verify the partition table
+#    w   write table to disk and exit
+#    x   extra functionality (experts only)
+```
+
+partition numbers should go in order of their respective sectors (but not always).  The type 't' is used to define teh filesystem type.
+
 ## GPT partitions
 
 GPT supports up to 128 partitions by default. GPT disks do not have the concept of geometry as MBR disks do and were designed for use with a UEFI-based (Unified Extensible Firmware Interface) system rather than BIOS.
@@ -89,7 +142,45 @@ parted -l
 #  3      4510MB  32.1GB  27.6GB  ext4
 ```
 
-## Logical Volume Manager
+### using **gdisk**
+
+gdisk offers similar options as fdisk (MBR) for GPT.
+
+```sh
+gdisk /dev/<name-of-disk>
+# Command (? for help): ?
+# b    back up GPT data to a file
+# c    change a partition's name
+# d    delete a partition
+# i    show detailed information on a partition
+# l    list known partition types
+# n    add a new partition
+# o    create a new empty GUID partition table (GPT)
+# p    print the partition table
+# q    quit without saving changes
+# r    recovery and transformation options (experts only)
+# s    sort partitions
+# t    change a partition's type code
+# v    verify disk
+# w    write table to disk and exit
+# x    extra functionality (experts only)
+# ?    print this menu
+```
+
+### using **parted**
+
+parted can be used for either MBR or GPT disks, one difference is that it executes its subcommands immediately and updates partition tables as you go.
+
+```sh
+parted /dev/<name-of-disk>
+```
+
+type 'help' to get a list of commands and 'help command' to get help on a particular command
+
+using a subcommand of **parted** to format an exFAT partition use mkexfatfs / mkfs.exfat
+
+
+## **LVM**: Logical Volume Manager
 
 With LVM as an abstract management of disk space a single filesystem can span multiple disks allowing easy manipulation of adding or removing space from filesystems
 
@@ -160,12 +251,13 @@ lvm
   # version         Display software and driver version information
 ```
 
-### Physical Volumes
+### **PV**: Physical Volumes
 
 Display physical volumes
 
 ```sh
 pvscan
+pvs
 ```
 
 Create physical volumes
@@ -174,7 +266,14 @@ Create physical volumes
 pvcreate <dev/sdb1>
 ```
 
-### Logical Volumes Groups
+### **LG**: Logical Volume Groups
+
+Display Logical Volume Groups
+
+```sh
+vgscan
+vgs
+```
 
 To create a VG from 2 PVs (vgcreate) and then use lvcreate an LV then format the new LV as ext4 and mount.
 
@@ -188,7 +287,7 @@ lvcreate -L 200G -n example-lv example-vg
 # Check output
 lvscan
 # example output
-# '/dev/example-vg/example-lv [200.00 GiB] inherit
+# /dev/example-vg/example-lv [200.00 GiB] inherit
 
 # Format Logical Volume as ext4
 mkfs -t ext4 /dev/example-vg/example-lv
@@ -206,7 +305,25 @@ Sometimes in order for the new logical volumes to show properly you may have to 
 vgchange -ay
 ```
 
-### Extend Volumes by adding Physical Volumes to Volume groups
+## **LV**: Logical Volumes
+
+Display logical volumes
+
+```sh
+lvscan
+lvs
+```
+
+## Moving partition data
+
+using **pvmove**
+
+```sh
+# move data from sdc1 to sdd1
+pvmove /dev/sdc1 /dev/sdd1
+```
+
+### **Extend** Volumes by adding Physical Volumes to Volume groups
 
 To extend a pvcreate(d) partition to an existing Logical Volume Group
 
@@ -230,13 +347,13 @@ Verify extended size
 lvs
 ```
 
-Next you in the case of ext4 ( for xfs use xfs_growfs)
+Next you in the case of ext4 ( for xfs use xfs_growfs) resize the filesystem
 
 ```sh
 resize2fs /dev/<logical-group>/<logical-volume>
 ```
 
-### Reduce Logical Volumes
+### **Reduce** Logical Volumes
 
 * note: requires **unmounting**
 
@@ -266,83 +383,14 @@ Verify the reduced size
 lvs
 ```
 
-## Partitioning a disk
+### Reduce Volume Group Volumes
 
-**note never make changes to a partition that is in use.**
-
-* After making partition changes you may have to use partprobe for the kernel to recognize changes in partition table
+Remove a LV from a LG
 
 ```sh
-partprobe
+# remove sdc1 from VG
+vgreduce <volume-group-name> /dev/sdc1
 ```
-
-### using **fdisk**
-
-fdisk allows you to edit partition tables in memory and then write them when you are ready to commit 'w' you may always type 'q' if you need to exit without writing changes.  Use 'v' to verify partion changes before committing.
-
-```sh
-fdisk /dev/<name-of-disk> #such as /dev/sda
-# m for help lists:
-# Command (m for help): m
-# Command action
-#    a   toggle a bootable flag
-#    b   edit bsd disklabel
-#    c   toggle the dos compatibility flag
-#    d   delete a partition
-#    l   list known partition types
-#    m   print this menu
-#    n   add a new partition
-#    o   create a new empty DOS partition table
-#    p   print the partition table
-#    q   quit without saving changes
-#    s   create a new empty Sun disklabel
-#    t   change a partition's system id
-#    u   change display/entry units
-#    v   verify the partition table
-#    w   write table to disk and exit
-#    x   extra functionality (experts only)
-```
-
-partition numbers should go in order of their respective sectors (but not always).  The type 't' is used to define teh filesystem type.
-
-### using **gdisk**
-
-gdisk offers similar options as fdisk (MBR) for GPT.
-
-```sh
-gdisk /dev/<name-of-disk>
-# Command (? for help): ?
-# b    back up GPT data to a file
-# c    change a partition's name
-# d    delete a partition
-# i    show detailed information on a partition
-# l    list known partition types
-# n    add a new partition
-# o    create a new empty GUID partition table (GPT)
-# p    print the partition table
-# q    quit without saving changes
-# r    recovery and transformation options (experts only)
-# s    sort partitions
-# t    change a partition's type code
-# v    verify disk
-# w    write table to disk and exit
-# x    extra functionality (experts only)
-# ?    print this menu
-```
-
-### using **parted**
-
-parted can be used for either MBR or GPT disks, one difference is that it executes its subcommands immediately and updates partition tables as you go.
-
-```sh
-parted /dev/<name-of-disk>
-```
-
-type 'help' to get a list of commands and 'help command' to get help on a particular command
-
-using a subcommand of **parted** to format an exFAT partition use mkexfatfs / mkfs.exfat
-
-## Creating filesystems
 
 ### Using mkfs and mkswap for creating filesystems
 
@@ -402,8 +450,21 @@ mkswap /dev/sdc2
 # instead they use swapon
 ```
 
-UUIDs can be displayed with blkid
+## Fixing filesystems
+
+using **fsck** to check filesystems
 
 ```sh
-blkid /dev/sda1
+# check all filesystems
+fsck -A
+# check all filesystems except root
+fsck -AR
+# checks filesystems even if they are clean
+fsck -f
+# fix safe problems automatically
+fsck -a
+# answers yes to all questions
+fsck -y
+# answers no, just displays results
+fsck -n
 ```
