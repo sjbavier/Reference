@@ -209,7 +209,7 @@ lvm
   # lvdisplay       Display information about a logical volume
   # lvextend        Add space to a logical volume
   # lvmchange       With the device mapper, this is obsolete and does nothing.
-  # lvmdiskscan     List devices that can be used as physical volumes
+  # lvmdiskscan     List devices t`hat can be used as physical volumes
   # lvmsadc         Collect activity data
   # lvmsar          Create activity report
   # lvreduce        Reduce the size of a logical volume
@@ -467,4 +467,26 @@ fsck -a
 fsck -y
 # answers no, just displays results
 fsck -n
+```
+
+## Creating backup of ext filesystem
+
+using **dump**
+
+```sh
+dump -0uf /path-of-backup/<file.dump> /dev/<logical-group>/<logical-volume>
+# or pipe to remote server
+dump -0uf /path-of-backup/<file.dump> /dev/<logical-group>/<logical-volume> | ssh <user>@<host> "dd of=<file.dump>"
+```
+
+restore the backup
+
+```sh
+# make sure the ext4 volume is formatted to the proper filesystem
+mkfs -t ext4 /dev/<logical-group>/<logical-volume>
+# mount
+mount /dev/<logical-group>/<logical-volume> /media/restore
+# run restore
+restore -rf /path-of-backup/<file.dump> /media/restore
+# you may have to edit /etc/fstab to match the logical volume before rebooting
 ```
