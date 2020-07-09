@@ -82,6 +82,8 @@ Locate searches a preexisting index (updated upon boot) to update
 updatedb
 ```
 
+## Compression using gzip, bz2 or xz
+
 To unzip .zip files use package unzip
 
 ```sh

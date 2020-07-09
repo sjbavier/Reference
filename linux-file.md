@@ -116,4 +116,3 @@ View extended user attributes
 ```sh
 lsattr <file>
 ```
-
