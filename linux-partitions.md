@@ -45,7 +45,7 @@ fdisk -l /dev/sdb
 # I/O size (minimum/optimal): 512 bytes / 512 bytes
 # Disklabel type: dos
 # Disk identifier: 0x000404d6
-# 
+
 # Device     Boot     Start       End   Sectors   Size Id Type
 # /dev/sdb1              63    401624    401562 196.1M 83 Linux
 # /dev/sdb2          401625 252786687 252385063 120.4G 83 Linux
@@ -61,13 +61,13 @@ parted /dev/sdb
 #     UNIT is one of: s, B, kB, MB, GB, TB, compact, cyl, chs, %, kiB, MiB,
 #         GiB, TiB
 # (parted) u s
-# (parted) p         
+# (parted) p
 # Model: ATA HDT722525DLA380 (scsi)
 # Disk /dev/sdb: 488397168s
 # Sector size (logical/physical): 512B/512B
 # Partition Table     : msdos
-# Disk Flags: 
-# 
+# Disk Flags:
+#
 # Number  Start       End         Size        Type     File system  Flags
 #  1      63s         401624s     401562s     primary  ext3
 #  2      401625s     252786687s  252385063s  primary  ext4
@@ -118,8 +118,8 @@ parted -l
 # Disk /dev/sda: 512GB
 # Sector size (logical/physical): 512B/512B
 # Partition Table  : gpt
-# Disk Flags: 
-# 
+# Disk Flags:
+#
 # Number  Start   End     Size    File system  Name                          Flags
 #  1      1049kB  1050MB  1049MB  ntfs         Basic data partition          hidden, diag
 #  2      1050MB  1322MB  273MB   fat32        EFI system partition          boot, hidden, esp
@@ -178,7 +178,6 @@ parted /dev/<name-of-disk>
 type 'help' to get a list of commands and 'help command' to get help on a particular command
 
 using a subcommand of **parted** to format an exFAT partition use mkexfatfs / mkfs.exfat
-
 
 ## **LVM**: Logical Volume Manager
 
