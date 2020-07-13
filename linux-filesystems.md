@@ -1,5 +1,15 @@
 # Working with filesystems in Linux
 
+**inodes:** describes a filesystem object that stores either a directory or file, each inode stores the attributes and disk block locations of the object's data
+
+**superblocks:** describes the filesystem metadata
+
+```sh
+# filesystem must be unmounted
+# display metadata about filesystem
+mke2fs -n /dev/sda3
+```
+
 ## Using mkfs and mkswap for creating filesystems
 
 mkfs comes with many different filesystem specific commands
@@ -58,9 +68,12 @@ mkswap /dev/sdc2
 # instead they use swapon
 ```
 
+---
+
 ## Fixing filesystems
 
 **note:** filesystems should be unmounted while checking
+running the inappropriate checker for filesystem type will lead to corruption!
 
 using **fsck** to check filesystems
 
@@ -79,6 +92,8 @@ fsck -y
 fsck -n
 ```
 
+---
+
 ## fstab
 
 Enables mounting options upon boot: **/etc/fstab**
@@ -95,12 +110,12 @@ Enables mounting options upon boot: **/etc/fstab**
 # <f1=block-device:UUID or Label>   <f2=mount-point>  <f3=file-system-type> <f4=options>  <f5=dump? 0=false 1=true>  <f6=passno? fsck root=1 other=2 n/a=0>
 ```
 
-Additional info on fstab
+Additional info on **fstab**
 
 - f1 Block Device:
-    - nfs mounts format: <host>:<dir> e.g. knuth.aeb.nl:/
-    - UUID format: UUID=<UUID>
-    - Label format: LABEL=<label>
+    - nfs mounts format: host:dir
+    - UUID format: UUID=UUID
+    - Label format: LABEL=label
 - f2 Mount:
     - swap partitions should be specified as 'none'
     - spaces need escaping as '\040'
@@ -143,3 +158,103 @@ mount /dev/<logical-group>/<logical-volume> /media/restore
 restore -rf /path-of-backup/<file.dump> /media/restore
 # you may have to edit /etc/fstab to match the logical volume before rebooting
 ```
+
+---
+
+## Displaying usage information
+
+**df** command
+
+```sh
+# display filesystem information including -T type
+df -T
+# display information in human readable -h
+df -Th
+# for information about inodes
+df -i
+```
+
+**du** disk usage
+
+```sh
+# summary includes .hidden files
+du -s <directory>
+# for multiple directories -c total, -h human readable
+du -ch *
+# -s summary, -c total, -h human readable
+du -chs .
+```
+
+To view largest directories on system
+
+```sh
+du -a | sort -n -r | head -n 5
+
+   # du command: Estimate file space usage.
+   # a : Displays all files and folders.
+   # sort command : Sort lines of text files.
+   # -n : Compare according to string numerical value.
+   # -r : Reverse the result of comparisons.
+   # head : Output the first part of files.
+   # -n : Print the first ‘n’ lines. (In our case, We displayed first 5 lines).
+
+du -hs * | sort -rh | head -5
+
+   # du command: Estimate file space usage.
+   # -h : Print sizes in human readable format (e.g., 10MB).
+   # -S : Do not include size of subdirectories.
+   # -s : Display only a total for each argument.
+   # sort command : sort lines of text files.
+   # -r : Reverse the result of comparisons.
+   # -h : Compare human readable numbers (e.g., 2K, 1G).
+   # head : Output the first part of files.
+
+du -Sh | sort -rh | head -5
+```
+
+---
+
+### Tools for ext2, ext3 and ext4
+
+**tune2fs** for ext filesystems
+
+Display filesystem info including block count and whether it is journaled
+
+```sh
+# -l for list
+tune2fs -l /dev/sdc4
+```
+
+**tune2fs**
+Adjusts parameters on ext2 and ext3 filesystems. Use this to add a journal to an ext2 system, making it an ext3 system, as well as display or set the maximum number of mounts before a check is forced. You can also assign a label and set or disable various optional features.
+
+**dumpe2fs**
+Prints the super block and block group descriptor information for an ext2 or ext3 filesystem.
+
+**debugfs**
+Is an interactive filesystem debugger. Use it to examine or change the state of an ext2 or ext3 filesystem.
+
+### Tools for XFS
+
+**xfs_info** for XFS
+
+Display filesystem information
+
+```sh
+xfs_info /dev/sdc5
+```
+
+**xfs_info**
+Displays XFS filesystem information.
+
+**xfs_growfs**
+Expands an XFS filesystem (assuming another partition is available).
+
+**xfs_admin**
+Changes the parameters of an XFS filesystem.
+
+**xfs_repair**
+Repairs an XFS filesystem when the mount checks are not sufficient to repair the system.
+
+**xfs_db**
+Examines or debugs an XFS filesystem.

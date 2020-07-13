@@ -24,6 +24,8 @@ lsblk
 partprobe
 ```
 
+---
+
 ## MBR partitions
 
 Traditionally formatted into 512 byte sectors, the sectors on a disk platter can be read without moving the head constitute a track.  Disks usually have more than one platter and the collection of tracks on the various platters that can be read without moving the head is called a cylinder.
@@ -104,6 +106,8 @@ fdisk /dev/<name-of-disk> #such as /dev/sda
 
 partition numbers should go in order of their respective sectors (but not always).  The type 't' is used to define teh filesystem type.
 
+---
+
 ## GPT partitions
 
 GPT supports up to 128 partitions by default. GPT disks do not have the concept of geometry as MBR disks do and were designed for use with a UEFI-based (Unified Extensible Firmware Interface) system rather than BIOS.
@@ -178,6 +182,8 @@ parted /dev/<name-of-disk>
 type 'help' to get a list of commands and 'help command' to get help on a particular command
 
 using a subcommand of **parted** to format an exFAT partition use mkexfatfs / mkfs.exfat
+
+---
 
 ## **LVM**: Logical Volume Manager
 
