@@ -67,6 +67,9 @@ Find the route packets take to a network host
 ```sh
 traceroute <ip-address>
 traceroute <domain>
+# use tcp datagrams
+tcptraceroute <ip-address>
+tcptraceroute <domain>
 ```
 
 For insight into network usage
