@@ -60,6 +60,8 @@ mkswap /dev/sdc2
 
 ## Fixing filesystems
 
+**note:** filesystems should be unmounted while checking
+
 using **fsck** to check filesystems
 
 ```sh
@@ -76,6 +78,49 @@ fsck -y
 # answers no, just displays results
 fsck -n
 ```
+
+## fstab
+
+Enables mounting options upon boot: **/etc/fstab**
+
+```sh
+# filesystem              mount point                               type    options      dump pass
+# UUID=2f60a3b4‑ef6c‑4d4c‑9ef4‑50d7f75124a2 /                       ext3    defaults        1 1
+# UUID=3c3de27e‑779a‑44d5‑ad7a‑61c5fd03d9e7 /grubfile               ext3    defaults        1 2
+# tmpfs                                     /dev/shm                tmpfs   defaults        0 0
+# devpts                                    /dev/pts                devpts  gid=5,mode=620  0 0
+# sysfs                                     /sys                    sysfs   defaults        0 0
+# proc                                      /proc                   proc    defaults        0 0
+
+# <f1=block-device:UUID or Label>   <f2=mount-point>  <f3=file-system-type> <f4=options>  <f5=dump? 0=false 1=true>  <f6=passno? fsck root=1 other=2 n/a=0>
+```
+
+Additional info on fstab
+
+- f1 Block Device:
+    - nfs mounts format: <host>:<dir> e.g. knuth.aeb.nl:/
+    - UUID format: UUID=<UUID>
+    - Label format: LABEL=<label>
+- f2 Mount:
+    - swap partitions should be specified as 'none'
+    - spaces need escaping as '\040'
+- f3 FS type:
+    - see /proc/filesystems for all supported types
+- f4 Options:
+    - A comma separated list of options see **mount** or **swapon**
+    - defaults: rw, suid, dev, exec, auto, nouser, async
+    - noauto: do not mount when 'mount -a' is given
+    - user: allow user to mount
+    - owner: allow device owner to mount
+    - comment: or x-<name> for fstab-maintaining programs
+    - nofail: do not report errors if this device does not exist
+- f5 Dump:
+    - determine which filesystems need to be **dump** 0=false 1=true
+- f6 Passno:
+    - determine which filesystems are checked at boot
+    - root should be specified as '1'
+    - other filesystems as '2'
+    - no field present is assumed as '0' meaning no checking with fsck
 
 ## Creating backup of ext filesystem
 
