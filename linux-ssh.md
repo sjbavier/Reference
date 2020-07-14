@@ -81,6 +81,8 @@ vim /etc/ssh/sshd_conf # make sure to add your public key to authorized_keys fil
 PasswordAuthentication no
 ```
 
+---
+
 ## SSH tunneling
 
 ### Local Forwarding
