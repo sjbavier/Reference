@@ -1,3 +1,17 @@
+# Working in Bash
+
+- Grouping commands with {}
+
+- Starting subshells with ()
+
+- Use "" to prevent oddities
+
+- Use [[]] for conditionals in modern bash
+
+- In case statements ;; ;;& and ;& differences
+
+- Using ; && and ||
+
 ## Some samples of common scripts
 
 Search a directory for any files with spaces and replace with underscores
@@ -8,12 +22,10 @@ echo "which directory would you like to check?"
 read directory
 find $directory -type f | while read file; do
 if [[ "$file" = *[[:space:]]* ]]; then
-mv "$file" `echo $file | tr ' ' '_'`
+   mv "$file" `echo $file | tr ' ' '_'`
 fi;
 done
 ```
-
-## Working in shell
 
 ### Order of bootup **login** shell
 
@@ -26,7 +38,7 @@ User environment and shell variables
 ~/.bashrc
 
 Centos Only - systemwide aliases and shell functions
-/etc/bashrc 
+/etc/bashrc
 
 Change shell to zsh
 
