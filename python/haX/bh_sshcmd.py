@@ -3,6 +3,8 @@ import paramiko
 import subprocess
 import sys
 
+# Usage: this script simply connects to an ssh server and executes a given command
+
 def ssh_command(ip, ssh_port, user, passwd, command):
     
     # create the ssh client using paramiko library
@@ -34,6 +36,8 @@ def ssh_command(ip, ssh_port, user, passwd, command):
 # incorportate CLI arguments            
 server = sys.argv[1]
 ssh_port = int(sys.argv[2])
-command = sys.argv[3]
+user = sys.argv[3]
+passwd = sys.argv[4]
+command = sys.argv[5]
 
-ssh_command(server, ssh_port , 'userA', 'passwd', command)
+ssh_command(server, ssh_port , user, passwd, command)

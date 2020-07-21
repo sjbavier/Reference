@@ -3,6 +3,10 @@ import paramiko
 import subprocess
 import sys
 
+# This script pairs with the bh_sshserver
+# This client will connect with the server and wait for commands
+# from the server to execute client-side
+
 def ssh_command(ip, port, user, passwd, command):
     
     # create the ssh client using paramiko library
