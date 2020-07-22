@@ -25,44 +25,6 @@ journalctl
 journalctl | grep filename.php | grep -v error
 ```
 
-Get the status of a service
-
-```sh
-systemctl status <service>
-```
-
-Stop a service
-
-```sh
-systemctl stop <service>
-```
-
-Force a service to load on system startup
-
-```sh
-systemctl enable <service>
-```
-
-Remove a service from system startup
-
-```sh
-systemctl disable <service>
-```
-
-Restart a service
-
-```sh
-systemctl restart <service>
-```
-
-Scan for active services
-
-```sh
-systemctl list-unit-files --type=service --state=enabled
-systemctl list-unit-files -at service
-# for all services
-```
-
 Change shell
 
 ```sh
