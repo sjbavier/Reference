@@ -148,14 +148,29 @@ Monotonic timer settings
 Description=System backup every day at 2AM
 
 [Timer]
-OnActiveSec 
-OnBootSec # Sec after booting
-OnStartSec # Sec after systemd starts
-OnUnitActiveSec
-OnUnitInactiveSec
-RandomizedDelaySec
+OnActiveSec # relative to moment timer is activated
+OnBootSec # relative to when system booted
+OnStartSec # relative to when systemd started
+OnUnitActiveSec # relative to when the unit timer was activated
+OnUnitInactiveSec # relative to when the unit timer was deactived
+RandomizedDelaySec # random amount of time when to start the service to spread load out
 
 Unit=<service>.service
 
 [Install]
 WantedBy=multi-user.target
+```
+
+MonoTonic timer example:
+
+```console
+[Unit]
+Description=Run script weekly on boot
+
+[Timer]
+OnBootSec=15min # runs 15min after boot
+OnUnitActiveSec=1w # runs once a week
+
+[Install]
+WantedBy=timers.target
+```
