@@ -140,3 +140,22 @@ Unit=<service>.service
 [Install]
 WantedBy=multi-user.target
 ```
+
+Monotonic timer settings
+
+```console
+[Unit]
+Description=System backup every day at 2AM
+
+[Timer]
+OnActiveSec 
+OnBootSec # Sec after booting
+OnStartSec # Sec after systemd starts
+OnUnitActiveSec
+OnUnitInactiveSec
+RandomizedDelaySec
+
+Unit=<service>.service
+
+[Install]
+WantedBy=multi-user.target
