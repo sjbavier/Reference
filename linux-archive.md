@@ -1,10 +1,5 @@
 # Collection of snippets for archiving filesystems in linux
 
-To display partitions currently mounted on a linux system **running df on lxc container shows only partitions associated with LXC host**
-
-```sh
-df -h # -h flag dictates a human readable byte format
-```
 
 To copy to a tar archive all files
 

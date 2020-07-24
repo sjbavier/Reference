@@ -1,6 +1,24 @@
 # Working with logs
 
-Syslogd and the newer journald
+**Syslogd** (legacy) and the newer **journald** (systemd)
+
+Modern **systemd** systems use:
+
+Rsyslog
+
+- compatible with sysklogd
+- persistent logs
+- logs are text files
+- can log remotely
+
+Journald
+
+- notpersistent by default
+- logs are binary
+- logged to RAM
+- very fast
+
+---
 
 ## Journald
 
@@ -62,6 +80,14 @@ mkdir -p /var/log/journal
 systemd-tmpfiles --create --prefix /var/log/journal # using systemd-tmpfiles to direct log traffic
 ```
 
+You may add messages to the log by using **logger**
+
+```sh
+logger "message"
+```
+
+---
+
 ## Syslogd
 
 By default syslogd handles log rotation. The log rotation configs can be accessed in [/etc/logrotate.conf]
@@ -104,7 +130,9 @@ Listing the config for apt log for example
 }
 ```
 
-## Sifting through logs
+---
+
+## filtering logs
 
 Using grep and before and after flags to gather information on auth failures
 
