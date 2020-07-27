@@ -20,7 +20,35 @@ Journald
 
 ---
 
+## Rsyslog (2004 - )
+
+- backward compatible with sysklogd
+- timestamps with millisecond granulatiry and time zones
+- name of relays in the host fields to track the message path
+- supports TCP, GSS-API and TLS
+- logging directly into database engines
+- supports RELP
+- support for buffered operation modes
+- complete input/output support for systemd journal
+- rich filtering and content-based filtering
+- default in Red Hat Enterprise 5+, Debian and Ubuntu
+
+| filename | purpose                                                           |
+|----------|-------------------------------------------------------------------|
+| auth.log | System authentication and security events                         |
+| boot.log | A record of boot-related events                                   |
+| dmesg    | kernel-ring buffer events related to device drivers               |
+| dpkg.log | software package-management events                                |
+| kern.log | linux kernel events                                               |
+| syslog   | a collection of all logs                                          |
+| wtmp     | tracks user sessions (accessed through the who and last commands) |
+
+---
+
 ## Journald
+
+- stored in /var/run
+- /var/run is in RAM
 
 Basic log output
 
@@ -61,24 +89,48 @@ Time constraints
 journalctl --since 15:15:00 --until 15:52:00
 ```
 
-| filename | purpose                                                           |
-|----------|-------------------------------------------------------------------|
-| auth.log | System authentication and security events                         |
-| boot.log | A record of boot-related events                                   |
-| dmesg    | kernel-ring buffer events related to device drivers               |
-| dpkg.log | software package-management events                                |
-| kern.log | linux kernel events                                               |
-| syslog   | a collection of all logs                                          |
-| wtmp     | tracks user sessions (accessed through the who and last commands) |
+Check the size of the journal directory
+
+```sh
+journalctl --disk-usage
+```
 
 Setting explicit limits on how journald stores log information [/etc/systemd/journal.conf] [SystemMaxUse=] [RuntimeMaxUse=]
 
-For setting up persistent logs using journald ( each time a machine is restarted it will erase temp logs otherwise)  
+### Persistent journald
+
+For setting up **persistent** logs using journald ( each time a machine is restarted it will erase temp logs otherwise)  
 
 ```sh
 mkdir -p /var/log/journal
 systemd-tmpfiles --create --prefix /var/log/journal # using systemd-tmpfiles to direct log traffic
 ```
+
+Cleaning up old journals
+
+```sh
+# clear journals older than 30 days
+journalctl --vacuum-time=30d
+# clear older journals when they've reached a size
+journalctl --vacuume-size=1G
+# clear all but 2 journal files
+journalctl --vacuum-files=2
+```
+
+To use journalctl to read a different directory (perhaps one from a backup after system crash)
+
+```sh
+# read by directory
+journalctl --directory=<directory>
+# or by file
+journalctl --file=<file-path>
+
+# alternatively you may mount the recovered /var/log/journal directory on top of existing
+# and merge them
+journalctl -m
+```
+
+---
 
 You may add messages to the log by using **logger**
 
@@ -88,7 +140,12 @@ logger "message"
 
 ---
 
-## Syslogd
+## Syslogd (1980 - )
+
+- specifies a message
+- can log to remote servers over UDP
+- does not have congestion control
+- protocol became the de facto standard
 
 By default syslogd handles log rotation. The log rotation configs can be accessed in [/etc/logrotate.conf]
 
