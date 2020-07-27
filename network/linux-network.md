@@ -3,6 +3,9 @@
 Change hostnames and modify [/etc/hosts]
 
 ```sh
+# systemd's api for standardizing
+hostnamectl set-hostname <new-hostname>
+# old way
 hostname <new-hostname>
 ```
 
