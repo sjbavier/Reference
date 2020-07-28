@@ -77,6 +77,8 @@ Download the package to current directory but do not install
 apt-get download <package>
 ```
 
+---
+
 Get information on a .deb package
 
 ```sh
@@ -113,6 +115,8 @@ Get status on a package
 dpkg -s <package>
 ```
 
+---
+
 ### Troubleshooting
 
 Fix a broken installation
@@ -129,6 +133,8 @@ rm -r /var/lib/apt/lists/*
 # generate new
 apt-get clean && apt-get update
 ```
+
+---
 
 ### Removing packages
 
@@ -153,6 +159,8 @@ To purge configuration information
 apt purge <package>
 ```
 
+---
+
 ### Upgrading
 
 After running apt update use upgrade to update all packages on your system
@@ -169,6 +177,8 @@ Upgrade all packages and possibly remove packages due to conflicts
 ```sh
 apt full-upgrade
 ```
+
+---
 
 ### Reconfiguring packages
 
@@ -189,6 +199,8 @@ Check the status of a package with dpkg
 ```sh
 dpkg -s <package>
 ```
+
+---
 
 ### Distro upgrades
 
@@ -231,6 +243,8 @@ Put it all together
 ```sh
 do-release-upgrade -d -m desktop
 ```
+
+---
 
 ## yum (centos/redhat)
 
@@ -304,6 +318,8 @@ Which package requires another package
 ```sh
 rpm -q --requires <package>
 ```
+
+---
 
 ### Using yum
 

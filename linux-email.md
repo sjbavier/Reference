@@ -29,6 +29,8 @@ Downloading Mail from MTA
 - Mailbox
   - where user mail is stored
 
+---
+
 Email structure
 
 - Sender's ID
@@ -36,6 +38,8 @@ Email structure
 - Destination email address
 - Subject line
 - Message data
+
+---
 
 ## Simple Mail Transfer Protocol (SMTP)
 
@@ -57,6 +61,8 @@ Email structure
   - 57% of market share (~2019)
   - long history of security vulnerabilities
   - lots of configuration options and easy to configure
+
+---
 
 ## Postfix
 
@@ -131,7 +137,9 @@ mail
 <number>
 ```
 
-### Aliases
+---
+
+### Aliases and Forwarding
 
 Edit **/etc/aliases**
 
