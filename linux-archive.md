@@ -1,6 +1,5 @@
 # Collection of snippets for archiving filesystems in linux
 
-
 To copy to a tar archive all files
 
 ```sh

@@ -23,6 +23,8 @@ telnet <ip/addr> <port> # ctrl+]
 # telnet>'close' or 'q' to quit
 ```
 
+---
+
 ## Netstat
 
 To display open ports and established TCP connections
