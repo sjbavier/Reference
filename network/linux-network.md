@@ -270,7 +270,76 @@ iwlist <device> scan | grep \(Channel
 
 ## DNS configuration
 
-configuration files reside in **/etc/resolv.conf**
+configuration files reside in:
+
+- **/etc/resolv.conf**
+  - first column [search. domain, nameserver, sortlist, options]
+- **/etc/nsswitch.conf**
+
+### **resolv.conf**
+
+```conf
+# example: when looking up "test" it would try to resolve
+# test.localnet.com test.domain1.com test.domain2.com
+search localnet.com domain1.com domain2.com # up to 6 domains
+# it defaults to your local domain name if not included
+
+# if localnet.com is our local domain name, we can change the lookup order to try
+# otherdomain.com first: test.otherdomain.com test.localnet.com [...]
+domain otherdomain.com
+
+# to specify nameservers to query up to three in order
+nameserver 8.8.8.8
+nameserver 4.2.2.2
+nameserver 192.168.8.20
+
+# sort list allows you to sort ip addresses certain networks up to 10 subnet pairs
+sortlist 130.155.160.0/255.255.240.0
+
+# options to include
+options rotate # queries in a round robin to spread load
+options timeout: 5 # number of seconds
+options attempts: 2 # number of attempts as name resolution
+```
+
+**note:** resolv.conf is a global configuration file, device specific DNS configurations are in the /etc/sysconfig/network-scripts directory and if you include the PEERDNS=yes option in your NIC configuration it will get copied to the /etc/resolv/conf automatically
+
+### **nsswitch.conf**
+
+Used for determining which sources to get name service information from [aliases, ethers, group, hosts, initgroups, netgroups, networks, passwd, protocols, publickey, rpc, services, shadow]
+
+```conf
+# for specifying the order in which to resolve hosts
+# this will resolve the /etc/hosts file first then dns second in /etc/resolv.conf
+hosts: files dns
+```
+
+### Systemd Resolvd
+
+using backward compatibility with resolv.conf
+
+```sh
+# symlink
+ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
+
+systemctl start systemd-resolved
+systemctl enable systemd-resolved
+
+```
+
+Or configure with systemd-networkd configuration files
+
+### DNS tools
+
+nslookup
+
+```sh
+nslookup <domain>
+```
+
+### dig
+
+customizations can be created in ~/.digrc
 
 using dig and a specific DNS server to resolve
 
@@ -279,10 +348,48 @@ using dig and a specific DNS server to resolve
 dig @8.8.8.8 <domain>
 ```
 
-Also can use nslookup
+Only show the answer section with dig
 
 ```sh
-nslookup <domain>
+dig <domain> +nocomments +noquestion +noauthority +noadditional +nostats
+# or turn off all and then bring back the answer
+dig <domain> +noall +answer
+```
+
+To get the mail record
+
+```sh
+dig <domain> MX +noall +answer
+```
+
+To get the nameserver
+
+```sh
+dig <domain> NS +noall +answer
+```
+
+To get all records
+
+```sh
+dig <domain> ANY +noall +noanswer
+```
+
+To get a concise answer (good for scripting) in this case IP only
+
+```sh
+dig <domain> +short
+```
+
+For a reverse lookup that will give the DNS server (default)
+
+```sh
+dig -X <ip-address> +short
+```
+
+To use a file to run queries (line-separated)
+
+```sh
+dig -f <file-location> +noall +answer
 ```
 
 ---
@@ -302,6 +409,19 @@ arp -n
 ---
 
 ### Netstat
+
+Show services listening on network ports
+
+```sh
+netstat -ltup
+# -l listening on network ports
+# -t TCP ports
+# -u UDP ports
+# -p print
+
+# for numeric instead of protocol names add -n
+netstat -ltup -n
+```
 
 To display open ports and established TCP connections
 
