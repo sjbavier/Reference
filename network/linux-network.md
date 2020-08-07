@@ -501,6 +501,8 @@ tcpdump -i eth0 # -i to specify interface
 tcpdump -i eth0 -c 5 --n port 22 -vv # -c is count --n to specify port -vv very verbose
 tcpdump -nn tcp # specify protocol to intercept packets
 tcpdump -i eth0 -nn tcp -w packet-record -s 0 # -w write output to file, -s specify bytes per packet 0 is whole packet
+# show only source and destination IPs, requires gawk
+tcpdump -i eth0 -n -c 5 ip | awk '{ print gensub(/(.*)\..*/,"\\1","g",$3), $4, gensub(/(.*)\..*/,"\\1","g",$5) }'
 ```
 
 ---
