@@ -1,8 +1,8 @@
 # Working with devices
 
-udev is responsible for dynamic device management needed for hot plugging devices
+udev is responsible for dynamic device management needed for hot plugging devices.
 Information about configured and active devices can be found in /dev virtual filesystem.
-When a device is added the kernel sends an even to systemd-udevd.service daemon.
+When a device is added the kernel sends an event to systemd-udevd.service daemon.
 udev rules are defined in /usr/lib/udev/rules.d and local rules in /etc/udev/rules.d
 Configure udev using the /etc/udev/udev.conf file
 

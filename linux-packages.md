@@ -65,10 +65,18 @@ apt info <package>
 
 ### Adding packages
 
+Check the version of a package that will be installed
+
+```sh
+apt-cache policy <package>
+```
+
 Install a package
 
 ```sh
 apt install <package>
+# install a particular version of a package
+apt install <package>=<version>
 ```
 
 Download the package to current directory but do not install

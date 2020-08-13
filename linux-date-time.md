@@ -177,7 +177,6 @@ configurations are found in **/etc/chrony.conf**
 
 Make sure ntp is installed, started and enabled by default, firewalls may have to be modified
 
-
 ```sh
 yum install ntp
 systemctl start ntpd.service
