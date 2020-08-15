@@ -42,6 +42,18 @@ Export the database
 mysqldump --user=<user> --password=<password> <name-of-database> > <database-file.sql>
 ```
 
+Create a user
+
+```mysql
+CREATE USER '<user>' IDENTIFIED BY '<password>';
+```
+
+Set or change a password
+
+```sh
+SET PASSWORD FOR '<user>' = '<password>';
+```
+
 Import from mysqldump
 
 ```mysql
