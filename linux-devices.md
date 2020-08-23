@@ -6,14 +6,15 @@ When a device is added the kernel sends an event to systemd-udevd.service daemon
 udev rules are defined in /usr/lib/udev/rules.d and local rules in /etc/udev/rules.d
 Configure udev using the /etc/udev/udev.conf file
 
-Process of attaching a device
-    -device is attached
-    -kernel populates information in /sys
-    -udev receives a device event from kernel
-    -udev reads rules in /etc/udev/rules.d
-    -udev creates device nodes in /dev
-    -udev notifies dbus
-    -operating systems act upon these notifications
+Process of attaching a device:
+
+- device is attached
+- kernel populates information in /sys
+- udev receives a device event from kernel
+- udev reads rules in /etc/udev/rules.d
+- udev creates device nodes in /dev
+- udev notifies dbus
+- operating systems act upon these notifications
 
 listing devices on /dev
 
