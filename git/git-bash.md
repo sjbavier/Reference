@@ -47,6 +47,12 @@ Discard all local changes to all files permanently
 git reset --hard
 ```
 
+Abort a merge
+
+```sh
+git merge --abort
+```
+
 ## Add existing local project to remote repository
 
 ```sh
