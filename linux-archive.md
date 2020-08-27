@@ -12,10 +12,14 @@ To copy to a tar archive all files including hidden files beginning with .
 tar cvf archive-name.tar .
 ```
 
-For further compression add the z
+For further compression add the z for gzip
 
 ```sh
 tar czvf archive.tar.gz *.mp4 # compresses all .mp4 extension files
+# compress with bzip2
+tar czjf archive.tar.bz2
+# compress with xz
+tar czJf archive.tar.xz
 ```
 
 To split a tar archive into 1G chunks
