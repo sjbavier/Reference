@@ -24,7 +24,7 @@ class IP(Structure):
             ("dst",         c_ulong),
             ]
 
-    def __new__(self, socker_buffer=None):
+    def __new__(self, socket_buffer=None):
         return self.from_buffer_copy(socket_buffer)
 
     def __init__(self, socket_buffer=None):
@@ -41,6 +41,24 @@ class IP(Structure):
             self.protocol = self.protocol_map[self.protocol_num]
         except:
             self.protocol = str(self.protocol_num)
+
+
+class ICMP(Structure):
+
+    _fields_ = [
+            ("type",        c_ubyte),
+            ("code",        c_ubyte),
+            ("checksum",    c_ushort),
+            ("unused",      c_ushort),
+            ("next_hop_mtu",    c_ushort)
+            ]
+
+    def __new__(self, socket_buffer):
+        return self.from_buffer_copy(socket_buffer)
+
+
+    def __init__(self, socket_buffer):
+        pass
 
 # check for OS and bind socket to public interface
 # Windows will allow the sniffing of all protocols
@@ -76,44 +94,21 @@ try:
         # print out the protocol that was detected and the hosts
         print("Protocol: %s %s -> %s" % (ip_header.protocol, ip_header.src_address, ip_header.dst_address))
 
+        # get the ICMP packets
+        if ip_header.protocol == "ICMP":
+            # calculate where our ICMP packet starts
+            offset = ip_header.ihl * 4
+            buf = raw_buffer[offset:offset + sizeof(ICMP)]
+
+            # create our ICMP structure
+            icmp_header = ICMP(buf)
+
+            print("ICMP -> Type: %d Code: %d" % (icmp_header.type, icmp_header.code))
+
 # handle CTRL-C
 except KeyboardInterrupt:
 
+    print("stopping ICMP sniff")
     # if using Windows turn off promiscuous mode
     if os.name == "nt":
         sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)
-
-
-
-class ICMP(Structure):
-
-    _fields_ = [
-            ("type",        c_ubyte),
-            ("code",        c_ubyte),
-            ("checksum",    c_ushort),
-            ("unused",      c_ushort),
-            ("next_hop_mtu",    c_ushort)
-            ]
-
-    def __new__(self, socket_buffer):
-        return self.from_buffer_copy(socket_buffer)
-
-
-    def __init__(self, socket_buffer):
-        pass
-
-    print("Protocol: %s %s -> %s" % (ip_header.protocol, ip_header.src_address))
-
-    # get the ICMP packets
-    if ip_header.protocol == "ICMP":
-        # calculate where our ICMP packet starts
-        offset  ip_header.ihl * 4
-        buf = raw_buffer[offset:offset + sizeof(ICMP)]
-
-        # create our ICMP structure
-        icmp_header = ICMP(buf)
-
-        print("ICMP -> Type: %d Code: %d" % (icmp_header.type, icmp_header.code))
-
-
-
