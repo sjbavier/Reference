@@ -10,6 +10,12 @@
 - Permissions support group owner inheritance
 - Supports default file permissions
 
+| permission | file                                | directory                                                  |
+|------------|-------------------------------------|------------------------------------------------------------|
+| read       | can open and read content of a file | can list files present in a directory but cannot read file |
+| write      | user can modify contents of a file  | user can add or delete files in directory                  |
+| execute    | user can run executable files       | user can use 'cd' command to traverse the directory        |
+
 ## Basic Permissions Commands
 
 Changing file permissions [owner-group-everybody] r=4, w=2, x=1
@@ -79,7 +85,15 @@ umask
 - 2   -   SGID
 - 1   -   Sticky
 
+| id     | file                                                       | directory                                                       |
+|--------|------------------------------------------------------------|-----------------------------------------------------------------|
+| SUID   | run program as the owner of the file                       | -                                                               |
+| SGID   | assign authority to run program as group owner of the file | all files created beneath the directory inherit group ownership |
+| Sticky | -                                                          | only file owner can delete the file                             |
+
 ### SUID
+
+**note:** you are never recommended to use SUID in routine administration
 
 Check if SUID is set
 
@@ -120,6 +134,8 @@ Check if SGID is set
 #  s - means that the owner Execute SUID bit is set
 ```
 
+**note:** when an "l" appears in the groups execute field it indicates that the setgid bit is on and the execute permission is denied
+
 When SGID bit is set the user executes the command as the group owner
 
 ```sh
@@ -137,14 +153,21 @@ find / -perm -2000
 
 ### Sticky bit
 
-Sticky bit is used for keeping users from removing other peoples files/directories for multiple user directories
+Sticky bit is used for keeping users from removing other peoples files/directories for multiple user directories.  Even if the directory has a permission 777 and the sticky bit is set, other users cannot delete files.
 
 Check if Sticky bit is set
 
 ```sh
 # example
 -rwxr-xr-t. 1  user  group  43243 Aug   2  2017  /home/example
-#                      ^----------- user executes as group owner screen
-#  t - sticky bit is set
-#  T - sticky bit is unset
+#        ^----------- t - users can execute
+#  t - sticky bit is set (users can execute)
+#  T - sticky bit is unset (users cannot execute)
+```
+
+```sh
+chmod 1755 <directory>
+#     ^---------1 Sticky bit
+# or
+chmod o+t <directory>
 ```
