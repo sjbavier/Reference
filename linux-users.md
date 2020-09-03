@@ -126,6 +126,12 @@ What groups is a user in
 groups <user>
 ```
 
+Change user's primary group
+
+```sh
+newgrp <group>
+```
+
 Add a group
 
 ```sh

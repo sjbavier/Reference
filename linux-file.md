@@ -105,10 +105,21 @@ getfacl -t <file>
 
 ### User attributes
 
-Change user attributes
+Change user attributes on file
 
 ```sh
+# list attributes
+lsattr <file>
+# make file read-only
 chattr +i <file>
+# remove read-only
+chattr -i <file>
+# change permission to append only
+chattr +a <file>
+# remove permission for append only
+chattr -a <file>
+# recursively apply attributes, (read-only)
+chattr -R +i <directory>
 ```
 
 View extended user attributes
