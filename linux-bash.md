@@ -60,6 +60,13 @@ export VARIABLE=VALUE
 export -n VARIABLE
 ```
 
+Add a directory to PATH
+
+```sh
+# this is temporary unless added to .bashrc | .zshrc
+export PATH="<directory-to-add>:$PATH"
+```
+
 Shell variables
 
 ```sh
