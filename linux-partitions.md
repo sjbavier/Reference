@@ -104,7 +104,7 @@ fdisk /dev/<name-of-disk> #such as /dev/sda
 #    x   extra functionality (experts only)
 ```
 
-partition numbers should go in order of their respective sectors (but not always).  The type 't' is used to define teh filesystem type.
+partition numbers should go in order of their respective sectors (but not always).  The type 't' is used to define the filesystem type.
 
 ---
 
@@ -288,6 +288,10 @@ vgcreate example-vg /dev/sde4 /dev/sde5
 
 # create Logical Volume from Volume Group
 lvcreate -L 200G -n example-lv example-vg
+# -L sets a fixed size
+# or
+lvcreate -l 100%FREE -n example-lv example-vg
+# -l indicates percentage of the remaining space in the VG
 
 # Check output
 lvscan
