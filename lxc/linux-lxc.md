@@ -1,6 +1,58 @@
 # Working with LXC
 
+## Configuration
+
+For Red Hat or CentOS you'll need to install the EPEL repositories, in Debian/Ubuntu install lxc:
+
+```sh
+apt install lxc
+```
+
+Make sure that the current user has both a sub-uid and a sub-gid entry in /etc/[subuid](../linux-subid-subgid.md) and /etc/[subgid](../linux-subid-subgid.md)
+
+```sh
+cat /etc/subuid
+# output
+# <user>:100000:65536
+cat /etc/subgid
+# expected output
+# <user>:100000:65536
+# format
+# <user>:start:count
+```
+
+Create the ~/.config/lxc directory if it doesn't exist and copy the default /etc/lxc/default.conf
+
+Add the following lines to correspond with the sub-uid and sub-gid:
+
+```sh
+lxc.id_map = u 0 100000 65536
+lxc.id_map = g 0 100000 65536
+```
+
+Append the following to /etc/lxc/lxc-usernet, the first column is your username
+
+```conf
+<user> veth lxcbr0 10
+```
+
+Either reboot or log out the user then when logged in verify the **veth** driver is loaded
+
+```sh
+lsmod | grep veth
+```
+
+if no results type:
+
+```sh
+sudo modprobe veth
+```
+
+## Using LXC
+
 Creating a template using the [Ubuntu] template
+
+Containers are stored in ~/.local/share/lxc and /var/lib/lxc for root.
 
 ```sh
 lxc-create -n <container-name> -t ubuntu
@@ -55,6 +107,12 @@ Start the container in detached mode [-d] specifying the name of the container [
 
 ```sh
 lxc-start -d -n <container-name>
+```
+
+Start container in the foreground to debug [-F]
+
+```sh
+lxc-start -n <container-name> -F
 ```
 
 Stop an lxc container
