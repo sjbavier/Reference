@@ -88,6 +88,12 @@ Get the main page from an IPv6 web server:
 curl "http://[2001:1890:1112:1::20]/"
 ```
 
+Using resolve to curl a localhost with HTTPS with a mock DNS lookup
+
+```sh
+curl --resolve '<domain>:443:127.0.0.1' https://<domain>
+```
+
 Get a file from an SMB server:
 
 ```sh
