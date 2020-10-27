@@ -94,6 +94,12 @@ Using resolve to curl a localhost with HTTPS with a mock DNS lookup
 curl --resolve '<domain>:443:127.0.0.1' https://<domain>
 ```
 
+Use curl to get latency information
+
+```sh
+curl -w "dns_resolution: %{time_namelookup}, tcp_established: %{time_connect}, ssl_handshake_done: %{time_appconnect}, TTFB: %{time_starttransfer}\n" -o /dev/null -s "<url>"
+```
+
 Get a file from an SMB server:
 
 ```sh
