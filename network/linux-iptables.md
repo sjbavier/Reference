@@ -22,6 +22,8 @@ To list all existing rules
 iptables -L
 # verbose listing
 iptables -L -v
+# to list prerouting nat rules
+iptables -L -n -t nat
 ```
 
 To delete all of the rules
