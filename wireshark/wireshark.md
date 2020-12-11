@@ -21,7 +21,7 @@ tshark -D
 
 Capture traffic on specific interface, each packet is denoted by a number beginning at each line
 
-```
+```sh
 tshark -i <interface>
 # example
 tshark -i eth0
@@ -112,6 +112,31 @@ tshark -i <interface> port not <port-num> and not <port-num>
 tshark -i eth0 port not 53 and not 25
 ```
 
+| Specifier   | Description |
+| ----------- | ----------- |
+| host | 4 decimal digit dot separated IP address
+| net | a range of 4 decimal digit dot separate IP address
+| src net | from a range of IP addresses
+| dst | to a range of IP addresses
+| mask | to apply to IP address
+| arp | Address Resolution Protocol
+| ether proto | ethernet type field
+| ether dst | ethernet MAC address of destination
+| broadcast | broadcast message across the network
+| multicast | ethernet multicast packet
+| tcp portrange | TCP destination port number
+| tcp port | TCP port number
+| ip | all IPv4 traffic
+| pppoes | all PPPoE traffic
+| vlan | all VLAN traffic
+| port | TCP port number 
+
+| Operators | Description |
+| --------- | ----------- |
+| not | NOT the following |
+| and | logical AND of the two adjacent parameters |
+| or | logical OR of the two adjacent parameters |
+
 ## Saving to a file
 
 Check supported formats
@@ -123,7 +148,7 @@ tshark -F
 Save raw packet data (not text)
 
 ```sh
-tshark -i <interface> -w <file.pcapng>
+tshark -i <interface> -w <file.pcap>
 ```
 
 Save text by redirection
@@ -132,4 +157,61 @@ Save text by redirection
 tshark -i <interface> > file.txt
 ```
  
+## Reading from a file
+
+```sh
+tshark -r <file.pcap>
+```
+
+Yank the output using the -Y parameter
+
+```sh
+tshark -r <file.pcap> -Y ip.addr == 192.168.8.243
+```
+
+| Field | Description |
+| ----- | ----------- |
+| frame.time
+| frame.time relative | Relative packet time stamp
+| frame.len | Length of the packet
+| frame.protocols | Protocol to which the packet belongs
+| frame.number | Packet number in the data stream
+| eth.addr | 6 hex digit colon separated ethernet MAC address
+| eth.dst | 6 hex digit colon separated destination MAC address
+| ip.addr | 4 decimal digit dot separated IP address
+| ip.src | Sender’s IP address
+| ip.dst | Receiver’s IP address
+| ip.len | length of the IP packet
+| tcp.srcport | TCP source port
+| tcp.port | TCP port number
+| tcp.dstport | TCP destination port
+| udp.port | UDP port number
+| col.Info | Received packet’s content
+| http.response.code | HTTP response code number
+| && | logical AND
+| \|\| | logical OR
+| > | greater than
+| ≥ | greater or equal
+| < | less than
+| ≤ | less than or equal
+| == | equal to
+| ! | logical NOT
+
+## analysis
+
+use the -V flag to specify details of each packet
+
+```sh
+tshark -V
+```
+
+use the -O to specify a protocol
+
+```sh
+tshark -O icmp
+# to list protocols
+tshark -G protocols
+```
+
+
 
