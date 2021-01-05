@@ -18,6 +18,13 @@
     /tmp    # temporary files
 ```
 
+Documentation:  Examples of configurations can be found in **/usr/share/doc**
+
+```sh
+man <package>
+<command> --help
+```
+
 System Logs
 
 ```sh
@@ -44,7 +51,7 @@ Get information on memory (RAM and Swap)
 free -h # human readable
 ```
 
-Get stats on Swamp
+Get stats on Swap
 
 ```sh
 vmstat 30 4 # 4 readings in 30 second intervals
