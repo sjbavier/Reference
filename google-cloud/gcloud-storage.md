@@ -22,3 +22,23 @@ Make all files in a directory public readable
 # -m multi-threaded -R recursive -a all versions
 gsutil -m acl set -R -a public-read gs://<bucket-name>/<directory>
 ```
+
+## Version control
+
+To enable version control [https://cloud.google.com/storage/docs/using-object-versioning#gsutil]
+
+```sh
+gsutil versioning set on gs://<bucket-name>
+```
+
+To disable version control
+
+```sh
+gsutil versioning set off gs://<bucket-name>
+```
+
+Check versioning status
+
+```sh
+gsutil versioning get gs://<bucket-name>
+```
