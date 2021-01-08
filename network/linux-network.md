@@ -55,7 +55,7 @@ hostnamectl
 hostname
 ```
 
-Change hostnames and modify [/etc/hosts]
+Change hostnames and modify [/etc/hosts] - within /etc/hosts <ip-address> <name> <alias(es)>
 
 ```sh
 # systemd's api for standardizing
