@@ -64,3 +64,11 @@ Use find to see the directories containing the largest number of files
 #  . search within, -xdev remain within single file system, -type f object of type file, cut -d remove text identified by delimiter "/", -f 2 select second field found, sort lines of output, uniq -c count the lines, sort -n sort by numerical order
 find . -xdev -type f | cut -d "/" -f 2 | sort | uniq -c | sort -n
 ```
+
+Man pages are a great resource for utilities in Linux, for even more detailed info:
+
+```sh
+man <command>
+# great resource
+/usr/share/doc/
+```

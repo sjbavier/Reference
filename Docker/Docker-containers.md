@@ -161,7 +161,14 @@ Remove all containers
 docker rm $(docker ps -aq) # -a being all including stopped containers
 ```
 
+Run bash inside a running container
 
+```sh
+# get name of existing container
+docker ps
+# run execute bash inside container
+docker exec -it <container-name> /bin/bash
+```
 
 Log in to Docker registry (default is a public registry hub.docker.com)
 

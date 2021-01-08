@@ -6,6 +6,8 @@ Adding users
 
 ```sh
 useradd -m <user> # -m makes user a home directory
+# add a system account
+useradd -r <user>
 ```
 
 ---
@@ -139,6 +141,9 @@ groupadd <group>
 # add group by id
 groupadd -g <id> <group>
 # verify in /etc/group
+
+# create a system group
+groupadd -r <group> 
 ```
 
 Change group id with **groupmod**

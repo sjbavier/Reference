@@ -23,7 +23,7 @@ Journald
 ## Rsyslog (2004 - )
 
 - backward compatible with sysklogd
-- timestamps with millisecond granulatiry and time zones
+- timestamps with millisecond granularity and time zones
 - name of relays in the host fields to track the message path
 - supports TCP, GSS-API and TLS
 - logging directly into database engines

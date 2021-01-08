@@ -194,7 +194,7 @@ cut command extracts field from text, the default delimiter is a tab
 
 ```sh
 # extract field 1
-cut -f1 <file>
+cut -f 1 <file>
 
 # change delimiter to : and select fields 1 and 7q
 cut -d : -f 1,7 /etc/password
