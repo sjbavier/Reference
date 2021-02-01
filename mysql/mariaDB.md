@@ -36,6 +36,36 @@ Set root password? [Y/n]
 mysql_secure-installation
 ```
 
+## Configuration
+
+Default Settings and Descriptions
+
+| DEFAULT SETTINGS                  | DESCRIPTION                                                                                                                                                                                                                                                                                                                                                       |
+|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| datadir=/var/lib/mysql            | the directory where the data files are stored                                                                                                                                                                                                                                                                                                                     |
+| bind_address=0.0.0.0              | the address where the database server will listen for TCP/IP connections.  0.0.0.0 means it will listen on all IP addresses assigned to the host                                                                                                                                                                                                                  |
+| port=3306                         | port the database server will be listening                                                                                                                                                                                                                                                                                                                        |
+| innodb_buffer_pool_size=134217728 | memory in bytes that is allocated for the buffer pool (assuming using innoDB) for data and indexes that are accessed frequently                                                                                                                                                                                                                                   |
+| skip_name_resolve=0               | (boolean) indicates whether hostnames will be resolved or not on incoming connections. Setting to 1 will only use IP addresses. Some overhead if resolving hostnames will be incurred.                                                                                                                                                                            |
+| query_cache_size=0                | bytes allocated of disk space to store results of SELECT queries. IE 100M for 100 megabytes                                                                                                                                                                                                                                                                       |
+| max_connections=151               | the maximum number of simultaneous client connections to the server.  Each connection will consume a thread and thus memory.                                                                                                                                                                                                                                      |
+| thread_cache_size=0               | indicates the number of threads that a server allocates for reuse after a client disconnects and frees threads previously in use.  In this situation it is cheaper in performance to reuse a thread than to instantiate a new one, but this depends on number of connections we are expecting.  Typically it is safe to set as half of the max_connections value. |
+
+### Tuning configuration
+
+Using MYSQL Tuner
+
+```sh
+wget https://github.com/major/MySQLTuner-perl/tarball/master
+tar xzf master
+cd <major-MySQLTuner-perl>
+./mysqltuner.pl
+```
+
+This will output some helpful recommendations that can be explored
+
+## Basic commands
+
 Export the database
 
 ```mysql
