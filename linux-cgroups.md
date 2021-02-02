@@ -26,4 +26,3 @@ By default this is usually turned off as it consumes additional resources.  Acco
 ### Process control
 
 **freezer** is a utility that can 'freeze' a particular process and move it.  **tuned* lets you performance tune.
-
