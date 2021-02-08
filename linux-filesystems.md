@@ -113,29 +113,52 @@ Enables mounting options upon boot: **/etc/fstab**
 Additional info on **fstab**
 
 - f1 Block Device:
-    - nfs mounts format: host:dir
-    - UUID format: UUID=UUID
-    - Label format: LABEL=label
+  - nfs mounts format: host:dir
+  - UUID format: UUID=UUID
+  - Label format: LABEL=label
 - f2 Mount:
-    - swap partitions should be specified as 'none'
-    - spaces need escaping as '\040'
+  - swap partitions should be specified as 'none'
+  - spaces need escaping as '\040'
 - f3 FS type:
-    - see /proc/filesystems for all supported types
+  - see /proc/filesystems for all supported types
 - f4 Options:
-    - A comma separated list of options see **mount** or **swapon**
-    - defaults: rw, suid, dev, exec, auto, nouser, async
-    - noauto: do not mount when 'mount -a' is given
-    - user: allow user to mount
-    - owner: allow device owner to mount
-    - comment: or x-<name> for fstab-maintaining programs
-    - nofail: do not report errors if this device does not exist
+  - A comma separated list of options see **mount** or **swapon**
+  - defaults: rw, suid, dev, exec, auto, nouser, async
+  - noauto: do not mount when 'mount -a' is given
+  - user: allow user to mount
+  - owner: allow device owner to mount
+  - comment: or x-<name> for fstab-maintaining programs
+  - nofail: do not report errors if this device does not exist
 - f5 Dump:
-    - determine which filesystems need to be **dump** 0=false 1=true
+  - determine which filesystems need to be **dump** 0=false 1=true
 - f6 Passno:
-    - determine which filesystems are checked at boot
-    - root should be specified as '1'
-    - other filesystems as '2'
-    - no field present is assumed as '0' meaning no checking with fsck
+  - determine which filesystems are checked at boot
+  - root should be specified as '1'
+  - other filesystems as '2'
+  - no field present is assumed as '0' meaning no checking with fsck
+
+## Autofs
+
+The downside of mounting NFS is the system has to allocate necessary resources to keep the share mounted always.  Autofs was created to only mount the system 'on-demand' and unmount after a period of inactivity
+
+Autofs reads /etc/auto.master which contains the following format
+
+```conf
+# example /etc/auto.master
+<mount-point>       <map-file>
+# example
+/media/nfs          /etc/auto.nfs-share     --timeout=60
+```
+
+Continuing the example above, /etc/auto.master points to a file /etc/auto.nfs-share:
+
+```conf
+# this mounts the writeable fs to /media/nfs
+writeable_share -fstype=rw  192.168.0.10:/
+# this read-only share will be mounted to /media/nfs/read-only-dir
+non_writeable_share -fstype=ro  192.168.0.10:/read-only-dir
+```
+
 
 ## Creating backup of ext filesystem
 

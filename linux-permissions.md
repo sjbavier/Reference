@@ -79,6 +79,52 @@ umask
 # =   664 = default file permissions
 ```
 
+## Using ACLs
+
+Access Control Lists are a kernel feature that allow more fine-grained access rights to files or directories than the ugo/rwx permissions.
+
+To check if your filesystem supports ACLs (XFS does by default)
+
+```sh
+tune2fs -l /dev/<block-device> | grep "Default mount options:"
+# Default mount options: user_xattr acl 
+```
+
+There are two types of ACLs: access ACLs which are applied to files or directories and default (optional) ACLs which can only be applied to a directory.
+
+To see current ACL settings in a directory
+
+```sh
+getfacl <directory-or-file>
+```
+
+To add a permission to a file for a specific user:
+
+```sh
+setfacl -m u:<user>:rw <file>
+# -m for modify and rw for read/write permissions
+```
+
+To set a default ACL for a directory in this case 'read' for 'others'
+
+```sh
+setfacl -m d:o:r <directory>
+# -m for modify, d: directory, o: other, r read
+```
+
+To remove a specific ACL you can simply replace the -m for an -x
+
+```sh
+setfacl -x d:o <directory>
+# remove directory access to others
+```
+
+To remove all ACLs at once
+
+```sh
+setfacl -b <directory>
+```
+
 ## SUID, SGID and Sticky
 
 - 4   -   SUID

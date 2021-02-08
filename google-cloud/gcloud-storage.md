@@ -42,3 +42,31 @@ Check versioning status
 ```sh
 gsutil versioning get gs://<bucket-name>
 ```
+
+It is important to enable and configure Object Lifecycle Management with versioning [https://cloud.google.com/storage/docs/lifecycle]
+
+Getting lifecycle configuration
+
+```sh
+gsutil lifecycle get gs://<bucket-name>
+```
+
+Setting lifecycle configuration with JSON file
+
+```sh
+gsutil lifecycle set <configuration-json> gs://<bucket-name>
+```
+
+To disable lifecycle management for a bucket set an empty configuration file
+
+```sh
+gsutil lifecycle set <configuration-json> gs://<bucket-name>
+```
+
+```json
+{
+  "lifecycle": {
+    "rule": []
+  }
+}
+```
