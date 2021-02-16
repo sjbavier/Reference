@@ -10,12 +10,181 @@
 | route    | ip route                           |
 | iptunnel | ip tunnel                          |
 
+## Using ip command
+
+```sh
+ip <option> <object> <command | help>
+```
+
+---
+### INTERFACE INFORMATION
+
+Show all available interfaces (driver loaded)
+
+```sh
+ip link show
+```
+
+Show information about a particular interface
+
+```sh
+ip link show dev <interface>
+```
+
+Show statistics for network interfaces (transferred or dropped packets or errors)
+
+```sh
+# all interfaces
+ip -s link
+# particular interface
+ip -s link ls <interface>
+# even more information add another -s
+ip -s -s link ls <interface>
+```
+
+See only up interfaces
+
+```sh
+ip link ls up
+```
+
+---
+### MODIFY INTERFACE STATUS
+
+Bring an interface up or down
+
+```sh
+ip link set <interface> up
+ip link set <interface> down
+```
+
+Modify the transmit queue, to either speed up or slow down interfaces to reflect needs or hardware
+
+```sh
+ip link set txqueuelen <number> dev <interface>
+```
+
+Set MTU (maximum transmission unit) to improve network performance
+
+```sh
+ip link set mtu <number> dev <interface>
+```
+
+---
+### MANAGE/MODIFY IP ADDRESSES
+
 Get IP info
 
 ```sh
+# display for all interfaces
 ip addr
-# for a specific device
-ip addr show <device>
+# for a specific interface
+ip addr show <interface>
+ip addr show dev <interface>
+```
+
+List IPv4 addresses
+
+```sh
+ip -4 addr
+```
+
+List IPv6 addresses
+
+```sh
+ip -6 addr
+
+```
+
+Add IP address to interface
+
+```sh
+ ip addr add <ip-address> dev <interface>
+```
+
+Add a broadcast address to an interface
+
+```sh
+ip addr add brd <ip-address> dev <interface>
+```
+
+Remove an IP address from interface
+
+```sh
+ip addr del <ip-address> dev <interface>
+```
+
+---
+### MANAGE ROUTES
+
+List all routing entries
+
+```sh
+ip route
+ip route list
+# add SELECTOR object for specificity
+ip route list <selector>
+# <selector> =  [ root PREFIX ] [ match PREFIX ] [ exact PREFIX ] [ table TABLE_ID ] [ proto RTPROTO ] [ type TYPE ] [ scope SCOPE ]
+```
+
+To view routing for a distinct network
+
+```sh
+ip route list <ip-address>
+```
+
+Add new entry in routing table
+
+```sh
+ip route add <ip-address> dev <interface>
+```
+
+Add new route VIA gateway
+
+```sh
+ip route add <ip-address> via <gateway-ip>
+# add route for all adresses via the local gateway by adding default option
+ip route add default <ip-address> dev <device>
+ip route add default <network/mask> via <gateway-ip>
+```
+
+To delete an entry in the routing table
+
+```sh
+ip route del <ip-address>
+ip route del default
+ip route del <ip-address> dev <interface>
+```
+
+---
+
+### MANAGE/MODIFY IP NEIGHBORS
+
+Neighbor entries tie protocol addresses and link-layer addresses under the same link also called ARP tables
+
+Display neighbor tables
+
+```sh
+ip neigh show
+```
+
+OUTPUT shows MAC addresses of devices with their **state**:
+
+- REACHABLE – signifies a valid, reachable entry until the timeout expires
+- PERMANENT– signifies an everlasting entry that only an administrator can remove
+- STALE– signifies a valid, yet unreachable entry; to check its state, the kernel checks it at the first transmission
+- DELAY– signifies that the kernel is still waiting for validation from the stale entry
+
+Add new table entry
+
+```sh
+ip neigh add <ip-address> dev <interface>
+```
+
+Remove an ARP entry
+
+```sh
+ip neigh del <ip-address> dev <interface>
 ```
 
 ---
@@ -451,6 +620,24 @@ netstat -r
 
 ### ss
 
+Show all TCP ports open
+
+```sh
+ss -t -a
+```
+
+Display all active TCP Connections with their timers
+
+```sh
+ss -t -o
+```
+
+Check TCP connections by source port
+
+```sh
+ss -tn sport = :80
+# port 80 in this case
+```
 
 List all established ssh connections with ss
 
