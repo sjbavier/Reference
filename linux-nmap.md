@@ -12,6 +12,12 @@ To scan ports on a host when the host is possibly blocking ping probes
 nmap -Pn <host>
 ```
 
+Can also scan several ports and subnets
+
+```sh
+nmap -p 21,22,80 192.168.0.0/24
+```
+
 To scan open ports on a host
 
 ```sh
@@ -26,4 +32,10 @@ To enable OS and version detection, script scanning and traceroute -A and -T4 fo
 
 ```sh
 nmap -A -T4 <host>
+```
+
+Scan which ports are open, OS/version detection and -sS sends a TCP SYN scan preventing the 3-way TCP handshake typically leaving no logs
+
+```sh
+nmap -A -sS <host-or-IP>
 ```

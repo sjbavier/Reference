@@ -620,6 +620,24 @@ netstat -r
 
 ### ss
 
+Show all TCP ports open
+
+```sh
+ss -t -a
+```
+
+Display all active TCP Connections with their timers
+
+```sh
+ss -t -o
+```
+
+Check TCP connections by source port
+
+```sh
+ss -tn sport = :80
+# port 80 in this case
+```
 
 List all established ssh connections with ss
 
