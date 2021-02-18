@@ -113,7 +113,7 @@ Deprecated services:
 
 - google-accounts-daemon.service
 - google-clock-skew-daemon.service
-- google-nework-daemon.service
+- google-network-daemon.service
 - google-shutdown-scripts.service
 
 ### DEPRECATED PACKAGES
