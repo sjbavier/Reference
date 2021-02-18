@@ -102,3 +102,33 @@ SSH into Gcloud compute instance (after gcloud configuration)
 ```sh
 gcloud compute ssh "<instance-name>"
 ```
+
+## Google Virtual Machine Guest Environment
+
+Google comes with a number of services that come pre-installed on their images.  
+
+**note:** Upon updating Debian 9 to 10 issues were encountered with deprecated google service units being masked and empty service unit files.
+
+Deprecated services:
+
+- google-accounts-daemon.service
+- google-clock-skew-daemon.service
+- google-nework-daemon.service
+- google-shutdown-scripts.service
+
+### DEPRECATED PACKAGES
+
+Deprecated Package                   | Replacement
+------------------------------------ | ---------------------------------------------------------
+ `python-google-compute-engine`      | `google-guest-agent`
+ `python3-google-compute-engine`     | `google-guest-agent`
+`google-compute-engine-jessie`       | `google-compute-engine`
+`google-compute-engine-stretch`      | `google-compute-engine`
+`google-compute-engine-init`         | `google-compute-engine`
+`google-compute-engine-init-jessie`  | `google-compute-engine`
+`google-compute-engine-init-stretch` | `google-compute-engine`
+`google-config`                      | `google-compute-engine`
+`google-config-jessie`               | `google-compute-engine`
+`google-config-stretch`              | `google-compute-engine`
+`google-compute-daemon`              | `python-google-compute-engine`
+`google-startup-scripts`             | `google-compute-engine`
