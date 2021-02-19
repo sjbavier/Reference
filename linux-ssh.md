@@ -35,6 +35,12 @@ ssh with particular key
 ssh -i <location-of-key> <user>@<host>
 ```
 
+Remove a particular key from known hosts
+
+```sh
+ssh-keygen -R <hostname>
+```
+
 ## To ssh with graphic support you need to enable X11forwarding
 
 With the package ubuntu-desktop installed:
