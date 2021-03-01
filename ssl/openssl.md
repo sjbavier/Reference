@@ -6,6 +6,8 @@ Get a full list of standard commands
 openssl help
 ```
 
+---
+
 ## Basic file encryption
 
 List key algorithms for enc
@@ -28,6 +30,8 @@ Unencrypt a file using `enc`
 openssl enc -aes-256-cbc -d -pbkdf2 -in <encrypted-file>
 # this will prompt for the password
 ```
+
+---
 
 ## Public and Private keys
 
@@ -53,6 +57,8 @@ openssl pkeyutl -encrypt -in <input-file> -inkey <public-key.pem> -out <output-f
 openssl pkeyutl -decrypt -in <input-file> -inkey <private-key.pem> -out <output-file>
 ```
 
+---
+
 ## Digital Signatures
 
 Create a digest value (hash) of the information
@@ -74,6 +80,8 @@ Check validity of the signature
 ```sh
 openssl pkeyutl -verify -sigfile <signature> -in <digest> -inkey <public-key.pem>
 ```
+
+---
 
 ## Certificate Signing Requests
 
@@ -101,6 +109,8 @@ openssl x509 -in domain.crt -signkey <domain-private-key.key> -x509toreq -out do
 # -x509toreq is needed to define certificate type
 ```
 
+---
+
 ## Generating Self-Signed SSL Certificates
 
 Generate a self-signed certificate and private key
@@ -116,6 +126,8 @@ If you already have a private key and want to create a self-signed cert
 openssl req -key <domain-private-key.key> -new -x509 -days 365 -out <domain-crt.crt>
 # -new is necessar to denote new CSR from existing key
 ```
+
+---
 
 ## Viewing Certificates
 
@@ -136,6 +148,8 @@ To verify from a specific Certificate Authority
 ```sh
 openssl verify -verbose -CAFile <ca-crt.crt> <domain-crt-.crt>
 ```
+
+---
 
 ## Checking TLS connections
 
