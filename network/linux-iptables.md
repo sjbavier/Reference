@@ -1,6 +1,6 @@
 # Working with iptables
 
-Iptables is a firewall program for Linux hat monitors traffic from and to your server using tables comprised of rules called chains that filter ingress and egress datagrams.
+Iptables is a firewall program for Linux that monitors traffic from and to your server using tables comprised of rules called chains that filter ingress and egress datagrams.
 
 When a datagram matches a rule its is given a target which can be a chain or one of several special values:
 
@@ -36,9 +36,16 @@ To delete specific rules
 
 ```sh
 first show all rules with line numbers
-iptables -L --line-numbers
+iptables -nL -v --line-numbers
 # then use the -D option and the INPUT line-number # 3 in this case
 iptables -D INPUT 3
+```
+
+Inserting a rule in a specific position in the chain
+
+```sh
+# insert the following rule into position 2
+iptables -I INPUT 2 -p tcp --dport 80 -j ACCEPT
 ```
 
 Changes are only saved in memory, to survive a reboot you must use the following
@@ -59,11 +66,14 @@ iptables -A
 
 After the **-A** you can combine the following options:
 
-- **-i (interface)** - the network interface that you want to filter (eth0, lo(local), ppp0)
-- **-p (protocol)** - the network protocol where the filtering takes place (tcp, udp, udplite, icmp, sctp, icmpv6)
-- **-s (source)** - the address where the datagram comes from (hostname or IP)
-- **--dport (destination port)** - the destination port number
-- **-j (target)** - the target name (ACCEPT, DROP, RETURN), required for each rule
+- **-i (--in-interface)** - the network interface that you want to filter (eth0, lo(local), ppp0)
+- **-o (--out-interface)** - the output network interface
+- **-p (--protocol)** - the network protocol where the filtering takes place (tcp, udp, udplite, icmp, sctp, icmpv6)
+- **-s (--source)** - the address where the datagram comes from (hostname or IP)
+- **-d (--destination)** - address|network mask
+- **--state (preceded by -m state)** - manage packets depending on whether they are part of a state connection such as **NEW, ESTABLISHED, RELATED, INVALID**
+- **--dport (--destination-port)** - the destination port number
+- **-j (--jump)** - the target name (ACCEPT, DROP, RETURN), required for each rule
 - **-m (module)** - add a module for additional filtering power
 
 The order of rules should follow:
@@ -74,7 +84,7 @@ sudo iptables -A <chain> -i <interface> -p <protocol> -s <source> --dport <port>
 
 #### **Examples:**
 
-enable traffic on localhost, this will enable all communications on the localhost such as connections between a database and wep application on the same machine
+enable traffic on localhost, this will enable all communications on the localhost such as connections between a database and web application on the same machine
 
 ```sh
 iptables -A INPUT -i lo -j ACCEPT
@@ -101,6 +111,29 @@ filter traffic based on source
 iptables -A INPUT -s <IP|HOST> -j ACCEPT
 # drop traffic
 iptables -A INPUT -s <IP|HOST> -j DROP
+```
+
+Drop all ICMP packets
+
+```sh
+iptables -A INPUT --protocol icmp --in-interface eth0 -j DROP
+# short syntax
+iptables -A INPUT -p icmp -i eth0 -j DROP
+```
+
+Connect a proxy to the wild wild web assuming the proxy has 2 network interfaces
+
+```sh
+# eth0 faces the internet and eth0 lacal network
+# accept and forward traffic from eth1 to eth0 if on 192.168.8.0/24
+iptables -A FORWARD -o eth0 -i eth1 -s 192.168.8.0/24 -m conntrack --ctstate NEW -j ACCEPT
+# accept established or related connections
+iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+# substitute the source IP with the public one
+iptables -A POSTROUTING -t nat -j MASQUERADE
+# redirect requests from port 80/443 TCP to 3128 where proxy is listening
+iptables -t nat -A PREROUTING -i eth1 -s 192.168.8.0/24 -p tcp --dport 80,443 -j REDIRECT --to-port 3128
+# don't forget to configure clients to use the proxy as gateway
 ```
 
 adding the **-m (module)** option and additional modules for other options

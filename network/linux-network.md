@@ -90,10 +90,9 @@ ip -4 addr
 ```
 
 List IPv6 addresses
-
+              
 ```sh
 ip -6 addr
-
 ```
 
 Add IP address to interface
