@@ -39,7 +39,7 @@ gcloud config list --all
 ## Regions and Zones
 
 Certain Compute Engine resources live in regions or zones. Regions are geographical location which are divided into 1 or more zones.
-For example: **us-central1** is the zone and **us-central1-a** is the region.
+For example: **us-central1-a** is the zone and **us-central1** is the region.
 
 | Wester US  | Central US    | Eastern US    | Western Europe | Eastern Asia |
 |------------|---------------|---------------|----------------|--------------|
