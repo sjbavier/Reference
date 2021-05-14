@@ -119,3 +119,14 @@ Drop the stash
 ```sh
 git stash drop
 ```
+
+
+## Gitignore [.gitgnore]
+
+To remove files after they have been added, try clearing the cache. 
+
+```sh
+git rm --cached -r . 
+git add .
+git status
+```
