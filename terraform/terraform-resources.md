@@ -53,3 +53,27 @@ The reference informs Terraform that it has an **implicit dependency** that is m
 terraform graph
 ```
 
+## Resource Lifecycle events:
+
+Every Terraform resource supports lifecycle settings to configure how that resource is created, updated, and/or deleted.  A particularly useful one is **create_before_destroy** (boolean). Which inverts the instructions so that it creates the resources before removing the old ones.
+
+example:
+
+```tf
+resource "aws_launch_configuration" "example" {
+   image_id = "ami-0c55b159cbfafe1f0"
+   instance_type = "t2.micro"
+   security_groups = [aws_security_group.instance.id]
+
+   user_data = <<-EOF
+               #!/bin/bash
+               echo "Hello, World" > index.html
+               nohup busybox httpd -f -p ${var.server_port} &
+               EOF
+   # Required when using a launch configuration with an auto scaling group.
+   # https://www.terraform.io/docs/providers/aws/r/launch_configuration.html
+   lifecycle {
+      create_before_destroy = true
+   }
+}
+```
