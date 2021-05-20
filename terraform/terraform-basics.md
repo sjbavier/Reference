@@ -19,3 +19,9 @@ To apply the changes that terraform plan has deliniated:
 ```sh
 terraform apply
 ```
+
+To destroy your IAC **use with caution**:
+
+```sh
+terraform destroy
+```
