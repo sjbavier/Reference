@@ -67,6 +67,8 @@ terraform {
 }
 ```
 
+**Note: backend blocks cannot use variables or references!**
+
 ```tf
 terraform {
    backend "s3" {
@@ -81,8 +83,30 @@ terraform {
 }
 ```
 
-Then run terraform init
+The better way to allow for configuration in modules is to set a **backet-config** argument in the terraform init command
 
 ```sh
-terraform init
+terraform init -backend-config=backend.hcl
 ```
+
+Taking advantage of partial configurations.
+**backend.hcl**
+
+```tf
+bucket = "terraform-up-and-running-state"
+region = "us-east-2"
+dynamodb_table = "terraform-up-and-running-locks"
+encrypt = true
+```
+
+```tf
+# Partial configuration. The other settings (e.g., bucket, region) will be
+# passed in from a file via -backend-config arguments to 'terraform init'
+terraform {
+   backend "s3" {
+      key = "example/terraform.tfstate"
+   }
+}
+```
+
+Or use **Terragrunt** for backend configuration
