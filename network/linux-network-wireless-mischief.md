@@ -52,6 +52,8 @@ Output of second section:
 - Packets: number of packets sent by client
 - Probes: the network name the client is connecting to
 
+---
+
 ### Deauthenticating Clients
 
 Circumventing ESSID hiding (hidden network names):
@@ -69,10 +71,14 @@ aireplay-ng -0 1 -a00:14:6C:7E:40:80 -c 00:0F:B5:34:30:30 wlan1
 - -c 00:0F:B5:34:30:30 MAC address of client to be deauthenticated, if not provided then all stations are deauthenticated.
 - wlan1: network interface
 
+---
+
 ## DoS
+
 ### RF Jamming
 
 Involves overpowering the signal of a given AP and interferring with the radio frequency transmission.
+
 ### CSMA/CA Jamming (carrier sense multiple access with collision avoidance)
 
 In 802.11 networks using CSMA/CA a station prior to transmitting frames will send out an RTS to see if a collision has occurred, if another station is transmitting at the same time it will wait a random backoff time before attempting to re-transmit.
@@ -97,6 +103,8 @@ aireplay-ng -0 0 -a <AP-MAC> -c <Client-MAC-or-FF:-for-all> <interface>
 ### Wireless MITM (man in the middle)
 
 Using airbase-ng. TBD
+
+---
 
 ## WEP Encryption
 
@@ -141,6 +149,16 @@ aireplay-ng -5 -b <BSSID-Access-point> -h <client-MAC> <interface>
 - -h  00:0F:B5:AB:CB:9D: the MAC address of the associated client used to inject packets
 - wlan1: the wireless network interface name
 
+> **note:** Because WEP grants clients access based on a shared key, you could derive the keystream by sniffing the logon process.
+>
+> - (client) ==> authentication request (AP)
+> - (client) <== authentication challenge (AP)
+> - (client) ==> encryption challenge (AP)
+> - (client) <== authentication response (AP)
+>
+> When you sniff the challenge plaintext and encrypted version, then by XOR-ing the two strings (argument and output) the result will be the keystream.
+
+---
 
 ### Keystream reuse
 
