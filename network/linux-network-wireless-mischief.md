@@ -97,3 +97,50 @@ aireplay-ng -0 0 -a <AP-MAC> -c <Client-MAC-or-FF:-for-all> <interface>
 ### Wireless MITM (man in the middle)
 
 Using airbase-ng. TBD
+
+## WEP Encryption
+
+WEP encryption uses and intialization vector combined with a key then generates a pseudorandom keystream of bits using RC4, it is then XORed with the packet and CRC32 checksum to create the output.
+
+### Obtaining keystreams
+
+#### Chopchop
+
+The chopchop attack makes use of the birthday paradox involving probability theory to derive plaintext packets, by chopping appropriate bytes.  It begins by sniffing packets that are captured by a host, if captured it means the checksum is valid and makes use of the CRC32 checksum vulnerability.  As a linear function is used to calculate the CRC32 checksum the laws of mathematics allow CRC32(A+B) = CRC32(A) + CRC32(B).  Chop off the last byte in a valid frame, send an edited message to the Access Point and if the AP drops it this means your A is incorrect and needs to be recalculated with the CRC32 and a different value.  Since there are only 256 possible bytes each subsequent guesses probility for success looks like 1/256 + 1/255 + 1/254 ... with 50% success after 100 guesses.
+
+( data | A | CRC(data+ A))
+( data ) ( CRC(data + A) - CRC(A) )
+
+Using the aireplay-ng tool for a chopchop attack
+
+```sh
+aireplay-ng -4 -h 00:09:5B:EC:EE:F2 -b 00:14:6C:7E:40:80 wlan1
+aireplay-ng -4 -h <client-MAC> -b <BSSID/MAC-access-point> <interface>
+```
+
+- -4 identifies the chopchop attack
+- -h client MAC address
+- -b BSSID of access point
+- wlan1 wireless interface
+
+This may take some time, but the output will be a single decrypted packet and the keystream obtained.
+
+#### Fragmentation Attack
+
+In the layers of 802.11 protocol the Data Link Layer is split into two sublayers the LLC (Logical Link Control) and MAC (Media Access Control). The LLC header also includes another header called SNAP (Subnetwork Access Protocol). SNAP is of particular interest because it is placed at the start of the encrypted part and usually has fixed contents with the first 6 bytes in the header being identical while the next two-octet fields indicate either IP or ARP. Usually ARP packets are fixed in length and 36 bytes.  Using this deduction you can obtain the first eight bytes of a keystream.  Next you can divide the packet into 16 smaller fragments and since the packet was using the same keystream you can deduce the keystream (XOR the plaintext and ciphertext) and use the 8-byte subpackets.
+
+Using aireplay-ng to obtain the keystream
+
+```sh
+aireplay-ng -5 -b 00:14:6C:7E:40:80 -h 00:0F:B5:AB:CB:9D wlan1
+aireplay-ng -5 -b <BSSID-Access-point> -h <client-MAC> <interface>
+```
+
+- -5: identifies the fragmentation attack
+- -b 00:14:6C:7E:40:80: the BSSID, or the MAC address of the AP
+- -h  00:0F:B5:AB:CB:9D: the MAC address of the associated client used to inject packets
+- wlan1: the wireless network interface name
+
+
+### Keystream reuse
+
