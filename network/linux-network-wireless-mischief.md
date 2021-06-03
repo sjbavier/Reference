@@ -162,9 +162,11 @@ aireplay-ng -5 -b <BSSID-Access-point> -h <client-MAC> <interface>
 
 ### Keystream reuse
 
-A successfully long keystream enables you to inject a specially crafted packet that is next relayed by an access point.  There is also a way to receive packets.  The attack consists of redirecting all incoming and encrypted packets to a server outside the wireless network and having an AP decrypt the redirected messages.  The packet will consist of two fragments, an IP of a buddy server and the original message.  Compose the first fragment using a known vector and a corresponding keystream (with more fragments flag set) the other fragment is sent in origina form without altering the IV, the unsuspecting AP decrypts both valid packets, combines them and relays to target.  The buddy server now only needs to send the decrypted messages to the attacker over unencrypted channel and has the capacity to now both inject and receive packets.
+> The  fake  authentication  attack  occurs  when  you  use  a  keystream  (collected  earlier)  to  encrypt  a  challenge  text  sent  by  an  AP.  You  can  select  any  of  the  demonstrated techniques to obtain a keystream, or you can simply sniff  an  associated  client  logon  process.  When  you  know  a  logon  process,  you  know  the  challenge  plaintext  sent  by  an  AP,  and  you  have  its  encrypted  version,  too.  By  XOR-ing  the  two  strings  (the  argument and output), the result you get is a keystream. If the key and IV are not changed, the keystream value will be the same. When authenticating, simply submit the IV of a previously captured packet in  a  response  and  use  the  obtained  keystream. 
 
-Using packetforge-ng after generating keystream
+A successfully long keystream enables you to inject a specially crafted packet that is next relayed by an access point.  There is also a way to receive packets.  The attack consists of redirecting all incoming and encrypted packets to a server outside the wireless network and having an AP decrypt the redirected messages.  The packet will consist of two fragments, an IP of a buddy server and the original message.  Compose the first fragment using a known vector and a corresponding keystream (with more fragments flag set) the other fragment is sent in original form without altering the IV, the unsuspecting AP decrypts both valid packets, combines them and relays to target.  The buddy server now only needs to send the decrypted messages to the attacker over unencrypted channel and has the capacity to now both inject and receive packets.
+
+Using packetforge-ng after generating keystream to forge ARP packets:
 
 ```sh
 packetforge-ng -0 -a <AP-BSSID> -h <client-MAC> -k <IP-ARP> -l <IP-ARP-router> -y <keystream-file> -w <output-file>
@@ -202,7 +204,13 @@ aireplay-ng -3 -b <AP-BSSID> --h <client-MAC> <interface>
 
 - -3 parameter to make the application only process ARP requests
 
-Using the capture ARP requests and responses file we can use aircrack-ng to determine the key (PTW)
+### Finding keys
+
+FMS, KoreK attacks and PTW ( Fluhrer, Mantin and Shamir) attacks target RC4 applied to WEP which uses a 3 byte (24-bit) IV (Initialization Vector)concatenated with a key. By simulating the encryption process we can reconstruct the key byte by byte with a 5% chance to find the correct byte.
+
+The FMS attack  takes  from  4,000,000  to  6,000,000  packets  to  break  WEP.  The  enhanced  KoreK  needs  just  500,000  to  2,000,000  packets.  With  PTW  meanwhile  the  capture  of  40,000  packets  gives  you  approximately  a  50%  probability  of  finding  the  key,  and  if  you  have 85,000 packets, it goes up to 95%.
+
+Using the captured ARP requests and responses file we can use aircrack-ng to determine the key (PTW)
 
 ```sh
 aircrack-ng <packets.cap>
