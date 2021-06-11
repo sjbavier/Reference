@@ -5,13 +5,13 @@
 There are two options for storage:
 
 - use Terraform data source to read the secrets from a secret store such as AWS Secrets Manager.  Input the secrets using AWS Secrets Manager UI and read the secret back using:
-  -AWS Secrets Manager and the
-  - aws_secretsmanager_secret_version data source (shown in thepreceding code)
-  - AWS Systems Manager Parameter Store and theaws_ssm_parameter data source
-  - AWS Key Management Service (AWS KMS) and theaws_kms_secrets data source
-  - Google Cloud KMS and the google_kms_secret data source
-  - Azure Key Vault and the azurerm_key_vault_secret data source
-  - HashiCorp Vault and the vault_generic_secret data source
+
+  - **aws_secretsmanager_secret_version** data source (shown in thepreceding code)
+  - AWS Systems Manager Parameter Store and the **aws_ssm_parameter** data source
+  - AWS Key Management Service (AWS KMS) and the **aws_kms_secrets** data source
+  - Google Cloud KMS and the **google_kms_secret** data source
+  - Azure Key Vault and the **azurerm_key_vault_secret** data source
+  - HashiCorp Vault and the **vault_generic_secret** data source
 
 ```tf
 provider "aws" {
@@ -32,7 +32,7 @@ data "aws_secretsmanager_secret_version" "db_password" {
 }
 ```
 
-- use a option completely out of Terraform such as 1password, LastPass or OS X Keychain.
+- use an option completely out of Terraform such as 1password, LastPass or OS X Keychain.
 
 ```tf
 variable "db_password" {
