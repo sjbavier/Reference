@@ -43,11 +43,11 @@ module "<NAME>" {
 }
 ```
 
-> \<NAME\> is the identifier you can use to refer to the module e.g. web-service
-> \<SOURCE\> is the path where the module can be found e.g modules/services/webserver-cluster.
-> CONFIG consists of one or more arguments specific to the module
+> - \<NAME\> is the identifier you can use to refer to the module e.g. web-service
+> - \<SOURCE\> is the path where the module can be found e.g modules/services/webserver-cluster.
+> - CONFIG consists of one or more arguments specific to the module
 
-Continuing with the example code structure above, you can use the **modules/services/webserver-cluster/main.tf** module (see: [main.tf](/examples/terraform-up-and-running-code/code/terraform/04-terraform-module/module-example/modules/services/webserver-cluster/main.tf)) in your staging directory (utilizing state isolation via file layout) 
+Continuing with the example code structure above, you can use the **modules/services/webserver-cluster** module (see: [webserver-cluster](https://github.com/brikis98/terraform-up-and-running-code/tree/master/code/terraform/04-terraform-module/module-example/modules/services/webserver-cluster)) in your staging directory (utilizing state isolation via file layout) 
 
 example : **stage/services/webserver-cluster/main.tf** 
 
