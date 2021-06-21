@@ -1,5 +1,13 @@
 # Working with Git
 
+## Semantic Versioning
+
+Format MAJOR.MINOR.PATCH (eg. 1.0.6)
+
+- MAJOR version when you make incompatible API changes,
+- MINOR version when you add functionality in a backwardcompatible manner, and
+- PATCH version when you make backward-compatible bug fixes.
+
 ## Configuring git
 
 Configure username and email globally
@@ -63,6 +71,14 @@ git remote -v
 # push the changes to remote
 git push origin master
 ```
+
+## Add a git version tag
+
+```sh
+git tag -a "v0.0.1" first release of foo
+git push --follow-tags
+```
+
 
 ## Rebase master branch
 
