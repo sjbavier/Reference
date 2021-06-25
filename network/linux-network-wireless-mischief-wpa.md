@@ -62,3 +62,77 @@ aircrack-ng -w <dictionary.file> -0 <packet.cap>
 
 ### Rainbow tables
 
+Rainbow tables take advantage of the limited domain of hashes.  If you had try to compute a table storing all possible hashes for even a 64-bit function there woul be 2^64 possible hashes, each 64 bits (8 bytes) in size.  Overall,  it’s  2^64*23  B  =  257  KB  =  247  MB  =  237  GB  =  227  TB,  or  roughly  134  million  terabytes!  A  1  TB  hard  drive  costs  about  100  dollars, so to store your table you would need to cough up more than 13 billion.
+
+Rainbow tables include hash chains that represent many values but only store the starting and end points.  Due to this the precomputing of rainbow tables takes longer but storage space is saved, the longer the chain the less space needed.  [Project Rainbowcrack](http://project-rainbowcrack.com)
+
+The cowpatty attack uses a captured four-way handshake and uses a precomputed hash database.
+
+```sh
+cowpatty -s "<ESSID>" -r <captured-four-way.cap> -d <hash-file>
+# -s is the ESSID network name
+# -r name of the four-way handshake capture file
+# -d the name of the hashfile
+```
+
+Aircrack also has an attack (still under development)
+
+```sh
+aircrack-ng -r <hash-file> <captured-four-way.cap>
+# -r is the precomputed hashfile
+```
+
+Aircrack takes a different formatted hashfile from cowpatty but includes a converter
+
+```sh
+airolib-ng <export-hash-file> --import cowpatty <cowpatty-hash-file>
+# converting cowpatty hash-file to aircrack-ng format
+```
+
+> Additional attacks include a DOS attack that takes advantage of the MIC failure hold off time.  Recall that if an AP receives an incorrect MIC it suspends traffic on a network for 60 seconds.  So merely sending 2 packets per minute you can shutdown an AP, and difficult to trace the attack even with specialist equipment.
+
+### CUDA powered attacks
+
+Compute Unified Device Architecture is a parallel computing platform developed by NVIDIA and implemented by multi-core NVIDIA GPUs [Supported GPUS](http://en.wikipedia.org/wiki/CUDA#Supported_GPUs).  CUDA GPUs can be used for number crunching and able to execute thousands of threads concurrently on multiple cores, uses including cryptography and bioinformatics. CUDA libraries for C, Java, Python, Fortran and MATLAB are also available
+
+You'll need the CUDA Toolkit
+
+```sh
+sudo apt update
+sudo apt install nvidia-cuda-toolkit
+# check installation
+nvcc --version
+```
+
+Cowpatty usage:
+
+- -f: dictionary file
+- -d: hash table file
+- -r: packet capture file
+- -s: network ESSID
+- -c: checks four-way handshake
+- -h: print help
+- -v: prints verbose information
+- -V: program version
+
+#### Pyrit
+
+Pyrit is a WPA-PSK and WPA2-PSK cracker and currently the most efficient tool that can utilize ATI-Stream, NVIDIA CUDA, OpenCL and  VIA Padlock.
+
+### Aircrack Tools
+
+- aircrack-ng: cracks WEP (brute force) and WPA keys (dictionary attack).
+- airdecap-ng: decrypts packet capture files using a key.
+- airmon-ng: enables monitor mode on wireless network interfaces.
+- aireplay-ng: allows packet injection.
+- airodump-ng:  a  sniffer  capturing  network  packets  to  PCAP  and  IVS files.
+- airolib-ng: a database to store and manage ESSID and password lists.
+- packetforge-ng: generates encrypted packets to inject.
+- airbase-ng: enables attacks against clients by setting a rogue AP to capture a password.
+- airdecloak-ng: removes  WEP  Cloaking  from  PCAP  files  with  saved captures.
+- airdriver-ng: manages wireless interface drivers.
+- airserv-ng: enables remote access to a wireless interface.
+- buddy-ng:  an  auxiliary  server  for  easside-ng,  runs  on  a  remote  host.
+- easside-ng: communicates to an AP without knowing the WEP key.
+- tkiptun-ng: mounts WPA/TKIP attacks.
+- wesside-ng: an auto-magic tool t hat recovers WEP keys.
