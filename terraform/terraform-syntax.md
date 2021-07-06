@@ -233,6 +233,8 @@ syntax as follows:
 
 ```tf
 %{ for <ITEM> in <COLLECTION> }<BODY>%{ endfor }
+%{ if <CONDITION> }<TRUEVAL>%{ endif }
+%{ if <CONDITION> }<TRUEVAL>%{ else }<FALSEVAL>%{ endif }
 ```
 
 example:
@@ -266,4 +268,33 @@ output "for_directive_strip_marker" {
 ---
 
 ## Conditionals
+
+- **count** parameter - Used for conditional resources
+- **for_each** and **for** expressions - Used for conditional resources and inline blocks within a resource
+- **if** string directive - Used for conditionals within a string
+
+> note: you cannot reference any resource **outputs** in **count** or **for_each**, you cannot use **count** or **for_each** within module configurations
+
+### count conditional
+
+If you set count to 1 on a resource you will get one copy, if set to 0 it won't be created at all.  Using this logic combined with conditional expressions and ternary syntax ie: \<CONDITION\> ? \<TRUE_VAL\> : \<FALSE_VAL\>
+
+For example:
+
+```tf
+resource "aws_autoscaling_schedule" "scale_in_at_night" {
+   count = var.enable_autoscaling ? 1 : 0
+
+   scheduled_action_name = "${var.cluster_name}-scale-in-at-night"
+   min_size = 2
+   max_size = 10
+   desired_capacity = 2
+   recurrence = "0 17 * * *"
+   autoscaling_group_name = aws_autoscaling_group.example.name
+}
+```
+
+### for_each conditional
+
+If you pass a for_each expression an empty collection it will produce 0 resources / 0 inline-blocks.
 
