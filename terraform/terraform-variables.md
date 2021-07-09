@@ -1,6 +1,7 @@
 # Working with Terraform variables
 
 Terraform allows you to keep your IAC DRY(don't repeat yourself)
+
 ## Input Variables
 
 ### Declaring a variable:

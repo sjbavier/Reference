@@ -152,6 +152,7 @@ resource "aws_security_group" "alb" {
       cidr_blocks = local.all_ips
    }
 }
+```
 
 ## Module Outputs
 
