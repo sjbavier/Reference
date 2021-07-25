@@ -46,9 +46,9 @@ resource "aws_instance" "example" {
 
 > Workspaces are a great way to quickly spin up and tear down different versions of your code but they have a few drawbacks making them not ideal for production IAC.
 >
-> - The state files are stored inthe same backend or storage bucket.  Meaning that authentication and access controls are the same.  So they become unsuitable for isolating production from staging etc.
+> - The state files are stored in the same backend or storage bucket.  Meaning that authentication and access controls are the same.  So they become unsuitable for isolating production from staging etc.
 > - Workspaces are not visible in the code or terminal unless you run terraform workspace commands and thus maintenance becomes more difficult and less transparent.
-> - Because of these workspaces are fairly error prone such as running terraform destroy accidentally in a production workspace instead of in the expiramental workspace. 
+> - Because of these aforementioned points workspaces are fairly error prone such as running terraform destroy accidentally in a production workspace instead of in the expiramental workspace. 
 
 ## Isolation via File Layout
 

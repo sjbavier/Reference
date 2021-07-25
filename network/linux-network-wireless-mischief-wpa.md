@@ -44,7 +44,21 @@ The  key  negotiation  phase  in  WPA2  is  identical  to  the  four-way  handsh
 
 ### Brute Force w/ dictionary
 
-This attack is time consuming using the dictionary attack.  This is beause PBKDF2 generates the PTK and repeats the HMAC SHA-1 hash 4,096 times.  Dictionaries [http://ftp.se.kde.org/pub/security/tools/net/Openwall/wordlists/languages/]
+This attack is time consuming using the dictionary attack.  This is beause PBKDF2 generates the PTK and repeats the HMAC SHA-1 hash 4,096 times.  Dictionaries [http://ftp.se.kde.org/pub/security/tools/net/Openwall/wordlists/languages/]. 
+
+
+#### Create the dictionary 
+
+There is a dictionary in Kali found in /usr/share/wordlists/rockyou.txt.gz
+
+```sh
+# copy it to local
+cp /usr/share/wordlists/rockyou.txt.gz .
+# gunzip it
+gunzip rockyou.txt.gz
+# unique sort and min 8 characters, max of 63 for WPA
+cat rockyou.txt | sort | uniq | pw-inspector -m 8 -M 63 > new_rockyou_min8_max63.txt
+```
 
 First you must capture packets until you collect the four-way WPA handshake
 
@@ -159,7 +173,9 @@ pyrit list_essids
 Next import the wordlist dictionary into the database
 
 ```sh
-pyrit -e <NEW-ESSID> -f <DICTIONARY-FILE> import_passwords
+pyrit -e <NEW-ESSID> -i <DICTIONARY-FILE> import_passwords
+# or
+pyrit -i <DICTIONARY-FILE> import_passwords
 ```
 
 Finally you can start batch processing and generate PMKs for the database with CUDA this will be 100x faster than CPU
