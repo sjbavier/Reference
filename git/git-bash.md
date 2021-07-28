@@ -136,6 +136,11 @@ Drop the stash
 git stash drop
 ```
 
+Or keep the stash by reapplying
+
+```sh
+git stash pop
+```
 
 ## Gitignore [.gitgnore]
 
