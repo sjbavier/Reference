@@ -20,8 +20,26 @@ To apply the changes that terraform plan has deliniated:
 terraform apply
 ```
 
+Show current state
+
+```sh
+terraform show
+```
+
 To destroy your IAC **use with caution**:
 
 ```sh
 terraform destroy
+```
+
+Format the tf syntax
+
+```sh
+terraform fmt
+```
+
+See a graph of the plan:
+
+```sh
+terraform graph | dot -Tsvg > graph.svg
 ```
