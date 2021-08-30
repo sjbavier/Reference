@@ -74,6 +74,20 @@ Using a dictionary
 aircrack-ng -w <dictionary.file> -0 <packet.cap>
 ```
 
+Create your own dictionary using Crunch
+
+```sh
+crunch 2 3 -f charset.lst lalpha-numeric -o list.txt
+# words consisting of 2 or 3 lower-case alpha numeric characters 
+# -f is file containing character sets
+# -o output file
+crunch 8 8 -f charset.lst numeric -o list.txt -t setAPrefix@@
+# 8 8 refers to the string length
+# -f charset
+# -o output
+# -t string pattern with setAPrefix as the prefix and @@ symbols will be replaced with numbers
+```
+
 ### Rainbow tables
 
 Rainbow tables take advantage of the limited domain of hashes.  If you had try to compute a table storing all possible hashes for even a 64-bit function there woul be 2^64 possible hashes, each 64 bits (8 bytes) in size.  Overall,  it’s  2^64*23  B  =  257  KB  =  247  MB  =  237  GB  =  227  TB,  or  roughly  134  million  terabytes!  A  1  TB  hard  drive  costs  about  100  dollars, so to store your table you would need to cough up more than 13 billion.
@@ -128,6 +142,35 @@ Cowpatty usage:
 - -h: print help
 - -v: prints verbose information
 - -V: program version
+
+#### Cracking MD4 and MD5 hashes with CUDA
+
+Using Multiforcer and Argtable
+
+```sh
+CUDA-Multiforcer -h FASTMD5 -f MD5-full.txt --min 1 --max 6 -c charset
+
+# -h  /  --hashtype  {MD4,MD5,FASTMD5,NTLM}:  (required)  the  hash  type  to  search
+# -c / --charsetfile <file name>: (required) the charset file
+# -o / --outputfile: (optional) writes found hashes to a file
+# -f  /  --hashfile:  (required)  the  file  with  hashes  to  crack  (one  hash per line)
+# -v:   (optional)   the   verbose   mode,   returns   more   detailed   information
+# --min  /  --max:  (required)  the  minimum  and  maximum   password length (0-14)
+# -d  /  --device:  (optional)  selects  a  CUDA  device  (default:  0,  the first CUDA GPU device)
+# -b / --blocks: (optional) forces a specific block count (default: 128)
+# -t / --threads: (optional) forces a specific thread count (default: 64)--maxthreads: (optional) sets the number of blocks per threat on higher-end  cards  (8800,  9800,  GTX)  to  improve  computational  performance--autotune:  (optional)  in  this  mode,  the  tool  automatically  adjusts its parameters for best performance
+```
+
+Using GPU_MD5_Crack
+
+```sh
+gpu_md5_crack -b
+# -c  <charset  number>:  (default:  2),  0=[0-9],  1=[a-z],  2=[a-z0-9],  3=[A-Z], 4=[A-Z0-9], 5=[A-Za-z], 6 =[A-Za-z0-9], 7=a l l printables
+# -d <CUDA device ID>: (default: the first CUDA device), see the -l option to list the CUDA devices in the system
+# -s <start password>
+# -t <total number of passwords to test> (default: 1 billion)
+# -b benchmark
+```
 
 ---
 
@@ -225,4 +268,8 @@ aircrack-ng -r <DICTIONARY-HASH-EXPORT> -e <ESSID> <CAPTURED-4WAY-FILE>
 - easside-ng: communicates to an AP without knowing the WEP key.
 - tkiptun-ng: mounts WPA/TKIP attacks.
 - wesside-ng: an auto-magic tool t hat recovers WEP keys.
+
+
+#### WKA TKIP
+
 
