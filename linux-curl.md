@@ -4,6 +4,7 @@ Check proxy with curl using -I for just headers -v for verbose and -x for proxy
 
 ```sh
 curl -Iv -x <proxy:port> -U <username:password> <url>
+curl -L "<url>" --proxy "<proxy:port>" --proxy-user '<username>' --verbose
 ```
 
 Curl and follow redirects to eventual endpoint
