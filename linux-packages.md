@@ -142,6 +142,18 @@ rm -r /var/lib/apt/lists/*
 apt-get clean && apt-get update
 ```
 
+List configurations of packages
+
+```sh
+debconf-show <package>
+```
+
+Reconfigure packages
+
+```sh
+dpkg-reconfigure <package>
+```
+
 ---
 
 ### Removing packages

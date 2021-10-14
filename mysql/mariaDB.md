@@ -14,6 +14,40 @@ update mysql.user set plugin = 'mysql_native_password' where User='root';
 FLUSH PRIVILEGES;
 ```
 
+## Changing MYSQL root user password
+
+To reset the password for MySQL you first must create a new file with the following contents:
+
+```sql
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'PASSWORD';
+```
+
+Where PASSWORD is the new password to be used. Save that file as ~/mysql-pwd.
+
+Next, stop the MySQL daemon with the command:
+
+```sh
+sudo systemctl stop mysql
+```
+
+With the daemon stopped, issue the command:
+
+```sh
+sudo mysqld -init-file=~/mysql-pwd
+```
+
+Once your command prompt is returned, restart the MySQL daemon with the command:
+
+```sh
+sudo systemctl start mysql
+```
+
+You should now be able to log into the MySQL command prompt with the new admin password like so:
+
+```sh
+mysql -u root -p
+```
+
 ## Hardening MariaDB
 
 NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
@@ -33,7 +67,7 @@ root user without the proper authorisation.
 Set root password? [Y/n]
 
 ```sh
-mysql_secure-installation
+mysql_secure_installation
 ```
 
 ## Configuration
