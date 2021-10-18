@@ -123,6 +123,8 @@ Import from mysqldump
 ```mysql
 mysql --user=<user> --password=<password> -e "CREATE DATABASE <database-name>" # create the database first
 mysql --user=<user> --password=<password> --database=<database-name> < <database-file.sql> # redirect sql file to db
+# add suport for specific character set
+mysql --user=<user> --password=<password> --database=<database-name> --default-character-set=utf8mb4 < <database-file.sql> # redirect sql file to db
 ```
 
 Granting all privileges to user on particular db
