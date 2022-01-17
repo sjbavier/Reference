@@ -21,3 +21,9 @@ nice --15 /var/script/script.sh # setting to negative value (-15) gives the proc
 # to change the nice value of a process that has already been started use renice
 renice 15 -p 2145 # to change nice value of process with PID 2145
 ```
+
+Check core temperatures with watch and sensor
+
+```sh
+watch -n 2 sensors
+```
