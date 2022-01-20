@@ -79,6 +79,22 @@ find -type f -exec du -Sh {} + | sort -rh | head -n 5
 - system
 - user
 
+## Too many open files issue:
+
+Set limits in /etc/sysctl.conf by adding:
+
+```conf
+fs.inotify.max_user_watches=524288
+fs.inotify.max_user_instances=512
+```
+
+Open a new terminal or reload sysctl.conf variables with
+
+```sh
+sudo sysctl --system
+yarn start
+```
+
 ### Security attributes
 
 Get the SELinux security attributes
