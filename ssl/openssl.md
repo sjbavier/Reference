@@ -165,3 +165,14 @@ Test SSL configuration
 ```sh
 openssl s_client -CApath /etc/ssl/certs/ -connect <host>:443
 ```
+
+## Writing Diffie-Hellman Keys
+
+If this option is used, DSA rather than DH parameters are read or created; they are converted to DH format. Otherwise, "strong" primes (such that (p-1)/2 is also prime) will be used for DH parameter generation.
+
+DH parameter generation with the -dsaparam option is much faster, and the recommended exponent length is shorter, which makes DH key exchange more efficient. Beware that with such DSA-style DH parameters, a fresh DH key should be created for each use to avoid small-subgroup attacks that may be possible otherwise.
+
+```sh
+# -dsaparam
+openssl dhparam -dsaparam -out dhparam2.pem 4096
+```
