@@ -1,4 +1,4 @@
-# Sample nginx conf 
+# Sample nginx conf
 
 ```conf
 user nginx;
@@ -44,7 +44,7 @@ include /etc/nginx/conf.d/*.conf;
 
 server {
 listen 80;
-server_name crynclet01.nygenome.org;
+server_name $SERVER_NAME;
 rewrite ^ https://$server_name$request_uri? permanent;  # enforce https
 }
 
@@ -53,12 +53,12 @@ server {
   ssl_prefer_server_ciphers on;
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
   ssl_ciphers "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA !RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS";
-  ssl_certificate     /etc/nginx/ssl/wildcard.nygenome.org.crt;
-  ssl_certificate_key /etc/nginx/ssl/wildcard.nygenome.org.key;
+  ssl_certificate     /etc/nginx/ssl/wildcard.crt;
+  ssl_certificate_key /etc/nginx/ssl/wildcard.key;
 
-  server_name  crynclet01.nygenome.org;
+  server_name  $SERVER_NAME;
 
-  access_log  /var/log/nginx/crynclet01.nygenome.org.nygenome.org.access.log;
+  access_log  /var/log/nginx/$SERVER_NAME.access.log;
 
   root /var/www/html/;
 
@@ -92,8 +92,8 @@ server {
   log_not_found off;
   }
 
-  location /crync {
-    proxy_pass      http://127.0.0.1:3003/crync;
+  location /$PATH_TO_PROXY {
+    proxy_pass      http://127.0.0.1:3003/$PATH_TO_PROXY;
     proxy_redirect  off;
     proxy_set_header   Host             $host;
     proxy_set_header X-Forwarded-Server $host;
