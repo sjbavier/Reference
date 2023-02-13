@@ -9,7 +9,7 @@ psql -U <user> -h localhost
 
 psql has built in commands for navigation starting with `\`
 
-```psql
+```sql
 # help command
 \?
 
@@ -23,8 +23,113 @@ Default databases `template1` and `template0` are default databases. `template1`
 
 ---
 
+## Basics
+
 Create database
 
-```psql
+```sql
 CREATE DATABASE <database>;
+```
+
+Connect to database
+
+```sql
+\c <database>
+```
+
+---
+
+### Creating tables
+
+Create a table with a generated auto-generated primary key, and title with constraints as string max length 255 characters, unique and not null.
+
+```sql
+CREATE TABLE <table> (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    title VARCHAR ( 255 ) UNIQUE NOT NULL DEFAULT '<default_value>'
+);
+```
+
+Alter table to add column by name
+
+```sql
+ALTER TABLE <table>
+ADD COLUMN <column_name> VARCHAR ( 50 ) NOT NULL;
+```
+
+---
+
+### Inserting data
+
+Insert data into table (single quotes mean 'this is a literal value' an double quotes mean "this is an identifier of some variety")
+
+```sql
+INSERT INTO <table> (
+    <column>, <column>, <column>
+) VALUES (
+    '<value>', '<value>', '<value>' -- comments with --
+);
+
+-- ON CONFLICT can be used if row exists
+INSERT INTO <table> (
+    <column>, <column>, <column>
+) VALUES (
+    '<value>', '<value>', '<value>',
+    '<value>', '<value>', '<value>',
+) ON CONFLICT DO NOTHING;
+
+-- ON CONFLICT perform 'upsert'
+INSERT INTO <table> (
+    <column>, <column>, <column>
+) VALUES (
+    '<value>', '<value>', '<value>'
+) ON CONFLICT (<column>) DO UPDATE SET <column> = '<value>';
+```
+
+---
+
+### Updates
+
+Update a field
+
+```sql
+UPDATE <table> SET <column> = '<value>' WHERE column = '<value>';
+
+-- update with returning values
+UPDATE <table> SET <column> = '<value>' WHERE column = '<value>' RETURNING <column>, <column>, <column>;
+-- or returning all
+UPDATE <table> SET <column> = '<value>' WHERE column = '<value>' RETURNING *;
+
+--
+```
+
+---
+
+### Deletes
+
+```sql
+DELETE FROM <table>
+WHERE <column>='<value>'
+RETURNING *;
+```
+
+---
+
+### Selects, limits and offsets
+
+```sql
+-- select all
+SELECT * FROM <table>;
+
+-- select particular columns limit to the first 5
+SELECT <column> <column> <column> FROM <table> LIMIT 5;
+
+-- select particular columns limit to the first 5, after the first 5
+SELECT <column> <column> <column> FROM <table> LIMIT 5 OFFSET 5;
+
+-- using WHERE
+SELECT * FROM <table> WHERE <column> = '<value>';
+SELECT * FROM <table> WHERE <column> = '<value>' AND <column> <= '<value>' OR <column >;
+
+
 ```
