@@ -131,5 +131,34 @@ SELECT <column> <column> <column> FROM <table> LIMIT 5 OFFSET 5;
 SELECT * FROM <table> WHERE <column> = '<value>';
 SELECT * FROM <table> WHERE <column> = '<value>' AND <column> <= '<value>' OR <column >;
 
+-- select with order by
+SELECT * FROM <table> ORDER BY <column>; -- default is ASC
+SELECT * FROM <table> ORDER BY <column> DESC;
 
+-- built in functions
+-- fuzzy search strings
+-- (% match 0 to infinite characters (%<fragment>, %<fragment>%, <fragment>%, <fra%ent>))
+SELECT * FROM <table> WHERE <column> LIKE '%<fragment>%';
+-- use concat to join multiple strings for fuzzy search
+SELECT * FROM <table> WHERE CONCAT(<column>, <column>, <column>) LIKE '%<fragment>%';
+
+-- you can use lower to convert string to lowercase
+SELECT * FROM <table> WHERE LOWER(CONCAT(<column>, <column>)) LIKE LOWER('%<fragment>%');
+-- or more simply use ilike for case insensitive
+SELECT * FROM <table> WHERE CONCAT(<column>, <column>, <column>) ILIKE '%<fragment>%';
 ```
+
+---
+
+### Aggregates
+
+```sql
+-- return total count of all rows as an integer total_count
+SELECT <column>, <column> COUNT(*) OVER ()::INT AS total_count FROM <table>;
+```
+
+---
+
+## Relationships
+
+### Joins and constraints
