@@ -161,4 +161,33 @@ SELECT <column>, <column> COUNT(*) OVER ()::INT AS total_count FROM <table>;
 
 ## Relationships
 
+Basic one to many
+
+```sql
+-- create table1
+CREATE TABLE <table1> (
+    <table1_id> INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    <column> VARCHAR ( 255 ) UNIQUE NOT NULL
+);
+-- create related table2
+CREATE TABLE <table2> (
+    <table2_id> INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    <table1_id> INTEGER,
+    <column> VARCHAR ( 255 ) NOT NULL
+);
+-- select on table1_id
+SELECT <column> FROM <table1> WHERE <table1_id> = <INTEGER>;
+SELECT <column> FROM <table2> WHERE <table1_id> = <INTEGER>;
+-- select inner venn diagram section
+SELECT <column>, <column>
+    FROM <table2>
+    INNER JOIN
+        <table1>
+    ON
+        <table2>.<table1_id> = <table1>.<table1_id>
+    WHERE <table2>.<table1_id> = <INTEGER>;
+
+
+```
+
 ### Joins and constraints
