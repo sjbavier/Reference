@@ -187,7 +187,25 @@ SELECT <column>, <column>
         <table2>.<table1_id> = <table1>.<table1_id>
     WHERE <table2>.<table1_id> = <INTEGER>;
 
+-- or full inner join
+SELECT <column>, <column>
+    FROM <table2> <t2>
+    INNER JOIN
+        <table1> <t1>
+    ON
+        <t2>.<table1_id> = <t1>.<table2_id>;
+
 
 ```
 
 ### Joins and constraints
+
+![Joins](SQL_Joins.png)
+
+```sql
+-- to make every possible permutation of the combination of two tables
+SELECT <t1>.<column>, <t1>.<column>
+    FROM <table2> <t2>
+    CROSS JOIN
+        <table1> <t1>
+```
